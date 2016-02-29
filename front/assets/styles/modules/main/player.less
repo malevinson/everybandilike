@@ -1,0 +1,124 @@
+@import '../../variables.less';
+
+/* ==========================================================================
+   Player
+   ========================================================================== */
+
+body.main .player {
+  width: 281px;
+
+  .video-block .album-img { height: 150px; }
+
+  .spinner {
+    position: absolute;
+    left: 45%;
+    top: 75px;
+    .fa-spinner {
+      color: @primary-color;
+      font-size: 30px;
+    }
+  }
+
+  .video-controls-block{
+    height: 47px;
+    border-bottom:1px solid #000;
+    text-align: center;
+    .fa {
+      line-height: 45px;
+      padding: 0 19px;
+      font-size: 20px;
+      color: #fff;
+      transition: 0.4s ease;
+      &:hover {
+        transition: 0.4s ease;
+        cursor: pointer;
+        background-color: rgba(0, 0, 0,0.2);
+      }
+    }
+  }
+
+  .playlist-block {
+    padding-left: 50px;
+    padding-top: 20px;
+
+    h4 {
+      color: #ededed;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+
+      li {
+        color: #ededed;
+        font-size: 14px;
+        padding: 5px 0 5px 17px;
+        a {
+          font-size: 13px;
+          line-height: 8px;
+          color: #e2e2e2;
+          font-weight: 400;
+          text-decoration: none;
+          &:hover {
+            cursor: pointer;
+            color: @primary-color;
+          }
+        }
+      }
+
+      &.playlist{
+        background: url("../images/menu-before.png") no-repeat;
+        margin-bottom: 55px;
+
+        li a:first-child {
+          padding: 0 10px;
+          color: @primary-color;
+          font-size: 16px;
+          line-height: 24px;
+        }
+      }
+
+      &.recent {
+        margin: 0 0 0 15px;
+        padding: 0 0 0 1px;
+        background: url("../images/ul.png") repeat-y;
+        li {
+          background: url("../images/li.png") no-repeat -5px 14px;
+          &:hover .playlist-hover-block {
+            display: block;
+            height: 25px;
+          }
+        }
+
+        .playlist-hover-block{
+          background-color: #4c4c4c;
+          border-radius: 20px;
+          position: absolute;
+          margin-top: -21px;
+          cursor: pointer;
+          width: 190px;
+          display: none;
+          padding: 0 5px;
+          .fa {
+            font-size: 21px;
+            color: #fff;
+            margin: 1px 3px 0 3px;
+            float: left;
+            &.mix { color: @mix-color; }
+            &.art-only { color: @artist-only-color; }
+          }
+          .rating{
+            float:right;
+            margin-right:2px;
+          }
+          .glyphicon {
+            float: left;
+            margin-top: 2px;
+          }
+        }
+      }
+    }
+  }
+}

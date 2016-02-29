@@ -1,0 +1,45 @@
+div(ng-switch="modal.modalMode", ng-init = 'modal.loading = false')
+    .modal-content(ng-switch-when="choose")
+        .modal-header
+            button.close(ng-click = 'modal.close()') &times;
+            .buttons
+                button.btn.btn-success(ng-disabled = "modal.selectedGenres.length == 0", ng-click="modal.rankGenres()") Next
+            h3 Select up to 3 music genres
+        .modal-body.genre-container
+            .col-md-2.col-sm-4(ng-repeat = '(key,value) in modal.genres')
+                h4 {{ key }}
+                button.genre(ng-click="modal.toggleSelect($event, genre)" ng-repeat="genre in value") {{ genre }}
+
+    .modal-content(ng-switch-when="rank")
+        .modal-header
+            button.close(ng-click = 'modal.close()') &times;
+            .buttons
+                button.btn.btn-danger(ng-click="modal.cleanGenres()") Back
+                button.btn.btn-success(ng-click="modal.sendArtists()") Add
+            h3 Choose Artists to Add
+
+        .modal-body.genre-container.clearfix.rank(ng-if = 'modal.loading == false')
+            .ranking(ng-sortable="modal.rankConfig")
+                div(ng-repeat="genres in modal.rankedGenres track by $index",
+                    ng-class = "{'col-sm-6 col-sm-offset-3' : (modal.selectedGenres.length == 1), 'col-sm-6'  : (modal.selectedGenres.length == 2), 'col-sm-4'  : (modal.selectedGenres.length == 3)}")
+                    .artists-block
+                        .ratings(ng-if='$index == 0')
+                            i.icon-heart-red
+                            i.icon-heart-red
+                            i.icon-heart-red
+                        .ratings(ng-if='$index == 1')
+                            i.icon-heart-red
+                            i.icon-heart-red
+                        .ratings(ng-if='$index == 2')
+                            i.icon-heart-red
+
+                        ul
+                            li(ng-repeat = 'artist in genres', ng-init = "artist.selected = false",
+                               ng-class= "artist.selected ? 'selected' : ''", ng-click="artist.selected = !artist.selected;")
+                                .thumbnail
+                                    img(ng-src='{{artist.artist.picture}}')
+                                span {{ artist.artist.name }}
+
+        .modal-body.genre-container(ng-if = 'modal.loading == true')
+            i.fa.fa-gear.fa-spin
+            h3 Loading...

@@ -1,0 +1,178 @@
+@import '../../variables.less';
+
+/* ==========================================================================
+   Main styles
+   ========================================================================== */
+
+body.share {
+  background-color: #fff;
+
+  .main {
+    text-align: center;
+    height: 100%;
+    padding: 30px 15px;
+    .btn-add {
+      float: right;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .btn-danger {
+      background-color: @primary-color;
+      border: none;
+      transition: ease .2s;
+      &:hover {
+        background-color: @primary-color-darken;
+      }
+    }
+    .social-btn {
+      float: right;
+      width: 15%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      .btn {
+        width: 100%;
+        margin-bottom: 10px;
+        color: #fff;
+        transition: ease .2s;
+        &.twitter {
+          background-color: @twitter-color;
+          color: #fff;
+          &:hover {
+            background-color: darken(@twitter-color, 15%);
+          }
+        }
+        &.facebook {
+          background-color: @facebook-color;
+          color: #fff;
+          &:hover {
+            background-color: darken(@facebook-color, 15%);
+          }
+        }
+      }
+    }
+
+    .artists {
+      padding: 15px;
+
+      ul {
+        margin: 0;
+
+        li {
+          position: relative;
+          width: 115px;
+          margin: 10px;
+          display: inline-block;
+
+          span.name {
+            padding: 4px 0 0;
+            display: block;
+            color: #757575;
+            font-size: 11px;
+            font-weight: 400;
+            text-decoration: none;
+            position: relative;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+          }
+
+          .thumbnail {
+            height: 90px;
+            width: 115px;
+            border: none;
+            margin-bottom: 2px;
+            position: relative;
+            overflow: hidden;
+            z-index: -1;
+            box-shadow: 1px 1px 3px 0 #777;
+            img {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+            }
+          }
+
+          &:hover {
+            .hover {
+              display: block;
+              background-color: rgba(0, 0, 0, 0.2);
+            }
+            img {
+              opacity: 0.7;
+            }
+          }
+
+          &.add .fa {
+            line-height: 90px;
+            font-size: 26px;
+            float: left;
+            margin-left: 10px;
+            cursor: pointer;
+            color: @primary-color;
+            &:hover {
+              color: @primary-color-darken;
+            }
+          }
+        }
+      }
+
+      .hover {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 90px;
+        display: none;
+        background-color: rgba(0, 0, 0, 0.2);
+        .fa-times {
+          position: absolute;
+          right: 2px;
+          top: 2px;
+          font-size: 20px;
+          width: auto;
+          cursor: pointer;
+          color: #fff;
+        }
+      }
+
+      .add-container {
+        .form-group {
+          width: 83%;
+          position: relative;
+          float: left;
+          .fa-search {
+            position: absolute;
+            top: 7px;
+            left: 12px;
+            color: rgba(240, 77, 78, 0.3);
+            border-right: rgba(240, 77, 78, 0.3) 1px solid;
+            padding: 3px 6px 3px 0;
+          }
+          .form-control {
+            padding-left: 45px;
+            width: 100%;
+            border: rgba(240, 77, 78, 0.3) 1px solid;
+
+            &:focus {
+              border-color: rgba(240, 77, 78, 0.3);
+              box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(240, 77, 78, 0.3);
+            }
+          }
+        }
+        .btn-danger {
+          float: right;
+          margin-left: 2%;
+          width: 15%;
+          padding: 7px 12px;
+        }
+      }
+    }
+
+
+
+
+  }
+}

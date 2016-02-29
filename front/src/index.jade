@@ -1,0 +1,20 @@
+doctype html
+
+html(ng-app="streamfeed", ng-cloak, ng-strict-di)
+    head
+        title everybandilike
+        base(href="/")
+        meta(charset='utf-8')
+        meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0")
+        link(rel="stylesheet", href="/css/vendor.css", type="text/css")
+        link(rel="stylesheet", href="/css/styles.css", type="text/css")
+        link(rel="icon", type="image/png", href="/images/favicon.ico")
+
+    body(ng-class = "$state.current.name|expandState")
+        main(ui-view)
+
+        script(type="text/javascript").
+            var CONFIG = !{ JSON.stringify(config) };
+
+        script(type='text/javascript', src='/js/vendor.js')
+        script(type='text/javascript', src='/js/all.js')

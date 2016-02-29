@@ -1,0 +1,42 @@
+{
+  "name": "everybandilike",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "DEBUG=ebil:* node server.js",
+    "postinstall": "./node_modules/bower/bin/bower install && ./node_modules/gulp/bin/gulp.js install"
+  },
+  "dependencies": {
+    "bcrypt" : "*",
+    "body-parser": "*",
+    "bower": "*",
+    "colors": "*",
+    "debug": "*",
+    "dotenv": "*",
+    "express": "*",
+    "express-sslify": "^1.0.1",
+    "gulp": "*",
+    "gulp-babel": "5.3.*",
+    "gulp-concat": "*",
+    "gulp-cssnano": "*",
+    "gulp-if": "*",
+    "gulp-jade": "*",
+    "gulp-less": "*",
+    "gulp-sourcemaps": "*",
+    "gulp-uglify": "*",
+    "gulp-wrap": "*",
+    "lodash": "*",
+    "mongoose": "*",
+    "mongoose-q": "*",
+    "q": "*",
+    "querystring": "*",
+    "request": "*",
+    "yargs": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/malevinson/everybandilike.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://github.com/malevinson/everybandilike"
+}

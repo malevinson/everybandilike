@@ -1,0 +1,110 @@
+nav.navbar
+    .container
+        .navbar-header
+            img(src='images/logo_ebl.png', height='30')
+            .beta BETA
+
+        .nav-right
+            ul.nav.navbar-nav.navbar-right(ng-if = 'share.user')
+                li.dropdown(uib-dropdown, uib-popover-template='popover.template', popover-is-open= 'popover.show', popover-placement='left-top', popover-trigger='none')
+                    a.dropdown-toggle(uib-dropdown-toggle)
+                        img.avatar(ng-src='{{ share.user.picture }}')
+                        span {{ share.user.first_name ? share.user.first_name : share.user.email }} {{ share.user.last_name }}
+                        span.caret
+
+                    ul.uib-dropdown-menu(uib-dropdown-menu)
+                        li: a(href='mailto:matt@entropylabs.io') Contact Us
+                        li: a(ng-click = 'startTour()') Take a Tour
+
+                        li(ng-if = "$state.current.name == 'main'"): a(ui-sref = 'share') Share
+                        li(ng-if = "$state.current.name == 'share'"): a(ui-sref = 'main') Player
+
+                        li.divider
+
+                        li: a(ng-click='share.logout()')
+                            span.color-red Logout
+
+.main.container(ng-show = 'share.loaded')
+    .col-md-12
+        btn.btn.btn-danger.btn-add(ng-click='openOnboarding()') Add Artist by Genre
+
+        btn.btn.btn-danger(ng-if = '!share.user') Join to Share or Save
+        btn.btn.btn-danger(ng-if = 'share.user', ng-click = 'share.share()') Share it with your friends
+
+        .social-btn
+            btn.btn.twitter Share on Twitter
+            btn.btn.facebook Share on Facebook
+
+        .artists.row
+            i.icon-heart-red
+            i.icon-heart-red
+            i.icon-heart-red
+
+            ul.clearfix
+                li(ng-repeat="artist in share.artists.three")
+                    .thumbnail
+                        img(ng-src='{{ ::artist.artist.picture }}', alt='figure')
+                    span.name {{ ::artist.artist.name }}
+                    .hover
+                        i.fa.fa-times(ng-click="share.remove(artist, 'three')")
+
+                li.add(ng-init = 'share.showAddThree = false', ng-click = 'share.showAddThree = !share.showAddThree')
+                    i.fa.fa-plus-circle
+
+            .add-container.col-md-6.col-md-offset-3(ng-if='share.showAddThree')
+                .form-group(ng-init = "share.searchThree = ''")
+                    i.fa.fa-search
+                    input.form-control(type="text", ng-model='share.searchThree', placeholder="Taylor Swift, Coldplay, Passion Pit")
+                btn.btn.btn-danger(ng-disabled = "share.searchThree == ''", ng-click = 'share.add(share.searchThree, 3)') Add
+
+            .loading(ng-if = 'share.loadingThree')
+                i.fa.fa-spinner.fa-spin
+                | loading
+
+        .artists.row
+            i.icon-heart-red
+
+            ul.clearfix
+                li(ng-repeat="artist in share.artists.two")
+                    .thumbnail
+                        img(ng-src='{{ ::artist.artist.picture }}', alt='figure')
+                    span.name {{ ::artist.artist.name }}
+                    .hover
+                        i.fa.fa-times(ng-click="share.remove(artist, 'two')")
+
+                li.add(ng-init = 'share.showAddTwo = false', ng-click = 'share.showAddTwo = !share.showAddTwo')
+                    i.fa.fa-plus-circle
+
+            .add-container.col-md-6.col-md-offset-3(ng-if='share.showAddTwo')
+                .form-group(ng-init = "share.searchTwo = ''")
+                    i.fa.fa-search
+                    input.form-control(type="text", ng-model='share.searchTwo', placeholder="Taylor Swift, Coldplay, Passion Pit")
+                btn.btn.btn-danger(ng-disabled = "share.searchTwo == ''", ng-click = 'share.add(share.searchTwo, 2)') Add
+
+            .loading(ng-if = 'share.loadingTwo')
+                i.fa.fa-spinner.fa-spin
+                | loading
+
+        .artists.row
+            i.icon-heart-red
+
+            ul.clearfix
+                li(ng-repeat="artist in share.artists.one")
+                    .thumbnail
+                        img(ng-src='{{ ::artist.artist.picture }}', alt='figure')
+                    span.name {{ ::artist.artist.name }}
+                    .hover
+                        i.fa.fa-times(ng-click="share.remove(artist, 'one')")
+
+                li.add(ng-init = 'share.showAddOne = false', ng-click = 'share.showAddOne = !share.showAddOne')
+                    i.fa.fa-plus-circle
+
+            .add-container.col-md-6.col-md-offset-3(ng-if='share.showAddOne')
+                .form-group(ng-init = "share.searchOne = ''")
+                    i.fa.fa-search
+                    input.form-control(type="text", ng-model='share.searchOne', placeholder="Taylor Swift, Coldplay, Passion Pit")
+                btn.btn.btn-danger(ng-disabled = "share.searchOne == ''", ng-click = 'share.add(share.searchOne, 1)') Add
+
+            .loading(ng-if = 'share.loadingOne')
+                i.fa.fa-spinner.fa-spin
+                | loading

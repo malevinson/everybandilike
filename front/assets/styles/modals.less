@@ -1,0 +1,169 @@
+@import 'variables.less';
+
+/* ==========================================================================
+   Common modal
+   ========================================================================== */
+.modal {
+  .modal-content {
+    text-align: center;
+    border: none;
+    color: #777;
+  }
+  .modal-header {
+    padding: 5px;
+    .close {
+      position: absolute;
+      right: 2px;
+      top: 2px;
+    }
+    .buttons {
+      float: right;
+      margin: 12px;
+      position: absolute;
+      right: 0;
+      .btn {
+        background-color: @primary-color;
+        border: none;
+        &:hover {
+          background-color: darken(@primary-color, 15%);
+        }
+      }
+    }
+  }
+  .modal-body {
+    .fa-spin {
+      font-size: 55px;
+      color: @primary-color;
+    }
+  }
+  .modal-footer {
+    .btn {
+      background-color: @primary-color;
+      border: none;
+      &:hover {
+        background-color: darken(@primary-color, 15%);
+      }
+    }
+  }
+}
+
+/* ==========================================================================
+   Onboarding
+   ========================================================================== */
+.modal.onboarding {
+  .genre-container {
+    display: table;
+    margin: 0 auto;
+    .genre {
+      background-color: #fff;
+      border: 1px solid @primary-color;
+      color: @primary-color;
+      padding: 3px 10px;
+      outline: 0;
+      margin: 5px 0;
+      float: left;
+      width: 100%;
+      &.selected {
+        background-color: @primary-color;
+        border: 1px solid @primary-color;
+        color: #fff;
+      }
+    }
+
+    &.rank {
+      display: list-item;
+      position: relative;
+      padding: 0;
+
+      .ranking {
+        margin: 0 auto;
+        .col-sm-4 {
+          padding: 0;
+        }
+        .artists-block {
+          box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.3);;
+          padding-top: 30px;
+          margin: 0 8px;
+
+          .ratings {
+            left: 50%;
+            transform: translateX(-50%);
+            position: absolute;
+            top: 9px;
+          }
+          li {
+            list-style: none;
+            width: 100%;
+            text-align: left;
+            padding: 3px 10px;
+            line-height: 42px;
+            overflow: hidden;
+            position: relative;
+
+            .thumbnail {
+              height: 42px;
+              width: 42px;
+              float: left;
+              margin: 0 7px 0 0;
+              overflow: hidden;
+            }
+            span {
+              width: 70%;
+              display: block;
+              height: 100%;
+              float: left;
+              overflow: hidden;
+              position: relative;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+            &:hover {
+              background-color: #e5e5e5;
+            }
+
+            &.selected {
+              background: @primary-color;
+              color: #fff;
+            }
+          }
+
+          &:hover {
+            box-shadow: 0 1px 29px 2px rgba(0, 0, 0, 0.3);
+          }
+        }
+      }
+      .sortable-ghost {
+        opacity: 0;
+      }
+    }
+  }
+}
+
+/* ==========================================================================
+   Upgrade
+   ========================================================================== */
+.modal.upgrade {
+  .modal-body {
+    .plan {
+      border: 1px solid #e5e5e5;
+      width: 45%;
+      float: left;
+      margin: 2.5%;
+      .btn {
+        padding: 10px;
+        margin: inherit;
+      }
+    }
+    p {
+      margin: 20px;
+    }
+  }
+
+  .modal-footer {
+    .btn {
+      width: 45%;
+      padding: 10px;
+      margin: inherit;
+    }
+  }
+}

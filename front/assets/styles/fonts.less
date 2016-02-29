@@ -1,0 +1,65 @@
+@import 'variables.less';
+
+/* ==========================================================================
+   Fonts
+   ========================================================================== */
+@font-face {
+  font-family: 'Quicksand-Regular';
+  src: url('../fonts/Quicksand-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* ==========================================================================
+   Icons
+   ========================================================================== */
+
+@font-face {
+  font-family: 'icomoon';
+  src: url('../fonts/icomoon.eot?hq7irl');
+  src: url('../fonts/icomoon.eot?hq7irl#iefix') format('embedded-opentype'),
+  url('../fonts/icomoon.ttf?hq7irl') format('truetype'),
+  url('../fonts/icomoon.woff?hq7irl') format('woff'),
+  url('../fonts/icomoon.svg?hq7irl#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  top: 0;
+  display: initial;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-heart-gray:before {
+  content: "\e904";
+  font-size: 18px;
+  font-weight: 700;
+  vertical-align: top;
+  color: #e1e1e1;
+}
+
+.icon-heart-gray:hover:before{
+  color: #f04d4e;
+}
+
+.icon-heart-red:before {
+  content: "\e904";
+  font-size: 18px;
+  font-weight: 700;
+  vertical-align: top;
+  color: #f04d4e;
+}
+
+.glyphicon.icon-heart-gray:before, .glyphicon.icon-heart-red:before {
+  cursor: pointer;
+}

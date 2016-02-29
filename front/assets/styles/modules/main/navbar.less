@@ -1,0 +1,181 @@
+@import '../../variables.less';
+
+/* ==========================================================================
+   Menu
+   ========================================================================== */
+body.main navbar {
+  .nav-logo {
+    width: 281px;
+    background-color: #2d2d2d;
+    text-align: center;
+    line-height: 50px;
+    float: left;
+  }
+
+  .nav-search {
+    width: 35%;
+    float: left;
+    .form-group{
+      width: 100%;
+      position: relative;
+      margin: 8px;
+      .fa-search {
+        position: absolute;
+        top: 7px;
+        left: 12px;
+        color: rgba(240, 77, 78, 0.3);
+        border-right: rgba(240, 77, 78, 0.3) 1px solid;
+        padding: 3px 6px 3px 0;
+      }
+      .form-control {
+        padding-left: 45px;
+        width: 100%;
+        border: rgba(240, 77, 78, 0.3) 1px solid;
+
+        &:focus {
+          border-color: rgba(240, 77, 78, 0.3);
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(240, 77, 78, 0.3);
+        }
+      }
+    }
+
+    .header-artists {
+      label {
+        display: block;
+        font-weight: 700;
+        font-size: 16px;
+        float: left;
+        width: 150px;
+        padding: 35px 0 0;
+      }
+      ul {
+        margin-left: 150px !important;
+      }
+
+    }
+
+  }
+
+  .nav-right {
+    margin: 0 15px;
+    float: right;
+    li {
+      list-style: none;
+      a:hover {
+        text-decoration: none;
+      }
+    }
+
+    .popover {
+      margin-top: 10px;
+      z-index: 999;
+    }
+    .tour-pop {
+      text-align: center;
+      .tour-btn {
+        padding: 10px 20px;
+        z-index: 1;
+        a {
+          padding: 11px 19px;
+          background-color: @primary-color;
+          color: #fff;
+          border-radius: 5px;
+          font-size: 21px;
+          height: 100%;
+          text-transform: uppercase;
+          line-height: 45px;
+          text-align: center;
+          &:hover {
+            text-decoration: none;
+            background-color: @primary-color-darken;
+          }
+        }
+      }
+    }
+
+    .dropdown-toggle {
+      cursor: pointer;
+      position: relative;
+      display: block;
+      padding: 0 5px;
+      line-height: 50px;
+      color: #777;
+      .avatar {
+        height: 29px;
+        border-radius: 15px;
+        margin-right: 6px;
+      }
+    }
+
+    .uib-dropdown-menu {
+      border-radius: 0;
+      border-top: 2px solid @primary-color;
+      right: 0;
+      margin: 0;
+
+      li {
+        padding: 0;
+        cursor: pointer;
+        a {
+          padding: 10px 20px;
+          transition: ease-out 0.15s;
+          &:hover {
+            background-color: #e5e5e5;
+            cursor: pointer;
+            transition: ease-out 0.15s;
+          }
+        }
+        &.active a{
+          background: #000000;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+.search-result {
+  padding: 5px;
+  border-bottom: 1px solid #e5e5e5;
+  position: relative;
+  width: 450px;
+
+  .thumbnail {
+    height: 50px;
+    width: 50px;
+    margin: 0;
+    display: inline-block;
+    padding: 0;
+  }
+
+  a {
+    color: #777;
+    display: inline-block;
+    margin: 8px;
+    text-decoration: none;
+    position: absolute;
+    top: 0; right: 110px; bottom: 0; left: 55px;
+  }
+  .ratings {
+    position: absolute;
+    top: 5px;
+    right: 7px;
+    color: #777;
+    .rating {
+      position: absolute;
+      top: 23px; right: 23px;
+      float: right;
+      .icon-heart-gray:before {
+        color: #777;
+      }
+    }
+  }
+  &:hover {
+    background-color: #e5e5e5;
+    cursor: pointer;
+    a { color: #5e5e5e; }
+    .rating {
+      .icon-heart-gray:before { color: #5e5e5e; }
+    }
+  }
+}

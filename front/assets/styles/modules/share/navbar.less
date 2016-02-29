@@ -1,0 +1,82 @@
+@import '../../variables.less';
+
+/* ==========================================================================
+   Menu
+   ========================================================================== */
+body.share nav {
+  background: #fff;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+  border-radius: 0;
+  margin: 0;
+
+  .navbar-header {
+    padding: 12px;
+    position: relative;
+
+    .beta {
+      font-family: sans-serif;
+      background-color: @primary-color;
+      color: #fff;
+      -webkit-transform: rotate(15deg);
+      -moz-transform: rotate(15deg);
+      -o-transform: rotate(15deg);
+      display: inline-block;
+      font-size: 13px;
+      border-radius: 4px;
+      position: absolute;
+      right: -27px;
+      top: 7px;
+      padding: 0 3px;
+    }
+  }
+
+  .nav-right {
+    margin: 0 15px;
+    float: right;
+    li {
+      list-style: none;
+      a:hover {
+        text-decoration: none;
+      }
+    }
+
+    .dropdown-toggle {
+      cursor: pointer;
+      position: relative;
+      display: block;
+      padding: 0;
+      line-height: 50px;
+      color: #777;
+      .avatar {
+        height: 29px;
+        border-radius: 15px;
+        margin-right: 6px;
+      }
+    }
+
+    .uib-dropdown-menu {
+      border-radius: 0;
+      border-top: 2px solid @primary-color;
+      right: 0;
+      margin: 0;
+
+      li {
+        padding: 0;
+        cursor: pointer;
+        a {
+          padding: 10px 20px;
+          transition: ease-out 0.15s;
+          &:hover {
+            background-color: #e5e5e5;
+            cursor: pointer;
+            transition: ease-out 0.15s;
+          }
+        }
+        &.active a{
+          background: #000000;
+          color: #fff;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "ebil",
+  "homepage": "https://github.com/malevinson/everybandilike",
+  "authors": [
+    "Andrew Lukichev <andrewlukichev@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "./front/vendor"
+  ],
+  "dependencies": {
+    "jquery": "*",
+    "underscore": "*",
+    "angular": "*",
+    "angular-ui-router": "*",
+    "angular-ui-slider": "*",
+    "angular-permission": "1.1.1",
+    "satellizer": "*",
+    "bootstrap": "*",
+    "angular-bootstrap": "*",
+    "angular-animate": "*",
+    "angular-toastr": "*",
+    "angular-loading-bar": "*",
+    "font-awesome": "*",
+    "Sortable": "angular-ng-sortablejs#~1.4.2",
+    "ng-joyride": "*"
+  },
+  "resolutions": {
+    "angular": "1.5.0"
+  }
+}
