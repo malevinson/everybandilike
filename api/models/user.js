@@ -1,5 +1,5 @@
 var mongoose = require('mongoose-q')();
-var bcrypt = require('bcrypt');
+var md5 = require('md5');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
@@ -36,18 +36,17 @@ userSchema.pre('save', function(next) {
     if (!user.isModified('password')) {
         return next();
     }
-    bcrypt.genSalt(10, function(err, salt) {
-            bcrypt.hash(user.password, salt, function(err, hash) {
-            user.password = hash;
-            next();
-        });
-    });
+
+    user.password = md5(user.password);
+    next();
 });
 
 userSchema.methods.comparePassword = function(password, done) {
-    bcrypt.compare(password, this.password, function(err, isMatch) {
-        done(err, isMatch);
-    });
+    if (md5(password) == this.password) {
+        done(true);
+    } else {
+        done(false);
+    }
 };
 
 module.exports = mongoose.model('User', userSchema);

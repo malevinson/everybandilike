@@ -6,7 +6,7 @@ nav.navbar
 
         .nav-right
             ul.nav.navbar-nav.navbar-right(ng-if = 'share.user')
-                li.dropdown(uib-dropdown, uib-popover-template='popover.template', popover-is-open= 'popover.show', popover-placement='left-top', popover-trigger='none')
+                li.dropdown(uib-dropdown)
                     a.dropdown-toggle(uib-dropdown-toggle)
                         img.avatar(ng-src='{{ share.user.picture }}')
                         span {{ share.user.first_name ? share.user.first_name : share.user.email }} {{ share.user.last_name }}
@@ -14,10 +14,7 @@ nav.navbar
 
                     ul.uib-dropdown-menu(uib-dropdown-menu)
                         li: a(href='mailto:matt@entropylabs.io') Contact Us
-                        li: a(ng-click = 'startTour()') Take a Tour
-
-                        li(ng-if = "$state.current.name == 'main'"): a(ui-sref = 'share') Share
-                        li(ng-if = "$state.current.name == 'share'"): a(ui-sref = 'main') Player
+                        li: a(href = 'https://beta.streamfeed.fm', target='_blank') Streamfeed
 
                         li.divider
 
@@ -26,9 +23,9 @@ nav.navbar
 
 .main.container(ng-show = 'share.loaded')
     .col-md-12
-        btn.btn.btn-danger.btn-add(ng-click='openOnboarding()') Add Artist by Genre
+        btn.btn.btn-danger.btn-add(ng-click='share.addGenres()') Add Artist by Genre
 
-        btn.btn.btn-danger(ng-if = '!share.user') Join to Share or Save
+        btn.btn.btn-danger(ng-if = '!share.user', ng-click = 'share.login()') Join to Share or Save
         btn.btn.btn-danger(ng-if = 'share.user', ng-click = 'share.share()') Share it with your friends
 
         .social-btn

@@ -1,22 +1,16 @@
-var $http, $q, $filter;
+var $http, $q;
 
 class RatingService {
-    constructor($$http, $$q, $$filter) {
+    constructor($$http, $$q) {
         $http = $$http;
         $q = $$q;
-        $filter = $$filter;
-
-        this.ratings = null;
     }
 
     add(artist, user_id, rating) {
-        var self = this;
-
         return $q(function (resolve, reject) {
             $http
                 .post('/rating/submit', { artist : artist, user: user_id, rating : rating})
                 .success(function (data) {
-                    self.ratings.push(data);
                     resolve(data);
                 })
                 .error(function (err) {
@@ -27,15 +21,11 @@ class RatingService {
     }
 
     get(user_id) {
-        var self = this;
-
         return $q(function (resolve, reject) {
             $http
                 .post('/rating/get', { user : user_id })
                 .success(function (data) {
-                    self.ratings = $filter('filter')(data, {ratingGiven: '!0'});
-
-                    resolve(self.ratings);
+                    resolve(data);
                 })
                 .error(function (err) {
                     console.error(err);
@@ -45,8 +35,6 @@ class RatingService {
     }
 
     remove(user_id, station) {
-        var self = this;
-
         return $q(function (resolve, reject) {
             $http
                 .post('/rating/delete', { user : user_id, artist : station.artist._id })
@@ -59,25 +47,9 @@ class RatingService {
                 });
         });
     }
-
-    check(tracks) {
-        var self = this;
-
-        return $q(function (resolve, reject) {
-            self.ratings.forEach(function(el){
-                for(var i = 0; i < tracks.length; i++) {
-                    var trackArtistId = tracks[i].artists ? tracks[i].artists[0].id : tracks[i].artist.spotifyId;
-                    if (el.artist.spotifyId == trackArtistId) {
-                        tracks[i].ratingGiven = el.ratingGiven;
-                    }
-                }
-            });
-            resolve(tracks);
-        });
-    }
 }
 
-RatingService.$inject = ['$http', '$q', '$filter'];
+RatingService.$inject = ['$http', '$q'];
 
 angular
     .module('streamfeed.base')

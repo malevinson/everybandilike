@@ -2,10 +2,11 @@ angular
     .module('streamfeed.share')
     .controller('ShareController', ShareController);
 
-ShareController.$inject = ['$rootScope', '$auth', '$uibModal', 'RatingService', 'SpotifyService'];
+ShareController.$inject = ['$rootScope', '$auth', '$uibModal', 'RatingService', 'SpotifyService', 'Storage'];
 
-function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifyService) {
+function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifyService, Storage) {
     var self = this;
+    self.user = $auth.provider.user;
 
     self.loaded = false;
 
@@ -15,15 +16,28 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         three : []
     };
 
-        // if authenticated
-        //RatingService
-        //    .get(self.user._id)
-        //    .then(function (result) {
-        //        result.forEach(function (el) {
-        //            self.artists[arrayName(el.ratingGiven)].push(el);
-        //        });
-        //        self.loaded = true;
-        //    });
+    if (!$auth.provider.isAuthenticated()) {
+        var result = Storage.get('artists');
+
+        if (result == null) {
+            console.log('do nothing')
+        } else {
+            result.forEach(function (el) {
+                self.artists[arrayName(el.ratingGiven)].push(el);
+            });
+        }
+        self.loaded = true;
+
+    } else {
+        RatingService
+            .get(self.user._id)
+            .then(function (result) {
+                result.forEach(function (el) {
+                    self.artists[arrayName(el.ratingGiven)].push(el);
+                });
+                self.loaded = true;
+            });
+    }
 
     self.add = (data, rating) => {
         self.loadingThree = true;
@@ -37,24 +51,16 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
                 .searchArtist(artist)
                 .then(function(data){
                     artist = {
-                        genres: data.genres,
-                        name: data.name,
-                        picture: data.images[0].url,
-                        spotifyId: data.id
+                        artist : {
+                            genres: data.genres,
+                            name: data.name,
+                            picture: data.images[0].url,
+                            spotifyId: data.id
+                        },
+                        ratingGiven: rating
                     };
-                    return RatingService.add(artist, self.user._id, rating)
-                })
-                .then(function(result) {
-                    angular.forEach(self.artists, function(value, key) {
-                        value.forEach(function(el, i){
-                            if (el.artist.spotifyId == result.artist.spotifyId) {
-                                self.artists[key].splice(i, 1);
-                            }
-                        });
-                    });
 
-                    self.artists[arrayName(rating)].push(result);
-
+                    $auth.provider.isAuthenticated() ? $rootScope.$broadcast('rating:add', artist, self.user._id) : $rootScope.$broadcast('artists:add', artist);
                     self.loadingThree = false;
                 })
                 .catch(function(err){
@@ -64,17 +70,92 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         });
     };
 
-    self.remove = (artist, array) => {
-        var index = self.artists[array].indexOf(artist);
-
+    // Saving artist to db if user authenticated
+    $rootScope.$on('rating:add', function(e, artist, user_id){
         RatingService
-            .remove(self.user._id, artist)
-            .then(function(){
-                self.artists[array].splice(index, 1);
+            .add(artist.artist, user_id, artist.ratingGiven)
+            .then(function(result){
+                angular.forEach(self.artists, function(value, key) {
+                    value.forEach(function(el, i){
+                        if (el.artist.spotifyId == result.artist.spotifyId) {
+                            self.artists[key].splice(i, 1);
+                        }
+                    });
+                });
+
+                self.artists[arrayName(artist.ratingGiven)].push(result);
+            })
+    });
+
+    // Saving artist to localstorage if user not authenticated
+    $rootScope.$on('artists:add', function(e, artist){
+        var artists = Storage.get('artists');
+        if (artists == null) {
+            artists = [];
+        }
+
+        artists.forEach(function(el, i){
+            if (el.artist.spotifyId == artist.artist.spotifyId) {
+                artists.splice(i, 1);
+            }
+            Storage.set('artists', artists);
+        });
+
+        artists.push(artist);
+        Storage.set('artists', artists);
+
+        angular.forEach(self.artists, function(value, key) {
+            value.forEach(function(el, i){
+                if (el.artist.spotifyId == artist.artist.spotifyId) {
+                    self.artists[key].splice(i, 1);
+                }
             });
+        });
+
+        self.artists[arrayName(artist.ratingGiven)].push(artist);
+    });
+
+    self.remove = (artist, array) => {
+        var sIndex = self.artists[array].indexOf(artist);
+
+        if (!$auth.provider.isAuthenticated()) {
+            var artists = Storage.get('artists');
+            artists.forEach(function(el, i){
+                if (el.artist.spotifyId == artist.artist.spotifyId) {
+                    artists.splice(i, 1);
+                }
+            });
+            Storage.set('artists', artists);
+
+            self.artists[array].splice(sIndex, 1);
+
+        } else {
+            RatingService
+                .remove(self.user._id, artist)
+                .then(function(){
+                    self.artists[array].splice(sIndex, 1);
+                });
+        }
     };
 
-    self.share = function() {
+    self.login = () => {
+        $uibModal.open({
+            animation: true,
+            templateUrl: '/share/partials/modal.login.html',
+            controller: 'ModalLoginController',
+            controllerAs : 'modal',
+            size: 'sm',
+            keyboard: false,
+            windowClass: 'login',
+            resolve: {
+                artists: function () {
+                    return Storage.get('artists');
+                }
+            }
+        });
+    };
+
+    self.share = () => {
         $uibModal.open({
             animation: true,
             templateUrl: '/share/partials/modal.share.html',
@@ -86,7 +167,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         });
     };
 
-    $rootScope.openOnboarding = function() {
+    self.addGenres = () => {
         $uibModal.open({
             animation: true,
             templateUrl: '/main/partials/modal.genres.html',

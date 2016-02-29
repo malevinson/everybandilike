@@ -151,7 +151,7 @@ module.exports = function(app) {
             if (!user) {
                 return res.status(401).send({message: 'Invalid email and/or password'});
             }
-            user.comparePassword(req.body.password, function (err, isMatch) {
+            user.comparePassword(req.body.password, function (isMatch) {
                 if (!isMatch) {
                     return res.status(401).send({message: 'Invalid email and/or password'});
                 }

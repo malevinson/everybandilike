@@ -7,7 +7,6 @@ class SpotifyService {
     }
 
     artistsByGenres(genre) {
-        console.log(CONFIG.api_url);
         return $q(function (resolve, reject) {
             $http
                 .get(`${CONFIG.api_url}/genre/topArtists/`,{

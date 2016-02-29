@@ -1,5 +1,5 @@
 angular
-    .module('streamfeed.main')
+    .module('streamfeed.base')
     .controller('ModalGenresController', ModalGenresController);
 
 ModalGenresController.$inject = ['$rootScope', '$uibModalInstance', '$auth', '$q', 'SpotifyService'];
@@ -105,14 +105,14 @@ function ModalGenresController($rootScope, $uibInstance, $auth, $q, SpotifyServi
                     break;
             }
 
-            artists.forEach(function (artist) {
+            artists.forEach(function(artist){
                 if (artist.selected) {
                     artist.ratingGiven = rate;
-                    $rootScope.$broadcast('rating:add', artist);
+
+                    $auth.provider.isAuthenticated() ? $rootScope.$broadcast('rating:add', artist) : $rootScope.$broadcast('artists:add', artist);
                 }
             });
 
-            mixpanel.track('Adding genres via modal');
             self.loading = false;
             self.close();
         });

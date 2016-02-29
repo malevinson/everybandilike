@@ -1,0 +1,42 @@
+.modal-content(ng-init = 'modal.signup = true')
+    .modal-header
+        h4.modal-title Login to Share
+    .modal-body
+        form.form-signup(method="post", ng-submit="modal.signUp()", name="signupForm", ng-model="formSignup", ng-if="modal.signup")
+
+            .form-group.has-feedback(ng-class != "{ 'has-error' : signupForm.email.$invalid && signupForm.email.$dirty }")
+                input.form-control(type='email', name='email', ng-model='modal.user.signup_email', placeholder='Email', required)
+
+            .form-group.has-feedback(ng-class != "{ 'has-error' : signupForm.password.$invalid && signupForm.password.$dirty }")
+                input.form-control(password-strength='', ng-minlength='6', type='password', name='password', ng-model='modal.user.password', placeholder='Password', required)
+
+                .help-block.text-danger(ng-if='signupForm.password.$invalid && signupForm.password.$dirty', ng-messages='signupForm.password.$error')
+                    div(ng-message='required') Must be at least six characters long.
+
+            .form-group.has-feedback(ng-class != "{ 'has-error' : signupForm.confirmPassword.$invalid && signupForm.confirmPassword.$dirty }")
+                input.form-control(password-match='modal.user.password', type='password', name='confirmPassword', ng-model='modal.user.confirmPassword', placeholder='Confirm Password')
+
+            button.btn.btn-form(type='submit', ng-disabled='signupForm.$invalid') JOIN
+
+        form.form-signup.form-container(method="post", ng-submit="modal.login()", name="loginForm", ng-if="!modal.signup")
+
+            .form-group.has-feedback
+                input.form-control(type='email', name='email', ng-model='modal.user.email', placeholder='Email', required, autofocus)
+
+            .form-group.has-feedback
+                input.form-control(type='password', name='password', ng-model='modal.user.password', placeholder='Password', required)
+
+            button.btn.btn-form(type='submit', ng-disabled='loginForm.$invalid') LOG IN
+
+        p(ng-if = '!modal.signup')
+            | Don't have an account yet?&nbsp
+            a(ng-click = "modal.signup = true") JOIN US
+        p(ng-if = 'modal.signup')
+            | Already signed up by email?&nbsp
+            a(ng-click = "modal.signup = false") LOG IN
+
+        button.btn.twitter Join with Twitter
+        button.btn.facebook Join with Facebook
+
+    .modal-footer
+        btn.btn.btn-warning Close
