@@ -1,4 +1,4 @@
-@import '../../variables.less';
+@import '../variables.less';
 
 /* ==========================================================================
    Main styles
@@ -11,44 +11,49 @@ body.share {
     text-align: center;
     height: 100%;
     padding: 30px 15px;
-    .btn-add {
-      float: right;
-      position: absolute;
-      top: 0;
-      left: 0;
+    .left {
+      text-align: left;
     }
-    .btn-danger {
-      background-color: @primary-color;
-      border: none;
+    .btn {
+      padding: 6px 12px 6px 42px;
+      position: relative;
       transition: ease .2s;
-      &:hover {
-        background-color: @primary-color-darken;
+      .fa {
+        position: absolute;
+        left: 0;
+        top: 0;
+        line-height: 32px;
+        width: 30px;
+        border-right: 1px solid rgba(0,0,0,0.2);
+      }
+
+      &.btn-add { float: left; }
+
+      &.btn-danger {
+        background-color: @primary-color;
+        border: none;
+        transition: ease .2s;
+        &:hover {
+          background-color: @primary-color-darken;
+        }
       }
     }
-    .social-btn {
+    .social-btn .btn {
+      margin-bottom: 10px;
       float: right;
-      width: 15%;
-      position: absolute;
-      top: 0;
-      right: 0;
-      .btn {
-        width: 100%;
-        margin-bottom: 10px;
+      color: #fff;
+      &.twitter {
+        background-color: @twitter-color;
         color: #fff;
-        transition: ease .2s;
-        &.twitter {
-          background-color: @twitter-color;
-          color: #fff;
-          &:hover {
-            background-color: darken(@twitter-color, 15%);
-          }
+        &:hover {
+          background-color: darken(@twitter-color, 15%);
         }
-        &.facebook {
-          background-color: @facebook-color;
-          color: #fff;
-          &:hover {
-            background-color: darken(@facebook-color, 15%);
-          }
+      }
+      &.facebook {
+        background-color: @facebook-color;
+        color: #fff;
+        &:hover {
+          background-color: darken(@facebook-color, 15%);
         }
       }
     }
@@ -105,15 +110,17 @@ body.share {
             }
           }
 
-          &.add .fa {
-            line-height: 90px;
-            font-size: 26px;
-            float: left;
-            margin-left: 10px;
-            cursor: pointer;
-            color: @primary-color;
-            &:hover {
-              color: @primary-color-darken;
+          &.add {
+            width: auto;
+            .fa {
+              line-height: 90px;
+              font-size: 26px;
+              float: left;
+              cursor: pointer;
+              color: @primary-color;
+              &:hover {
+                color: @primary-color-darken;
+              }
             }
           }
         }
@@ -170,9 +177,5 @@ body.share {
         }
       }
     }
-
-
-
-
   }
 }

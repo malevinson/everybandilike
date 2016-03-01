@@ -1,8 +1,15 @@
+var $q;
+
 class LocalStorage {
-    constructor() {}
+    constructor($$q) {
+        $q = $$q;
+    }
 
     get(key) {
-        return JSON.parse(localStorage.getItem(key));
+        return $q(function (resolve, reject) {
+            var data = JSON.parse(localStorage.getItem(key));
+            resolve(data);
+        });
     }
 
     set(key, val) {
@@ -13,6 +20,8 @@ class LocalStorage {
         localStorage.removeItem(key);
     }
 }
+
+LocalStorage.$inject = ['$q'];
 
 angular
     .module('streamfeed.base')

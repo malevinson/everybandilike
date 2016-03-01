@@ -48,7 +48,7 @@
 }
 
 /* ==========================================================================
-   Onboarding
+   Genres
    ========================================================================== */
 .modal.onboarding {
   .genre-container {
@@ -140,30 +140,51 @@
 }
 
 /* ==========================================================================
-   Upgrade
+   Login/Join
    ========================================================================== */
-.modal.upgrade {
+
+.modal.login {
   .modal-body {
-    .plan {
-      border: 1px solid #e5e5e5;
-      width: 45%;
-      float: left;
-      margin: 2.5%;
-      .btn {
-        padding: 10px;
-        margin: inherit;
+    .btn {
+      width: 100%;
+      margin-bottom: 10px;
+      color: #fff;
+      background-color: @primary-color;
+
+      &.twitter {
+        background-color: @twitter-color;
+        color: #fff;
+        &:hover {
+          background-color: darken(@twitter-color, 15%);
+        }
+      }
+      &.facebook {
+        background-color: @facebook-color;
+        color: #fff;
+        &:hover {
+          background-color: darken(@facebook-color, 15%);
+        }
+      }
+
+      &.social {
+        position: relative;
+        transition: ease .2s;
+        .fa {
+          position: absolute;
+          left: 0;
+          top: 0;
+          line-height: 32px;
+          width: 30px;
+          border-right: 1px solid rgba(0,0,0,0.2);
+        }
       }
     }
-    p {
-      margin: 20px;
-    }
-  }
-
-  .modal-footer {
-    .btn {
-      width: 45%;
-      padding: 10px;
-      margin: inherit;
+    .switch-text {
+      font-size: 14px;
+      a {
+        color: @primary-color;
+        font-weight: 700;
+      }
     }
   }
 }

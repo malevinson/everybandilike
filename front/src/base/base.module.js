@@ -62,7 +62,7 @@ run.$inject = ['$state', '$rootScope', '$location'];
 function run($state, $root, $location) {
     $root.$on('$stateChangeSuccess',
         function(){
-            // TODO: add ga event for changing state
+            ga('send', 'pageview', $location.path());
         });
 
     $root.$state = $state;

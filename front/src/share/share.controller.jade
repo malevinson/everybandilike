@@ -22,16 +22,26 @@ nav.navbar
                             span.color-red Logout
 
 .main.container(ng-show = 'share.loaded')
-    .col-md-12
-        btn.btn.btn-danger.btn-add(ng-click='share.addGenres()') Add Artist by Genre
+    .col-sm-4.left
+        btn.btn.btn-danger.btn-add(ng-click='share.addGenres()')
+            i.fa.fa-plus
+            | Add Artist by Genre
 
-        btn.btn.btn-danger(ng-if = '!share.user', ng-click = 'share.login()') Join to Share or Save
+    .col-sm-4
+        btn.btn.btn-danger(ng-if = '!share.user', ng-click = 'share.login()')
+            i.fa.fa-share-alt-square
+            | Join to Share or Save
         btn.btn.btn-danger(ng-if = 'share.user', ng-click = 'share.share()') Share it with your friends
 
-        .social-btn
-            btn.btn.twitter Share on Twitter
-            btn.btn.facebook Share on Facebook
+    .col-sm-4.social-btn
+        btn.btn.twitter
+            i.fa.fa-twitter
+            | Share on Twitter
+        btn.btn.facebook
+            i.fa.fa-facebook
+            | Share on Facebook
 
+    .col-md-12
         .artists.row
             i.icon-heart-red
             i.icon-heart-red

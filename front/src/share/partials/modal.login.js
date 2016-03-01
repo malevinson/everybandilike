@@ -2,8 +2,8 @@ angular
     .module('streamfeed.share')
     .controller('ModalLoginController', ModalLoginController);
 
-ModalLoginController.$inject = ['$rootScope', 'artists', '$auth', '$uibModalInstance', 'toastr'];
-function ModalLoginController($rootScope, artists, $auth, $uibInstance, toastr) {
+ModalLoginController.$inject = ['$rootScope', 'artists', '$auth', '$uibModalInstance', 'toastr', 'Storage'];
+function ModalLoginController($rootScope, artists, $auth, $uibInstance, toastr, Storage) {
     var self = this;
 
     self.Authentication = $auth;
@@ -18,6 +18,7 @@ function ModalLoginController($rootScope, artists, $auth, $uibInstance, toastr) 
                 artists.forEach(function(artist){
                     $rootScope.$broadcast('rating:add', artist, user._id);
                 });
+                Storage.remove('artists');
                 // while it will adding add spinner/animation?
                 self.close();
             })
@@ -41,7 +42,6 @@ function ModalLoginController($rootScope, artists, $auth, $uibInstance, toastr) 
                 self.close();
             });
     };
-
 
     this.close = () => {
         $uibInstance.close();

@@ -1,6 +1,6 @@
 .modal-content(ng-init = 'modal.signup = true')
     .modal-header
-        h4.modal-title Login to Share
+        h4.modal-title Some cool header?
     .modal-body
         form.form-signup(method="post", ng-submit="modal.signUp()", name="signupForm", ng-model="formSignup", ng-if="modal.signup")
 
@@ -28,15 +28,19 @@
 
             button.btn.btn-form(type='submit', ng-disabled='loginForm.$invalid') LOG IN
 
-        p(ng-if = '!modal.signup')
+        p.switch-text(ng-if = '!modal.signup')
             | Don't have an account yet?&nbsp
             a(ng-click = "modal.signup = true") JOIN US
-        p(ng-if = 'modal.signup')
+        p.switch-text(ng-if = 'modal.signup')
             | Already signed up by email?&nbsp
             a(ng-click = "modal.signup = false") LOG IN
 
-        button.btn.twitter Join with Twitter
-        button.btn.facebook Join with Facebook
+        button.btn.social.twitter
+            i.fa.fa-twitter
+            | Join with Twitter
+        button.btn.social.facebook
+            i.fa.fa-facebook
+            | Join with Facebook
 
     .modal-footer
         btn.btn.btn-warning Close
