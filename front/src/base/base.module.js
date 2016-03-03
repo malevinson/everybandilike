@@ -1,5 +1,5 @@
 angular
-    .module('streamfeed.base', [
+    .module('ebil.base', [
         'ui.router',
         'ui.bootstrap',
         'ui.slider',
@@ -7,14 +7,13 @@ angular
         'ng-sortable',
         'toastr',
         'satellizer',
-        'angular-loading-bar',
-        'ngJoyRide'
+        'angular-loading-bar'
     ])
     .config(configure)
     .run(run);
 
-configure.$inject = ['$locationProvider', '$stateProvider', 'toastrConfig', '$urlRouterProvider'];
-function configure($locationProvider, $stateProvider, toastrConfig, $urlRouterProvider) {
+configure.$inject = ['$locationProvider', '$stateProvider', 'toastrConfig', '$urlRouterProvider', 'cfpLoadingBarProvider'];
+function configure($locationProvider, $stateProvider, toastrConfig, $urlRouterProvider, cfpLoadingBarProvider) {
     $locationProvider.html5Mode({
         enabled : true,
         requireBase : true,
@@ -56,6 +55,7 @@ function configure($locationProvider, $stateProvider, toastrConfig, $urlRouterPr
         tapToDismiss: true
     });
 
+    cfpLoadingBarProvider.includeSpinner = false;
 }
 
 run.$inject = ['$state', '$rootScope', '$location'];

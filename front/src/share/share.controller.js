@@ -1,5 +1,5 @@
 angular
-    .module('streamfeed.share')
+    .module('ebil.share')
     .controller('ShareController', ShareController);
 
 ShareController.$inject = ['$rootScope', '$auth', '$uibModal', 'RatingService', 'SpotifyService', 'Storage', 'toastr'];

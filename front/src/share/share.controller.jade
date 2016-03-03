@@ -31,7 +31,9 @@ nav.navbar
         btn.btn.btn-danger(ng-if = '!share.user', ng-click = 'share.login()')
             i.fa.fa-share-alt-square
             | Join to Share or Save
-        btn.btn.btn-danger(ng-if = 'share.user', ng-click = 'share.share()') Share it with your friends
+        btn.btn.btn-danger(ng-if = 'share.user', ng-click = 'share.share()')
+            i.fa.fa-share-alt-square
+            | Share it with your friends
 
     .col-sm-4.social-btn
         btn.btn.twitter

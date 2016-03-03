@@ -42,8 +42,7 @@ var paths = {
         'front/vendor/angular-loading-bar/build/loading-bar.js',
         'front/vendor/angular-ui-slider/src/slider.js',
         'front/vendor/Sortable/Sortable.js',
-        'front/vendor/Sortable/ng-sortable.js',
-        'front/vendor/ng-joyride/ng-joyride.js'
+        'front/vendor/Sortable/ng-sortable.js'
     ],
     less : [
         'front/vendor/bootstrap/less/bootstrap.less',

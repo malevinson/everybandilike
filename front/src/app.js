@@ -1,8 +1,8 @@
 angular
-    .module('streamfeed', [
-        'streamfeed.base',
-        'streamfeed.auth',
+    .module('ebil', [
+        'ebil.base',
+        'ebil.auth',
 
-        'streamfeed.share'
+        'ebil.share'
     ])
     .constant('CONFIG', CONFIG);

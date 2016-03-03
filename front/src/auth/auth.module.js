@@ -1,6 +1,6 @@
 angular
-    .module('streamfeed.auth', [
-        'streamfeed.base',
+    .module('ebil.auth', [
+        'ebil.base',
 
         'satellizer'
     ])

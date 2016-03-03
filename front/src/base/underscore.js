@@ -1,5 +1,5 @@
 angular
-    .module('streamfeed.base')
+    .module('ebil.base')
     .factory('underscore', underscore);
 
 underscore.$inject = ['$window'];

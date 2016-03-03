@@ -1,5 +1,5 @@
 angular
-    .module('streamfeed.base')
+    .module('ebil.base')
     .filter('expandState', expandState);
 
 function expandState() {

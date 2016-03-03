@@ -27,8 +27,7 @@
     "angular-toastr": "*",
     "angular-loading-bar": "*",
     "font-awesome": "*",
-    "Sortable": "angular-ng-sortablejs#~1.4.2",
-    "ng-joyride": "*"
+    "Sortable": "angular-ng-sortablejs#~1.4.2"
   },
   "resolutions": {
     "angular": "1.5.0"

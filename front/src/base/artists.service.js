@@ -1,5 +1,5 @@
 angular
-    .module('streamfeed.base')
+    .module('ebil.base')
     .factory('ArtistsProvider', ArtistsProvider);
 
 ArtistsProvider.$inject = ['$q', 'SpotifyService', 'YoutubeService', 'underscore'];

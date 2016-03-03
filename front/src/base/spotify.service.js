@@ -119,5 +119,5 @@ class SpotifyService {
 SpotifyService.$inject = ['$http', '$q'];
 
 angular
-    .module('streamfeed.base')
+    .module('ebil.base')
     .service('SpotifyService', SpotifyService);

@@ -1,6 +1,6 @@
 angular
-    .module('streamfeed.share', [
-        'streamfeed.base'
+    .module('ebil.share', [
+        'ebil.base'
     ])
     .config(configure);
 

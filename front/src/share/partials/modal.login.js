@@ -1,5 +1,5 @@
 angular
-    .module('streamfeed.share')
+    .module('ebil.share')
     .controller('ModalLoginController', ModalLoginController);
 
 ModalLoginController.$inject = ['$rootScope', 'artists', '$auth', '$uibModalInstance', 'toastr', 'Storage'];

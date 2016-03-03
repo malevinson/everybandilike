@@ -1,5 +1,5 @@
 angular
-    .module('streamfeed.share')
+    .module('ebil.share')
     .controller('ModalShareController', ModalShareController);
 
 ModalShareController.$inject = ['$uibModalInstance'];

@@ -1,5 +1,5 @@
 angular
-    .module('streamfeed.auth')
+    .module('ebil.auth')
     .provider('Authentication', AuthenticationProvider);
 
 function AuthenticationProvider() {

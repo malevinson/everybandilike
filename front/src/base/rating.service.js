@@ -52,5 +52,5 @@ class RatingService {
 RatingService.$inject = ['$http', '$q'];
 
 angular
-    .module('streamfeed.base')
+    .module('ebil.base')
     .service('RatingService', RatingService);

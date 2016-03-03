@@ -1,5 +1,5 @@
 angular
-    .module('streamfeed.base')
+    .module('ebil.base')
     .controller('ModalGenresController', ModalGenresController);
 
 ModalGenresController.$inject = ['$rootScope', '$uibModalInstance', '$auth', '$q', 'SpotifyService'];

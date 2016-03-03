@@ -24,5 +24,5 @@ class LocalStorage {
 LocalStorage.$inject = ['$q'];
 
 angular
-    .module('streamfeed.base')
+    .module('ebil.base')
     .service('Storage', LocalStorage);
