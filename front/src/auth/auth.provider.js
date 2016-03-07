@@ -44,6 +44,20 @@ function AuthenticationProvider() {
                     });
             }
 
+            get(id) {
+                return $q(function (resolve, reject) {
+                    $http
+                        .put(`/user`, { userID : id})
+                        .success(function (response) {
+                            resolve(response);
+                        })
+                        .error(function (err) {
+                            console.error(err);
+                            reject(err)
+                        });
+                });
+            }
+
             clearUser() {
                 this.user = null;
                 Storage.remove('user');

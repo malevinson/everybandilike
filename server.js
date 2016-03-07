@@ -37,9 +37,7 @@ server.use(function(req, res, next){
 server.use(express.static(`${__dirname}/front/dist`));
 server.get([
     '/',
-    '/login',
-    '/main',
-    '/share'
+    '/:id'
 ], function(req, res) {
     res.sendFile(`${__dirname}/front/dist/index.html`);
 });

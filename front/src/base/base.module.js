@@ -21,13 +21,6 @@ function configure($locationProvider, $stateProvider, toastrConfig, $urlRouterPr
     });
 
     $stateProvider
-        .state('front', {
-            url : '/',
-            template: '',
-            controller : [ "$state", function ($state){
-                return $state.go('share')
-            }]
-        })
         .state('403', {
             url : '/403',
             template : '<h1>Unauthorised access</h1>'

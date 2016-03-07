@@ -2,21 +2,54 @@ angular
     .module('ebil.share')
     .controller('ShareController', ShareController);
 
-ShareController.$inject = ['$rootScope', '$auth', '$uibModal', 'RatingService', 'SpotifyService', 'Storage', 'toastr'];
+ShareController.$inject = ['$rootScope', '$auth', '$uibModal', 'RatingService', 'SpotifyService', 'Storage', 'toastr', '$stateParams', 'user'];
 
-function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifyService, Storage, toastr) {
+function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifyService, Storage, toastr, $stateParams, user) {
     var self = this;
+
     self.user = $auth.provider.user;
-
     self.loaded = false;
-
     self.artists = {
         one : [],
         two : [],
         three : []
     };
 
-    if (!$auth.provider.isAuthenticated()) {
+    self.viewedUser = user;
+
+    if ($auth.provider.isAuthenticated() && $stateParams.id) {
+        // if user is authenticated and we have id in url
+        console.log('here' + $stateParams.id);
+        RatingService
+            .get($stateParams.id)
+            .then(function (result) {
+                result.forEach(function (el) {
+                    self.artists[arrayName(el.ratingGiven)].push(el);
+                });
+                self.loaded = true;
+            });
+    } else if ($auth.provider.isAuthenticated() && !$stateParams.id) {
+        // if user authenticated we resolving data from db
+        RatingService
+            .get(self.user._id)
+            .then(function (result) {
+                result.forEach(function (el) {
+                    self.artists[arrayName(el.ratingGiven)].push(el);
+                });
+                self.loaded = true;
+            });
+    } else if (!$auth.provider.isAuthenticated() && $stateParams.id) {
+        // if user not authenticated and we have id in url we getting data from db for user that is in url
+        RatingService
+            .get($stateParams.id)
+            .then(function (result) {
+                result.forEach(function (el) {
+                    self.artists[arrayName(el.ratingGiven)].push(el);
+                });
+                self.loaded = true;
+            });
+    } else if (!$auth.provider.isAuthenticated() && !$stateParams.id) {
+        // if user not authenticated and we DON'T have id in url we getting data from localstorage
         Storage
             .get('artists')
             .then(function(result){
@@ -29,16 +62,8 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
                 }
                 self.loaded = true;
             });
-    } else {
-        RatingService
-            .get(self.user._id)
-            .then(function (result) {
-                result.forEach(function (el) {
-                    self.artists[arrayName(el.ratingGiven)].push(el);
-                });
-                self.loaded = true;
-            });
     }
+    // what if user is authenticated and we have id in url
 
     self.add = (data, rating) => {
         self.loadingThree = true;
@@ -117,6 +142,10 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
 
                 self.artists[arrayName(artist.ratingGiven)].push(artist);
             });
+    });
+
+    $rootScope.$on('auth.login', function(e){
+
     });
 
     self.remove = (artist, array) => {
