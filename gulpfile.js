@@ -28,7 +28,7 @@ var paths = {
         'front/src/**/*.js'
     ],
     libs : [
-        'front/vendor/jquery/jquery.js',
+        'front/vendor/jquery/dist/jquery.js',
         'front/vendor/jquery-ui/ui/jquery-ui.js',
         'front/vendor/underscore/underscore.js',
         'front/vendor/angular/angular.js',
@@ -113,7 +113,7 @@ gulp.task('js-app', function() {
         .pipe(wrap("\n(function(){\n<%= contents %>\n})();"))
         .pipe(babel({}))
         .pipe(concat('all.js'))
-        .pipe(gulpif(argv.minify, uglify()))
+        //.pipe(gulpif(argv.minify, uglify()))
         .pipe(gulp.dest('front/dist/js/'))
 });
 
@@ -122,7 +122,7 @@ gulp.task('js-libs', function() {
         .src(paths.libs)
         .pipe(sourcemaps.init())
         .pipe(concat('vendor.js'))
-        .pipe(gulpif(argv.minify, uglify()))
+        //.pipe(gulpif(argv.minify, uglify()))
         .pipe(gulp.dest('front/dist/js/'));
 });
 
