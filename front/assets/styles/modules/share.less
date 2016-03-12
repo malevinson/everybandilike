@@ -5,7 +5,6 @@
    ========================================================================== */
 
 body.share {
-  background-color: #fff;
 
   .main {
     text-align: center;
@@ -42,6 +41,7 @@ body.share {
       margin-bottom: 10px;
       float: right;
       color: #fff;
+      overflow: hidden;
       &.twitter {
         background-color: @twitter-color;
         color: #fff;
@@ -55,6 +55,15 @@ body.share {
         &:hover {
           background-color: darken(@facebook-color, 15%);
         }
+      }
+    }
+    @media (max-width: @screen-md) {
+      .btn {
+        width: 100%;
+        margin: 3px 0;
+      }
+      .social-btn .btn {
+        width: 50%;
       }
     }
 

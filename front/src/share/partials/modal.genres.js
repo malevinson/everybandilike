@@ -109,7 +109,7 @@ function ModalGenresController($rootScope, $uibInstance, $auth, $q, SpotifyServi
                 if (artist.selected) {
                     artist.ratingGiven = rate;
 
-                    $auth.provider.isAuthenticated() ? $rootScope.$broadcast('rating:add', artist) : $rootScope.$broadcast('artists:add', artist);
+                    $auth.provider.isAuthenticated() ? $rootScope.$broadcast('rating:add', artist, self.user._id) : $rootScope.$broadcast('artists:add', artist);
                 }
             });
 

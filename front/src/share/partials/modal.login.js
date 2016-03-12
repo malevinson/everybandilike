@@ -15,11 +15,14 @@ function ModalLoginController($rootScope, artists, $auth, $uibInstance, toastr, 
                 self.Authentication.provider.setUser(user);
                 toastr.success(`Welcome, ${user.first_name}`, 'Success');
 
-                artists.forEach(function(artist){
-                    $rootScope.$broadcast('rating:add', artist, user._id);
-                });
+                if (artists) {
+                    artists.forEach(function (artist) {
+                        $rootScope.$broadcast('rating:add', artist, user._id);
+                    });
+                }
                 Storage.remove('artists');
-                // while it will adding add spinner/animation?
+
+                // TODO: while it will adding add spinner/animation?
                 self.close();
             })
             .catch(function(error) {

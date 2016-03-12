@@ -6,10 +6,7 @@ class LocalStorage {
     }
 
     get(key) {
-        return $q(function (resolve, reject) {
-            var data = JSON.parse(localStorage.getItem(key));
-            resolve(data);
-        });
+        return JSON.parse(localStorage.getItem(key));
     }
 
     set(key, val) {

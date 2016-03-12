@@ -1,4 +1,4 @@
-var debug = require('debug')('streamfeed:api');
+var debug = require('debug')('ebil:api');
 
 var fs = require('fs');
 var path = require('path');

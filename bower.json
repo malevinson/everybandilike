@@ -18,7 +18,6 @@
     "underscore": "*",
     "angular": "*",
     "angular-ui-router": "*",
-    "angular-ui-slider": "*",
     "angular-permission": "1.1.1",
     "satellizer": "*",
     "bootstrap": "*",
@@ -28,8 +27,5 @@
     "angular-loading-bar": "*",
     "font-awesome": "*",
     "Sortable": "angular-ng-sortablejs#~1.4.2"
-  },
-  "resolutions": {
-    "angular": "1.5.0"
   }
 }

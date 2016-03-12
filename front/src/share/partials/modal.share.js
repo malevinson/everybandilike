@@ -2,14 +2,16 @@ angular
     .module('ebil.share')
     .controller('ModalShareController', ModalShareController);
 
-ModalShareController.$inject = ['$uibModalInstance'];
-function ModalShareController($uibInstance) {
+ModalShareController.$inject = ['$uibModalInstance', '$location', '$auth', 'toastr'];
+function ModalShareController($uibInstance, $location, $auth, toastr) {
     var self = this;
+    self.user = $auth.provider.user;
 
-    self.modalMode = "upgrade";
+    self.url = $location.$$absUrl + self.user._id;
 
-    this.close = () => {
-        $uibInstance.close();
-    }
+    self.successCopied = () => {
+        toastr.success('Link copied!', 'Success');
+    };
 
+    this.close = () => { $uibInstance.close() }
 }

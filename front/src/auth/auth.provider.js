@@ -15,11 +15,7 @@ function AuthenticationProvider() {
 
             initialize() {
                 var self = this;
-                Storage
-                    .get('user')
-                    .then(function(res){
-                        self.user = res;
-                    })
+                self.user = Storage.get('user');
             }
 
             setUser(user) {

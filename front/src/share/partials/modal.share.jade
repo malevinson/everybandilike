@@ -1,8 +1,12 @@
 .modal-content
+    .modal-header
+        h4.modal-title Share with others
     .modal-body
-        p Share
-        p input with shareable link
 
-        p social buttons to share maybe here?
+        .form-group
+            label Get the shareable link
+            input.form-control(ng-model = 'modal.url')
+
     .modal-footer
-        btn.btn.btn-warning Cancel
+        btn.btn.btn-success(clipboard, text='modal.url', on-copied = 'modal.successCopied()') Copy link
+        btn.btn.btn-warning(ng-click = 'modal.close()') Cancel

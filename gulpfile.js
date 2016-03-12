@@ -29,7 +29,6 @@ var paths = {
     ],
     libs : [
         'front/vendor/jquery/dist/jquery.js',
-        'front/vendor/jquery-ui/ui/jquery-ui.js',
         'front/vendor/underscore/underscore.js',
         'front/vendor/angular/angular.js',
         'front/vendor/bootstrap/dist/js/bootstrap.js',
@@ -40,7 +39,6 @@ var paths = {
         'front/vendor/angular-animate/angular-animate.js',
         'front/vendor/angular-toastr/dist/angular-toastr.tpls.js',
         'front/vendor/angular-loading-bar/build/loading-bar.js',
-        'front/vendor/angular-ui-slider/src/slider.js',
         'front/vendor/Sortable/Sortable.js',
         'front/vendor/Sortable/ng-sortable.js'
     ],
@@ -71,7 +69,8 @@ gulp.task('jade', function() {
                 config : {
                     api_url : process.env.API_URL,
                     facebook_id : process.env.FACEBOOK_ID,
-                    facebook_secret : process.env.FACEBOOK_SECRET
+                    facebook_secret : process.env.FACEBOOK_SECRET,
+                    ga_id : process.env.GA_ID
                 }
             }
         }))

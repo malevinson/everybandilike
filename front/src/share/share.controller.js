@@ -8,6 +8,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
     var self = this;
 
     self.user = $auth.provider.user;
+
     self.loaded = false;
     self.artists = {
         one : [],
@@ -17,9 +18,20 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
 
     self.viewedUser = user;
 
+    self.addGenres = () => {
+        $uibModal.open({
+            animation: true,
+            templateUrl: '/share/partials/modal.genres.html',
+            controller: 'ModalGenresController',
+            controllerAs : 'modal',
+            size: 'lg',
+            keyboard: false,
+            windowClass: 'onboarding'
+        });
+    };
+
     if ($auth.provider.isAuthenticated() && $stateParams.id) {
         // if user is authenticated and we have id in url
-        console.log('here' + $stateParams.id);
         RatingService
             .get($stateParams.id)
             .then(function (result) {
@@ -28,16 +40,21 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
                 });
                 self.loaded = true;
             });
+
     } else if ($auth.provider.isAuthenticated() && !$stateParams.id) {
         // if user authenticated we resolving data from db
         RatingService
             .get(self.user._id)
             .then(function (result) {
+                if (result.length == 0) {
+                    self.addGenres();
+                }
                 result.forEach(function (el) {
                     self.artists[arrayName(el.ratingGiven)].push(el);
                 });
                 self.loaded = true;
             });
+
     } else if (!$auth.provider.isAuthenticated() && $stateParams.id) {
         // if user not authenticated and we have id in url we getting data from db for user that is in url
         RatingService
@@ -48,26 +65,21 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
                 });
                 self.loaded = true;
             });
+
     } else if (!$auth.provider.isAuthenticated() && !$stateParams.id) {
         // if user not authenticated and we DON'T have id in url we getting data from localstorage
-        Storage
-            .get('artists')
-            .then(function(result){
-                if (result == null) {
-                    console.log('do nothing')
-                } else {
-                    result.forEach(function (el) {
-                        self.artists[arrayName(el.ratingGiven)].push(el);
-                    });
-                }
-                self.loaded = true;
+        var result = Storage.get('artists');
+        if (result == null) {
+            self.addGenres();
+        } else {
+            result.forEach(function (el) {
+                self.artists[arrayName(el.ratingGiven)].push(el);
             });
+        }
+        self.loaded = true;
     }
-    // what if user is authenticated and we have id in url
 
     self.add = (data, rating) => {
-        self.loadingThree = true;
-
         if (data.length == 0) return;
 
         var artists = data.split(',');
@@ -87,11 +99,9 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
                     };
 
                     $auth.provider.isAuthenticated() ? $rootScope.$broadcast('rating:add', artist, self.user._id) : $rootScope.$broadcast('artists:add', artist);
-                    self.loadingThree = false;
                 })
                 .catch(function(err){
                     console.error(err);
-                    self.loadingThree = false;
                 });
         });
     };
@@ -115,37 +125,40 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
 
     // Saving artist to localstorage if user not authenticated
     $rootScope.$on('artists:add', function(e, artist){
-        var artists;
+        var artists = Storage.get('artists');
 
-        Storage
-            .get('artists')
-            .then(function(res){
-                res ? artists = res : artists = [];
+        if (!artists) artists = [];
 
-                artists.forEach(function(el, i){
-                    if (el.artist.spotifyId == artist.artist.spotifyId) {
-                        artists.splice(i, 1);
-                    }
-                    Storage.set('artists', artists);
-                });
+        artists.forEach(function(el, i){
+            if (el.artist.spotifyId == artist.artist.spotifyId) {
+                artists.splice(i, 1);
+            }
+        });
+        artists.push(artist);
 
-                artists.push(artist);
-                Storage.set('artists', artists);
+        Storage.set('artists', artists);
 
-                angular.forEach(self.artists, function(value, key) {
-                    value.forEach(function(el, i){
-                        if (el.artist.spotifyId == artist.artist.spotifyId) {
-                            self.artists[key].splice(i, 1);
-                        }
-                    });
-                });
-
-                self.artists[arrayName(artist.ratingGiven)].push(artist);
+        angular.forEach(self.artists, function(value, key) {
+            value.forEach(function(el, i){
+                if (el.artist.spotifyId == artist.artist.spotifyId) {
+                    self.artists[key].splice(i, 1);
+                }
             });
+        });
+
+        self.artists[arrayName(artist.ratingGiven)].push(artist);
     });
 
     $rootScope.$on('auth.login', function(e){
 
+    });
+
+    $rootScope.$on('auth:logout', function(e){
+        self.artists = {
+            one : [],
+            two : [],
+            three : []
+        };
     });
 
     self.remove = (artist, array) => {
@@ -196,19 +209,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
             controllerAs : 'modal',
             size: 'sm',
             keyboard: false,
-            windowClass: 'onboarding'
-        });
-    };
-
-    self.addGenres = () => {
-        $uibModal.open({
-            animation: true,
-            templateUrl: '/main/partials/modal.genres.html',
-            controller: 'ModalGenresController',
-            controllerAs : 'modal',
-            size: 'lg',
-            keyboard: false,
-            windowClass: 'onboarding'
+            windowClass: 'share'
         });
     };
 

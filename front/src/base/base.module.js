@@ -2,7 +2,6 @@ angular
     .module('ebil.base', [
         'ui.router',
         'ui.bootstrap',
-        'ui.slider',
         'ngAnimate',
         'ng-sortable',
         'toastr',
