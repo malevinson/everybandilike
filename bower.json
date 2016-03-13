@@ -26,6 +26,7 @@
     "angular-toastr": "*",
     "angular-loading-bar": "*",
     "font-awesome": "*",
-    "Sortable": "angular-ng-sortablejs#~1.4.2"
+    "Sortable": "angular-ng-sortablejs#~1.4.2",
+    "angular-socialshare": "angularjs-socialshare#^0.1.20"
   }
 }

@@ -1,12 +1,12 @@
 .modal-content
     .modal-header
-        h4.modal-title Share with others
+        i.fa.fa-share-alt
     .modal-body
 
-        .form-group
+        form.form-group
             label Get the shareable link
-            input.form-control(ng-model = 'modal.url')
+            input.form-control(ng-model = 'modal.share_link')
 
     .modal-footer
-        btn.btn.btn-success(clipboard, text='modal.url', on-copied = 'modal.successCopied()') Copy link
+        btn.btn.btn-success(clipboard, text='modal.share_link', on-copied = 'modal.successCopied()') Copy link
         btn.btn.btn-warning(ng-click = 'modal.close()') Cancel

@@ -6,7 +6,8 @@ angular
         'ng-sortable',
         'toastr',
         'satellizer',
-        'angular-loading-bar'
+        'angular-loading-bar',
+        '720kb.socialshare'
     ])
     .config(configure)
     .run(run);

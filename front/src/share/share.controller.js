@@ -2,12 +2,20 @@ angular
     .module('ebil.share')
     .controller('ShareController', ShareController);
 
-ShareController.$inject = ['$rootScope', '$auth', '$uibModal', 'RatingService', 'SpotifyService', 'Storage', 'toastr', '$stateParams', 'user'];
+ShareController.$inject = ['$rootScope', '$auth', '$uibModal', 'RatingService', 'SpotifyService', 'Storage', 'toastr', '$stateParams', 'user', '$location'];
 
-function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifyService, Storage, toastr, $stateParams, user) {
+function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifyService, Storage, toastr, $stateParams, user, $location) {
     var self = this;
 
     self.user = $auth.provider.user;
+    self.$auth = $auth;
+    self.location = $location;
+    self.started = false;
+
+
+    if ($auth.provider.isAuthenticated()) {
+        self.share_link = $location.$$protocol + '://' + $location.$$host + '/' + self.user._id;
+    }
 
     self.loaded = false;
     self.artists = {
@@ -31,6 +39,14 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
     };
 
     if ($auth.provider.isAuthenticated() && $stateParams.id) {
+        if ($stateParams.id == self.user._id) {
+            self.user_role = 'owner';
+        } else {
+            self.user_role = 'viewer';
+        }
+
+        self.started = true;
+
         // if user is authenticated and we have id in url
         RatingService
             .get($stateParams.id)
@@ -42,11 +58,13 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
             });
 
     } else if ($auth.provider.isAuthenticated() && !$stateParams.id) {
+        self.user_role = 'owner';
         // if user authenticated we resolving data from db
         RatingService
             .get(self.user._id)
             .then(function (result) {
                 if (result.length == 0) {
+                    self.started = false;
                     self.addGenres();
                 }
                 result.forEach(function (el) {
@@ -56,7 +74,9 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
             });
 
     } else if (!$auth.provider.isAuthenticated() && $stateParams.id) {
+        self.user_role = 'viewer';
         // if user not authenticated and we have id in url we getting data from db for user that is in url
+        self.started = true;
         RatingService
             .get($stateParams.id)
             .then(function (result) {
@@ -67,11 +87,15 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
             });
 
     } else if (!$auth.provider.isAuthenticated() && !$stateParams.id) {
+        self.user_role = 'owner';
+
         // if user not authenticated and we DON'T have id in url we getting data from localstorage
         var result = Storage.get('artists');
         if (result == null) {
+            self.started = false;
             self.addGenres();
         } else {
+            self.started = true;
             result.forEach(function (el) {
                 self.artists[arrayName(el.ratingGiven)].push(el);
             });
@@ -154,11 +178,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
     });
 
     $rootScope.$on('auth:logout', function(e){
-        self.artists = {
-            one : [],
-            two : [],
-            three : []
-        };
+        $rootScope.$state.go('share', { id : '' });
     });
 
     self.remove = (artist, array) => {
@@ -209,7 +229,12 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
             controllerAs : 'modal',
             size: 'sm',
             keyboard: false,
-            windowClass: 'share'
+            windowClass: 'share',
+            resolve: {
+                share_link: function () {
+                    return self.share_link;
+                }
+            }
         });
     };
 
@@ -218,6 +243,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
             .then(function() {
                 $rootScope.$broadcast('auth:logout');
                 toastr.warning('Logged out!', 'Success');
+
             })
             .catch(function(err) {
                 console.error(err);

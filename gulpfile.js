@@ -40,7 +40,8 @@ var paths = {
         'front/vendor/angular-toastr/dist/angular-toastr.tpls.js',
         'front/vendor/angular-loading-bar/build/loading-bar.js',
         'front/vendor/Sortable/Sortable.js',
-        'front/vendor/Sortable/ng-sortable.js'
+        'front/vendor/Sortable/ng-sortable.js',
+        'front/vendor/angular-socialshare/dist/angular-socialshare.min.js'
     ],
     less : [
         'front/vendor/bootstrap/less/bootstrap.less',

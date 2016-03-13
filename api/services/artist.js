@@ -72,38 +72,32 @@ exports.getArtistById = function(id) {
 };
 
 exports.createOrUpdateArtist = function(artist, callback) {
-    return SpotifyService
-        .spotifyGetYears(artist.spotifyId)
-        .then(function(years){
-            Artist.update({
+    return Artist.update({
+            name: artist.name,
+            spotifyId: artist.spotifyId,
+            picture : artist.picture,
+            genres : artist.genres
+        }, {
+            $set : {
                 name: artist.name,
                 spotifyId: artist.spotifyId,
-                picture : artist.picture,
-                genres : artist.genres,
-                releases : years
-            }, {
-                $set : {
-                    name: artist.name,
-                    spotifyId: artist.spotifyId,
-                    picture: artist.picture,
-                    genres : artist.genres,
-                    releases : years
+                picture: artist.picture,
+                genres : artist.genres
+            }
+        }, {
+            upsert: true,
+            _id: true
+        }).exec()
+            .then(function(object){
+                if(object.upserted){
+                    callback(object.upserted[0]._id);
+                } else {
+                    Artist.findOne({'spotifyId': artist.spotifyId},'_id').execQ()
+                        .then(function(result){
+                            callback(result._id);
+                        });
                 }
-            }, {
-                upsert: true,
-                _id: true
-            }).exec()
-                .then(function(object){
-                    if(object.upserted){
-                        callback(object.upserted[0]._id);
-                    } else {
-                        Artist.findOne({'spotifyId': artist.spotifyId},'_id').execQ()
-                            .then(function(result){
-                                callback(result._id);
-                            });
-                    }
-                });
-        })
+            });
 };
 
 exports.createOrUpdateArtists = function(artists){

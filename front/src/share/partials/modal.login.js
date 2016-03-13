@@ -13,7 +13,7 @@ function ModalLoginController($rootScope, artists, $auth, $uibInstance, toastr, 
             .then(function(result) {
                 var user = result.data.user;
                 self.Authentication.provider.setUser(user);
-                toastr.success(`Welcome, ${user.first_name}`, 'Success');
+                toastr.success(`Welcome!`, 'Success');
 
                 if (artists) {
                     artists.forEach(function (artist) {
@@ -36,10 +36,10 @@ function ModalLoginController($rootScope, artists, $auth, $uibInstance, toastr, 
                 var user = result.data.user;
 
                 self.Authentication.provider.setUser(user);
-                toastr.success(`Welcome, ${user.first_name}`, 'Success');
+                toastr.success(`Welcome!`, 'Success');
 
                 $rootScope.$broadcast('auth:login');
-                $rootScope.$state.go('share.user', { id : user._id });
+                $rootScope.$state.go('share', { id : user._id });
 
                 self.close();
             })
@@ -49,8 +49,24 @@ function ModalLoginController($rootScope, artists, $auth, $uibInstance, toastr, 
             });
     };
 
-    this.close = () => {
-        $uibInstance.close();
-    }
+    this.authenticate = (provider) => {
+        $auth.authenticate(provider)
+            .then(function(result) {
+                var user = result.data.user;
 
+                self.Authentication.provider.setUser(user);
+                toastr.success(`Welcome!`, 'Success');
+
+                $rootScope.$broadcast('auth:login');
+                $rootScope.$state.go('share', { id : user._id });
+
+                self.close();
+            })
+            .catch(function(err) {
+                toastr.error(err, 'Error');
+                self.close();
+            });
+    };
+
+    this.close = () => { $uibInstance.close() }
 }

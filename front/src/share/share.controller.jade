@@ -21,28 +21,62 @@ nav.navbar
                         li: a(ng-click='share.logout()')
                             span.color-red Logout
 
-.main.container(ng-show = 'share.loaded')
+.main.container(ng-if = '!share.started')
+    h2 Awesome headline to show how it is awesome to use ebil!
+    btn.btn.btn-success(ng-click = 'share.started = true')
+        i.fa.fa-check
+        | Start!
+
+.main.container(ng-show = 'share.loaded && share.started')
     .row
         .col-sm-4.col-xs-12.left
-            btn.btn.btn-danger.btn-add(ng-click='share.addGenres()')
+            btn.btn.btn-danger.btn-add(ng-click='share.addGenres()', ng-if = "share.user_role =='owner'")
                 i.fa.fa-plus
                 | Add Artist by Genre
 
         .col-sm-4.col-xs-12
-            btn.btn.btn-danger(ng-if = '!share.user', ng-click = 'share.login()')
+            btn.btn.btn-danger(ng-if = "share.user_role =='owner' && !share.user", ng-click = 'share.login()')
                 i.fa.fa-share-alt-square
                 | Join to Share or Save
             btn.btn.btn-danger(ng-if = 'share.user', ng-click = 'share.share()')
                 i.fa.fa-share-alt-square
                 | Share it with your friends
 
-        .col-sm-4.col-xs-12.social-btn
-            btn.btn.twitter
-                i.fa.fa-twitter
-                | Share on Twitter
-            btn.btn.facebook
+            btn.btn.btn-danger(ng-if = "share.user_role =='viewer' && !share.user", ui-sref = "share({ id: ''})")
+                i.fa.fa-share-alt-square
+                | Create your own collection
+
+        .col-sm-4.col-xs-12.social-btn(ng-if = "share.user_role =='owner'")
+            btn.btn.facebook(socialshare, socialshare-provider="facebook",
+                             socialshare-via="{{CONFIG.facebook_id}}",
+                             socialshare-text="Check out my music collection!",
+                             socialshare-redirect-uri="{{ share.share_link }}",
+                             socialshare-url="{{ share.share_link }}")
                 i.fa.fa-facebook
                 | Share on Facebook
+
+            btn.btn.twitter(socialshare, socialshare-provider="twitter",
+                            socialshare-hashtags="ebil, everybandilike, streamfeed",
+                            socialshare-text="Checkout my music collection!",
+                            socialshare-url="{{ share.share_link }}")
+                i.fa.fa-twitter
+                | Share on Twitter
+
+        .col-sm-4.col-xs-12.social-btn(ng-if = "share.user_role =='viewer'")
+            btn.btn.facebook(socialshare, socialshare-provider="facebook",
+            socialshare-via="{{CONFIG.facebook_id}}",
+            socialshare-text="Check out this awesome site!",
+            socialshare-redirect-uri="{{ share.share_link }}",
+            socialshare-url="{{ share.share_link }}")
+                i.fa.fa-facebook
+                | Share on Facebook
+
+            btn.btn.twitter(socialshare, socialshare-provider="twitter",
+            socialshare-hashtags="ebil, everybandilike, streamfeed",
+            socialshare-text="Checkout checkout this awesome site!",
+            socialshare-url="{{ share.share_link }}")
+                i.fa.fa-twitter
+                | Share on Twitter
 
     .row
         .col-md-12
@@ -56,10 +90,10 @@ nav.navbar
                         .thumbnail
                             img(ng-src='{{ ::artist.artist.picture }}', alt='figure')
                         span.name {{ ::artist.artist.name }}
-                        .hover
+                        .hover(ng-if = "share.user_role =='owner'")
                             i.fa.fa-times(ng-click="share.remove(artist, 'three')")
 
-                    li.add(ng-init = 'share.showAddThree = false', ng-click = 'share.showAddThree = !share.showAddThree')
+                    li.add(ng-init = 'share.showAddThree = false', ng-click = 'share.showAddThree = !share.showAddThree', ng-if = "share.user_role =='owner'")
                         i.fa.fa-plus-circle
 
                 .add-container.col-md-6.col-md-offset-3(ng-if='share.showAddThree')
@@ -76,10 +110,10 @@ nav.navbar
                         .thumbnail
                             img(ng-src='{{ ::artist.artist.picture }}', alt='figure')
                         span.name {{ ::artist.artist.name }}
-                        .hover
+                        .hover(ng-if = "share.user_role =='owner'")
                             i.fa.fa-times(ng-click="share.remove(artist, 'two')")
 
-                    li.add(ng-init = 'share.showAddTwo = false', ng-click = 'share.showAddTwo = !share.showAddTwo')
+                    li.add(ng-init = 'share.showAddTwo = false', ng-click = 'share.showAddTwo = !share.showAddTwo', ng-if = "share.user_role =='owner'")
                         i.fa.fa-plus-circle
 
                 .add-container.col-md-6.col-md-offset-3(ng-if='share.showAddTwo')
@@ -96,10 +130,10 @@ nav.navbar
                         .thumbnail
                             img(ng-src='{{ ::artist.artist.picture }}', alt='figure')
                         span.name {{ ::artist.artist.name }}
-                        .hover
+                        .hover(ng-if = "share.user_role =='owner'")
                             i.fa.fa-times(ng-click="share.remove(artist, 'one')")
 
-                    li.add(ng-init = 'share.showAddOne = false', ng-click = 'share.showAddOne = !share.showAddOne')
+                    li.add(ng-init = 'share.showAddOne = false', ng-click = 'share.showAddOne = !share.showAddOne', ng-if = "share.user_role =='owner'")
                         i.fa.fa-plus-circle
 
                 .add-container.col-md-6.col-md-offset-3(ng-if='share.showAddOne')

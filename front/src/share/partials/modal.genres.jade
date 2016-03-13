@@ -2,20 +2,18 @@ div(ng-switch="modal.modalMode", ng-init = 'modal.loading = false')
     .modal-content(ng-switch-when="choose")
         .modal-header
             button.close(ng-click = 'modal.close()') &times;
-            .buttons
-                button.btn.btn-success(ng-disabled = "modal.selectedGenres.length == 0", ng-click="modal.rankGenres()") Next
             h3 Select up to 3 music genres
         .modal-body.genre-container
             .col-md-2.col-sm-4(ng-repeat = '(key,value) in modal.genres')
                 h4 {{ key }}
                 button.genre(ng-click="modal.toggleSelect($event, genre)" ng-repeat="genre in value") {{ genre }}
 
+        .modal-footer
+            button.btn.btn-success(ng-disabled = "modal.selectedGenres.length == 0", ng-click="modal.rankGenres()") Next
+
     .modal-content(ng-switch-when="rank")
         .modal-header
             button.close(ng-click = 'modal.close()') &times;
-            .buttons
-                button.btn.btn-danger(ng-click="modal.cleanGenres()") Back
-                button.btn.btn-success(ng-click="modal.sendArtists()") Add
             h3 Choose Artists to Add
 
         .modal-body.genre-container.clearfix.rank(ng-if = 'modal.loading == false')
@@ -39,6 +37,10 @@ div(ng-switch="modal.modalMode", ng-init = 'modal.loading = false')
                                 .thumbnail
                                     img(ng-src='{{artist.artist.picture}}')
                                 span {{ artist.artist.name }}
+
+        .modal-footer
+            button.btn.btn-danger(ng-click="modal.cleanGenres()") Back
+            button.btn.btn-success(ng-click="modal.sendArtists()") Add
 
         .modal-body.genre-container(ng-if = 'modal.loading == true')
             i.fa.fa-gear.fa-spin

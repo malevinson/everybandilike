@@ -1,6 +1,6 @@
 .modal-content(ng-init = 'modal.signup = true')
     .modal-header
-        h4.modal-title Join to share!
+        i.fa.fa-lock
     .modal-body
         form.form-signup(method="post", ng-submit="modal.signUp()", name="signupForm", ng-model="formSignup", ng-if="modal.signup")
 
@@ -35,10 +35,10 @@
             | Already signed up by email?&nbsp
             a(ng-click = "modal.signup = false") LOG IN
 
-        button.btn.social.twitter
+        button.btn.social.twitter(ng-click="modal.authenticate('twitter')")
             i.fa.fa-twitter
             | Join with Twitter
-        button.btn.social.facebook
+        button.btn.social.facebook(ng-click="modal.authenticate('facebook')")
             i.fa.fa-facebook
             | Join with Facebook
 
