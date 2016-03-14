@@ -21,13 +21,7 @@ nav.navbar
                         li: a(ng-click='share.logout()')
                             span.color-red Logout
 
-.main.container(ng-if = '!share.started')
-    h2 Awesome headline to show how it is awesome to use ebil!
-    btn.btn.btn-success(ng-click = 'share.started = true')
-        i.fa.fa-check
-        | Start!
-
-.main.container(ng-show = 'share.loaded && share.started')
+.main.container(ng-show = 'share.loaded')
     .row
         .col-sm-4.col-xs-12.left
             btn.btn.btn-danger.btn-add(ng-click='share.addGenres()', ng-if = "share.user_role =='owner'")

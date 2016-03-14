@@ -10,8 +10,6 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
     self.user = $auth.provider.user;
     self.$auth = $auth;
     self.location = $location;
-    self.started = false;
-
 
     if ($auth.provider.isAuthenticated()) {
         self.share_link = $location.$$protocol + '://' + $location.$$host + '/' + self.user._id;
@@ -45,8 +43,6 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
             self.user_role = 'viewer';
         }
 
-        self.started = true;
-
         // if user is authenticated and we have id in url
         RatingService
             .get($stateParams.id)
@@ -64,7 +60,6 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
             .get(self.user._id)
             .then(function (result) {
                 if (result.length == 0) {
-                    self.started = false;
                     self.addGenres();
                 }
                 result.forEach(function (el) {
@@ -76,7 +71,6 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
     } else if (!$auth.provider.isAuthenticated() && $stateParams.id) {
         self.user_role = 'viewer';
         // if user not authenticated and we have id in url we getting data from db for user that is in url
-        self.started = true;
         RatingService
             .get($stateParams.id)
             .then(function (result) {
@@ -92,10 +86,8 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         // if user not authenticated and we DON'T have id in url we getting data from localstorage
         var result = Storage.get('artists');
         if (result == null) {
-            self.started = false;
             self.addGenres();
         } else {
-            self.started = true;
             result.forEach(function (el) {
                 self.artists[arrayName(el.ratingGiven)].push(el);
             });
@@ -178,7 +170,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
     });
 
     $rootScope.$on('auth:logout', function(e){
-        $rootScope.$state.go('share', { id : '' });
+        $rootScope.$state.go('share', { id : '' }); 
     });
 
     self.remove = (artist, array) => {
