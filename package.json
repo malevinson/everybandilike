@@ -12,7 +12,6 @@
     "debug": "*",
     "dotenv": "*",
     "express": "*",
-    "express-sslify": "^1.0.1",
     "gulp": "*",
     "gulp-babel": "5.3.*",
     "gulp-concat": "*",
