@@ -57,6 +57,13 @@ function ModalLoginController($rootScope, artists, $auth, $uibInstance, toastr, 
                 self.Authentication.provider.setUser(user);
                 toastr.success(`Welcome!`, 'Success');
 
+                if (artists) {
+                    artists.forEach(function (artist) {
+                        $rootScope.$broadcast('rating:add', artist, user._id);
+                    });
+                }
+                Storage.remove('artists'); 
+
                 $rootScope.$broadcast('auth:login');
                 $rootScope.$state.go('share', { id : user._id });
 

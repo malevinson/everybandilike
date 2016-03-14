@@ -170,7 +170,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
     });
 
     $rootScope.$on('auth:logout', function(e){
-        $rootScope.$state.go('share', { id : '' }); 
+        $rootScope.$state.go('share', { id : '' });
     });
 
     self.remove = (artist, array) => {
