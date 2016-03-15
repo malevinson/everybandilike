@@ -60,7 +60,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
             .get(self.user._id)
             .then(function (result) {
                 if (result.length == 0) {
-                    self.addGenres();
+                    //
                 }
                 result.forEach(function (el) {
                     self.artists[arrayName(el.ratingGiven)].push(el);
@@ -86,7 +86,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         // if user not authenticated and we DON'T have id in url we getting data from localstorage
         var result = Storage.get('artists');
         if (result == null) {
-            self.addGenres();
+            //
         } else {
             result.forEach(function (el) {
                 self.artists[arrayName(el.ratingGiven)].push(el);
@@ -213,7 +213,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         });
     };
 
-    self.share = () => {
+    $rootScope.share = () => {
         $uibModal.open({
             animation: true,
             templateUrl: '/share/partials/modal.share.html',
@@ -227,6 +227,18 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
                     return self.share_link;
                 }
             }
+        });
+    };
+
+    self.upgrade = () => {
+        $uibModal.open({
+            animation: true,
+            templateUrl: '/share/partials/modal.upgrade.html',
+            controller: 'ModalUpgradeController',
+            controllerAs : 'modal',
+            size: 'sm',
+            keyboard: false,
+            windowClass: 'upgrade'
         });
     };
 

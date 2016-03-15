@@ -26,7 +26,14 @@ body.share {
         border-right: 1px solid rgba(0,0,0,0.2);
       }
 
-      &.btn-add { float: left; }
+      &.btn-add {
+        float: left;
+        background-color: #777 !important;
+        color: #fff; 
+        &:hover {
+          background-color: darken(#777, 15%);
+        }
+      }
 
       &.btn-danger {
         background-color: @primary-color;
@@ -38,7 +45,7 @@ body.share {
       }
     }
     .social-btn .btn {
-      margin-bottom: 10px;
+      margin: 0 5px 5px 5px;
       float: right;
       color: #fff;
       overflow: hidden;
@@ -63,7 +70,8 @@ body.share {
         margin: 3px 0;
       }
       .social-btn .btn {
-        width: 50%;
+        width: 100%;
+        margin: 0 0 5px 0;
       }
     }
 
@@ -123,10 +131,10 @@ body.share {
             width: auto;
             .fa {
               line-height: 90px;
-              font-size: 26px;
+              font-size: 52px;
               float: left;
               cursor: pointer;
-              color: @primary-color;
+              color: #4c4c4c;
               &:hover {
                 color: @primary-color-darken;
               }

@@ -4,7 +4,16 @@ nav.navbar
             img(src='images/logo_ebl.png', height='30')
             .beta BETA
 
+        .nav.nav-center
+            btn.btn.btn-danger(ng-if = 'share.user', ng-click = 'share.upgrade()')
+                i.fa.fa-level-up
+                | Get Custom Url
+
         .nav-right
+            btn.btn.btn-danger(ng-if = "share.user_role =='owner' && !share.user", ng-click = 'share.login()')
+                i.fa.fa-share-alt-square
+                | Join to Share or Save
+
             ul.nav.navbar-nav.navbar-right(ng-if = 'share.user')
                 li.dropdown(uib-dropdown)
                     a.dropdown-toggle(uib-dropdown-toggle)
@@ -24,23 +33,20 @@ nav.navbar
 .main.container(ng-show = 'share.loaded')
     .row
         .col-sm-4.col-xs-12.left
-            btn.btn.btn-danger.btn-add(ng-click='share.addGenres()', ng-if = "share.user_role =='owner'")
+            btn.btn.btn-add(ng-click='share.addGenres()', ng-if = "share.user_role =='owner'")
                 i.fa.fa-plus
                 | Add Artist by Genre
 
         .col-sm-4.col-xs-12
-            btn.btn.btn-danger(ng-if = "share.user_role =='owner' && !share.user", ng-click = 'share.login()')
-                i.fa.fa-share-alt-square
-                | Join to Share or Save
-            btn.btn.btn-danger(ng-if = 'share.user', ng-click = 'share.share()')
-                i.fa.fa-share-alt-square
-                | Share it with your friends
-
             btn.btn.btn-danger(ng-if = "share.user_role =='viewer' && !share.user", ui-sref = "share({ id: ''})")
                 i.fa.fa-share-alt-square
                 | Create your own collection
 
-        .col-sm-4.col-xs-12.social-btn(ng-if = "share.user_role =='owner'")
+        .col-sm-4.col-xs-12.social-btn(ng-if = "share.user_role =='owner' && share.user")
+            //btn.btn.btn-danger(ng-if = 'share.user', ng-click = 'share.share()')
+            //    i.fa.fa-share-alt-square
+            //    | Get Shareable Link
+
             btn.btn.facebook(socialshare, socialshare-provider="facebook",
                              socialshare-via="{{CONFIG.facebook_id}}",
                              socialshare-text="Check out my music collection!",
@@ -48,7 +54,6 @@ nav.navbar
                              socialshare-url="{{ share.share_link }}")
                 i.fa.fa-facebook
                 | Share on Facebook
-
             btn.btn.twitter(socialshare, socialshare-provider="twitter",
                             socialshare-hashtags="ebil, everybandilike, streamfeed",
                             socialshare-text="Checkout my music collection!",
@@ -56,7 +61,7 @@ nav.navbar
                 i.fa.fa-twitter
                 | Share on Twitter
 
-        .col-sm-4.col-xs-12.social-btn(ng-if = "share.user_role =='viewer'")
+        .col-sm-4.col-xs-12.social-btn(ng-if = "share.user_role =='viewer' && share.user")
             btn.btn.facebook(socialshare, socialshare-provider="facebook",
             socialshare-via="{{CONFIG.facebook_id}}",
             socialshare-text="Check out this awesome site!",
@@ -69,6 +74,15 @@ nav.navbar
             socialshare-hashtags="ebil, everybandilike, streamfeed",
             socialshare-text="Checkout checkout this awesome site!",
             socialshare-url="{{ share.share_link }}")
+                i.fa.fa-twitter
+                | Share on Twitter
+
+        .col-sm-4.col-xs-12.social-btn(ng-if = "!share.user")
+            btn.btn.facebook(ng-click = 'share.login()')
+                i.fa.fa-facebook
+                | Share on Facebook
+
+            btn.btn.twitter(ng-click = 'share.login()')
                 i.fa.fa-twitter
                 | Share on Twitter
 
