@@ -213,7 +213,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         });
     };
 
-    $rootScope.share = () => {
+    self.share = $rootScope.share = () => {
         $uibModal.open({
             animation: true,
             templateUrl: '/share/partials/modal.share.html',
