@@ -165,14 +165,6 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         self.artists[arrayName(artist.ratingGiven)].push(artist);
     });
 
-    $rootScope.$on('auth.login', function(e){
-
-    });
-
-    $rootScope.$on('auth:logout', function(e){
-        $rootScope.$state.go('share', { id : '' });
-    });
-
     self.remove = (artist, array) => {
         var sIndex = self.artists[array].indexOf(artist);
 
@@ -245,7 +237,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
     this.logout = function () {
         $auth.provider.logout()
             .then(function() {
-                $rootScope.$broadcast('auth:logout');
+                $rootScope.$state.go('share', { id : '' }, { reload: true });
                 toastr.warning('Logged out!', 'Success');
 
             })

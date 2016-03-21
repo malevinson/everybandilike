@@ -45,9 +45,10 @@ class SpotifyService {
     searchArtist(artist_name) {
         return $q(function (resolve, reject) {
             $http
-                .get(`${CONFIG.api_url}/thirdPartyApi/spotifySearchArtist`, {
+                .get(`https://api.spotify.com/v1/search`, {
                     params: {
-                        param: artist_name
+                        type : 'artist',
+                        q: artist_name
                     }
                 })
                 .success(function (data) {
