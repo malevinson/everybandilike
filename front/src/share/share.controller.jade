@@ -14,6 +14,10 @@ nav.navbar
                 i.fa.fa-share-alt-square
                 | Join to Share or Save
 
+            btn.btn.btn-danger(ng-if = "share.user_role =='viewer' && !share.user", ui-sref = "share({ id: ''})")
+                i.fa.fa-share-alt-square
+                | Create your own collection
+
             ul.nav.navbar-nav.navbar-right(ng-if = 'share.user')
                 li.dropdown(uib-dropdown)
                     a.dropdown-toggle(uib-dropdown-toggle)
@@ -38,9 +42,6 @@ nav.navbar
                 | Add Artist by Genre
 
         .col-sm-4.col-xs-12
-            btn.btn.btn-danger(ng-if = "share.user_role =='viewer' && !share.user", ui-sref = "share({ id: ''})")
-                i.fa.fa-share-alt-square
-                | Create your own collection
 
         .col-sm-4.col-xs-12.social-btn(ng-if = "share.user_role =='owner' && share.user")
             btn.btn.btn-danger(ng-if = 'share.user', ng-click = 'share.share()')
@@ -55,8 +56,8 @@ nav.navbar
                 i.fa.fa-facebook
                 | Share on Facebook
             btn.btn.twitter(socialshare, socialshare-provider="twitter",
-                            socialshare-hashtags="ebil, everybandilike, streamfeed",
-                            socialshare-text="Checkout my music collection! @everybandilike" ,
+                            socialshare-hashtags="everybandilike",
+                            socialshare-text="Checkout my music collection! @everybandilike",
                             socialshare-url="{{ share.share_link }}")
                 i.fa.fa-twitter
                 | Share on Twitter

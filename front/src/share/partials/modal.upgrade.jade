@@ -4,15 +4,14 @@ div(ng-switch="modal.modalMode")
     .modal-content(ng-switch-when="upgrade")
         .modal-body.clearfix
             .plan
-                p.title Get shareable link
+                p.title Personalized Your Url
                 p.price $0.99
-                span monthly
                 br
                 btn.btn.btn-danger.btn-purchase(ng-click = "modal.modalMode = 'caught'") Purchase
 
     .modal-content(ng-switch-when="caught")
         .modal-body
             p You caught us before feature is ready!
-            p For now, enjoy this for free :)
+            p Coming Soon
         .modal-footer
             btn.btn.btn-danger(ng-click = "modal.close(); share()") OK
