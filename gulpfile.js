@@ -71,7 +71,8 @@ gulp.task('jade', function() {
                     api_url : process.env.API_URL,
                     facebook_id : process.env.FACEBOOK_ID,
                     facebook_secret : process.env.FACEBOOK_SECRET,
-                    ga_id : process.env.GA_ID
+                    ga_id : process.env.GA_ID,
+                    heap_id : process.env.HEAP_ID
                 }
             }
         }))
@@ -113,7 +114,7 @@ gulp.task('js-app', function() {
         .pipe(wrap("\n(function(){\n<%= contents %>\n})();"))
         .pipe(babel({}))
         .pipe(concat('all.js'))
-        //.pipe(gulpif(argv.minify, uglify()))
+        .pipe(gulpif(argv.minify, uglify()))
         .pipe(gulp.dest('front/dist/js/'))
 });
 
@@ -122,7 +123,7 @@ gulp.task('js-libs', function() {
         .src(paths.libs)
         .pipe(sourcemaps.init())
         .pipe(concat('vendor.js'))
-        //.pipe(gulpif(argv.minify, uglify()))
+        .pipe(gulpif(argv.minify, uglify()))
         .pipe(gulp.dest('front/dist/js/'));
 });
 
