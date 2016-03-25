@@ -16,15 +16,6 @@ function AuthenticationProvider() {
             initialize() {
                 var self = this;
                 self.user = Storage.get('user');
-
-                heap.identify({
-                    email: self.user.email,
-                    user_id : self.user._id,
-                    name: self.user.first_name + ' ' + (self.user.last_name ? self.user.last_name : ''),
-
-                    twitter_id: self.user.twitterId,
-                    facebook_id: self.user.facebookId
-                });
             }
 
             setUser(user) {
