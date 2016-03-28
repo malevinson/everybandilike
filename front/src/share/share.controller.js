@@ -165,9 +165,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         self.artists[arrayName(artist.ratingGiven)].push(artist);
     });
 
-    self.remove = (artist, array) => {
-        var sIndex = self.artists[array].indexOf(artist);
-
+    self.remove = (artist, array, $index) => {
         if (!$auth.provider.isAuthenticated()) {
             var artists = Storage.get('artists');
             artists.forEach(function(el, i){
@@ -177,13 +175,13 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
             });
             Storage.set('artists', artists);
 
-            self.artists[array].splice(sIndex, 1);
+            self.artists[array].splice($index, 1);
 
         } else {
             RatingService
                 .remove(self.user._id, artist)
                 .then(function(){
-                    self.artists[array].splice(sIndex, 1);
+                    self.artists[array].splice($index, 1);
                 });
         }
     };

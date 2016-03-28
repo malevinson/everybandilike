@@ -97,10 +97,10 @@ nav.navbar
                 ul.clearfix
                     li(ng-repeat="artist in share.artists.three track by $index")
                         .thumbnail
-                            img(ng-src='{{ ::artist.artist.picture }}', alt='figure')
-                        span.name {{ ::artist.artist.name }}
+                            img(ng-src='{{ artist.artist.picture }}', alt='figure')
+                        span.name {{ artist.artist.name }}
                         .hover(ng-if = "share.user_role =='owner'")
-                            i.fa.fa-times(ng-click="share.remove(artist, 'three')")
+                            i.fa.fa-times(ng-click="share.remove(artist, 'three', $index)")
 
                     li.add(ng-init = 'share.showAddThree = false', ng-click = 'share.showAddThree = !share.showAddThree', ng-if = "share.user_role =='owner'")
                         i.fa.fa-plus
@@ -118,10 +118,10 @@ nav.navbar
                 ul.clearfix
                     li(ng-repeat="artist in share.artists.two track by $index")
                         .thumbnail
-                            img(ng-src='{{ ::artist.artist.picture }}', alt='figure')
-                        span.name {{ ::artist.artist.name }}
+                            img(ng-src='{{ artist.artist.picture }}', alt='figure')
+                        span.name {{ artist.artist.name }}
                         .hover(ng-if = "share.user_role =='owner'")
-                            i.fa.fa-times(ng-click="share.remove(artist, 'two')")
+                            i.fa.fa-times(ng-click="share.remove(artist, 'two', $index)")
 
                     li.add(ng-init = 'share.showAddTwo = false', ng-click = 'share.showAddTwo = !share.showAddTwo', ng-if = "share.user_role =='owner'")
                         i.fa.fa-plus
@@ -138,10 +138,10 @@ nav.navbar
                 ul.clearfix
                     li(ng-repeat="artist in share.artists.one track by $index")
                         .thumbnail
-                            img(ng-src='{{ ::artist.artist.picture }}', alt='figure')
-                        span.name {{ ::artist.artist.name }}
+                            img(ng-src='{{ artist.artist.picture }}', alt='figure')
+                        span.name {{ artist.artist.name }}
                         .hover(ng-if = "share.user_role =='owner'")
-                            i.fa.fa-times(ng-click="share.remove(artist, 'one')")
+                            i.fa.fa-times(ng-click="share.remove(artist, 'one', $index)")
 
                     li.add(ng-init = 'share.showAddOne = false', ng-click = 'share.showAddOne = !share.showAddOne', ng-if = "share.user_role =='owner'")
                         i.fa.fa-plus
