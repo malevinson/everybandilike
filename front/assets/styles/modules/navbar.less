@@ -31,6 +31,20 @@ body.share nav {
     }
   }
 
+  .navbar-toggle {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border-color: #ddd;
+    margin: 0;
+    &:hover {
+      background-color: #ddd;
+    }
+    .icon-bar {
+      background-color: #888;
+    }
+  }
+
   .nav-center {
     text-align: center;
     position: absolute;
@@ -65,8 +79,9 @@ body.share nav {
   }
 
   .nav-right {
-    margin: 0 15px;
+    margin: 0;
     float: right;
+    text-align: center;
     li {
       list-style: none;
       a:hover {
@@ -111,6 +126,36 @@ body.share nav {
           color: #fff;
         }
       }
+    }
+
+    .sml {
+      margin: 10px;
+      .uib-dropdown-menu {
+        width: 100%;
+        li a {
+          display: block;
+          padding: 3px 20px;
+          clear: both;
+          font-weight: normal;
+          line-height: 1.42857143;
+          color: #333333;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: @screen-sm) {
+    .navbar-header {
+      margin: 0 50%;
+      transform: translateX(-50%);
+    }
+    .nav-center {
+      top: 50px;
+    }
+    .nav-right {
+      width: 100%;
+      margin-top: 42px;
     }
   }
 }

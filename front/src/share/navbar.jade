@@ -1,0 +1,55 @@
+nav.navbar
+    .container(ng-init = 'showMenu = false')
+        .navbar-header
+            img(src='images/logo_ebl.png', height='30')
+            .beta BETA
+
+        button.navbar-toggle.visible-xs(ng-click='showMenu = !showMenu', ng-show = 'share.user')
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+
+
+        .nav.nav-center
+            btn.btn.btn-danger(ng-if = "share.user_role =='owner' && share.user", ng-click = 'share.upgrade()')
+                i.fa.fa-level-up
+                | Get Custom Link
+
+        .nav-right
+            btn.btn.btn-danger(ng-if = "share.user_role =='owner' && !share.user", ng-click = 'share.login()')
+                i.fa.fa-share-alt-square
+                | Join to Share or Save
+
+            btn.btn.btn-danger(ng-if = "share.user_role =='viewer' && !share.user", ui-sref = "share({ id: ''})")
+                i.fa.fa-share-alt-square
+                | Create your own collection
+
+            ul.nav.navbar-nav.navbar-right.hidden-xs(ng-if = 'share.user')
+                li.dropdown(uib-dropdown)
+                    a.dropdown-toggle(uib-dropdown-toggle)
+                        img.avatar(ng-src='{{ share.user.picture }}')
+                        span {{ share.user.first_name ? share.user.first_name : share.user.email }} {{ share.user.last_name }}
+                        span.caret
+
+                    ul.uib-dropdown-menu(uib-dropdown-menu)
+                        li: a(ui-sref='share({ id : share.user._id })') My Collection
+                        li: a(href = 'https://beta.streamfeed.fm', target='_blank') Streamfeed
+
+                        li.divider
+
+                        li: a(ng-click='share.logout()')
+                            span.color-red Logout
+
+            ul.nav.navbar-nav.navbar-right.sml.visible-xs(ng-show = 'share.user && showMenu')
+                a.dropdown-toggle
+                    img.avatar(ng-src='{{ share.user.picture }}')
+                    span {{ share.user.first_name ? share.user.first_name : share.user.email }} {{ share.user.last_name }}
+
+                ul.uib-dropdown-menu
+                    li: a(ui-sref='share({ id : share.user._id })') My Collection
+                    li: a(href = 'https://beta.streamfeed.fm', target='_blank') Streamfeed
+
+                    li.divider
+
+                    li: a(ng-click='share.logout()')
+                        span.color-red Logout
