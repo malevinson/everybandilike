@@ -3,53 +3,50 @@
 /* ==========================================================================
    Menu
    ========================================================================== */
-body.share nav {
+body.share .navbar {
   background: #fff;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
   border-radius: 0;
   margin: 0;
+  .container {
 
+  }
   .navbar-header {
-    padding: 12px;
-    position: relative;
-    float: left;
-
-    .beta {
-      font-family: sans-serif;
-      background-color: #f04d4e;
-      color: #fff;
-      -webkit-transform: rotate(15deg);
-      -moz-transform: rotate(15deg);
-      -o-transform: rotate(15deg);
-      display: inline-block;
-      font-size: 13px;
-      border-radius: 4px;
+    .navbar-toggle {
       position: absolute;
-      top: 7px;
-      left: 170px;
-      padding: 0 3px;
+      right: 10px;
+      top: 10px;
+      border-color: #ddd;
+      margin: 0;
+      &:hover {
+        background-color: #ddd;
+      }
+      .icon-bar {
+        background-color: #888;
+      }
     }
-  }
 
-  .navbar-toggle {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    border-color: #ddd;
-    margin: 0;
-    &:hover {
-      background-color: #ddd;
-    }
-    .icon-bar {
-      background-color: #888;
-    }
-  }
+    .brand {
+      padding: 12px;
+      position: relative;
+      float: left;
 
-  .nav-center {
-    text-align: center;
-    position: absolute;
-    left: 0;
-    right: 0;
+      .beta {
+        font-family: sans-serif;
+        background-color: #f04d4e;
+        color: #fff;
+        -webkit-transform: rotate(15deg);
+        -moz-transform: rotate(15deg);
+        -o-transform: rotate(15deg);
+        display: inline-block;
+        font-size: 13px;
+        border-radius: 4px;
+        position: absolute;
+        top: 7px;
+        left: 170px;
+        padding: 0 3px;
+      }
+    }
   }
 
   .btn-danger {
@@ -78,10 +75,19 @@ body.share nav {
     }
   }
 
-  .nav-right {
+  .nav-center {
+    text-align: center;
+  }
+
+  .navbar-collapse {
     margin: 0;
     float: right;
     text-align: center;
+    overflow: hidden;
+    @media screen and (max-width: @screen-md) {
+      width: 100%;
+    }
+
     li {
       list-style: none;
       a:hover {
@@ -121,41 +127,11 @@ body.share nav {
             transition: ease-out 0.15s;
           }
         }
-        &.active a{
+        &.active a {
           background: #000000;
           color: #fff;
         }
       }
-    }
-
-    .sml {
-      margin: 10px;
-      .uib-dropdown-menu {
-        width: 100%;
-        li a {
-          display: block;
-          padding: 3px 20px;
-          clear: both;
-          font-weight: normal;
-          line-height: 1.42857143;
-          color: #333333;
-          white-space: nowrap;
-        }
-      }
-    }
-  }
-
-  @media screen and (max-width: @screen-sm) {
-    .navbar-header {
-      margin: 0 50%;
-      transform: translateX(-50%);
-    }
-    .nav-center {
-      top: 50px;
-    }
-    .nav-right {
-      width: 100%;
-      margin-top: 42px;
     }
   }
 }
