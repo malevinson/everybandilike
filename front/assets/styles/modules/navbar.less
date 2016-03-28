@@ -77,6 +77,12 @@ body.share .navbar {
 
   .nav-center {
     text-align: center;
+
+    @media screen and (min-width: @screen-sm) {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 
   .navbar-collapse {
@@ -84,7 +90,7 @@ body.share .navbar {
     float: right;
     text-align: center;
     overflow: hidden;
-    @media screen and (max-width: @screen-md) {
+    @media screen and (max-width: @screen-sm) {
       width: 100%;
     }
 
