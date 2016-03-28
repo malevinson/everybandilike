@@ -26,7 +26,7 @@ nav.navbar
                         span.caret
 
                     ul.uib-dropdown-menu(uib-dropdown-menu)
-                        li: a(href='mailto:everybandilike@gmail.com') Contact Us
+                        li: a(ui-sref='share({ id : share.user._id })') My Collection
                         li: a(href = 'https://beta.streamfeed.fm', target='_blank') Streamfeed
 
                         li.divider
@@ -34,7 +34,7 @@ nav.navbar
                         li: a(ng-click='share.logout()')
                             span.color-red Logout
 
-.main.container(ng-show = 'share.loaded')
+.main.container(ng-show = 'share.loaded', resize)
     .row
         .col-sm-4.col-xs-12.left.hidden-xs
             btn.btn.btn-add(ng-click='share.addGenres()', ng-if = "share.user_role =='owner'")

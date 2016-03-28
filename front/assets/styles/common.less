@@ -194,7 +194,6 @@ a:hover{ cursor: pointer; }
   }
 }
 
-
 /* ==========================================================================
    Olark form
    ========================================================================== */
@@ -214,5 +213,51 @@ body.login #habla_window_state_div {
     .habla_offline_submit_input {
       background-color: @primary-color !important;
     }
+  }
+}
+
+/* ==========================================================================
+   Olark form
+   ========================================================================== */
+footer {
+  width: 100%;
+  padding: 0 20px;
+  position: absolute;
+  bottom: 0;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  ul {
+    margin: 0;
+    @media screen and (max-width: @screen-md) {
+      margin-bottom: 32px;
+    }
+    li {
+      display: inline;
+      margin: 0 10px;
+      a {
+        font-size: 13px;
+        text-transform: uppercase;
+        font-weight: bold;
+        line-height: 50px;
+        color: #525252;
+        &:hover {
+          text-decoration: none;
+          color: @primary-color;
+        }
+        .fa {
+          line-height: 50px;
+          font-size: 14px;
+          margin-left: 3px;
+          &.fa-twitter-square {
+            color: @twitter-color;
+          }
+          &.fa-facebook-square {
+            color: @facebook-color;
+          }
+        }
+      }
+    }
+
   }
 }

@@ -13,6 +13,16 @@ html(ng-app="ebil", ng-cloak, ng-strict-di)
     body(ng-class = "$state.current.name|expandState")
         main(ui-view)
 
+        footer
+            ul
+                li: a(href='mailto:everybandilike@gmail.com') Contact Us
+                li: a(href='http://streamfeed.fm/') Try STREAMFEED
+
+                li: a(href="https://www.facebook.com/everybandilike/" target="_blank") Like us
+                    i.fa.fa-facebook-square
+                li: a(href="https://twitter.com/everybandilike" target="_blank") Follow us
+                    i.fa.fa-twitter-square
+
         script(type="text/javascript").
             var CONFIG = !{ JSON.stringify(config) };
 
