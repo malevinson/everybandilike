@@ -14,7 +14,9 @@ html(ng-app="ebil", ng-cloak, ng-strict-di)
         main(ui-view)
 
         footer
-            ul
+            ul.pull-left
+                li: a.non-link The simplest way to share your favorite bands with a link.
+            ul.pull-right
                 li: a(href='mailto:everybandilike@gmail.com') Contact Us
                 li: a(href = 'http://streamfeed.fm/', target='_blank') Try STREAMFEED
 

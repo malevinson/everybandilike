@@ -8,10 +8,20 @@ body.share {
 
   .main {
     text-align: center;
-    height: 100%;
-    padding: 30px 15px;
     overflow: hidden;
     overflow-y: scroll;
+    width: 100%;
+    padding: 30px 7%;
+    height: calc(~"100% - 108px");
+
+    .popover {
+      text-align: center;
+      .btn {
+        text-transform: uppercase;
+        padding: 6px 12px;
+      }
+    }
+
     .left {
       text-align: left;
     }
@@ -63,6 +73,13 @@ body.share {
         color: #fff;
         &:hover {
           background-color: darken(@facebook-color, 15%);
+        }
+      }
+      &.instagram {
+        background-color: @instagram-color;
+        color: #fff;
+        &:hover {
+          background-color: darken(@instagram-color, 15%);
         }
       }
     }

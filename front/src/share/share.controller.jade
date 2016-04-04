@@ -1,6 +1,6 @@
 include ./navbar.jade
 
-.main.container(ng-show = 'share.loaded', resize)
+.main.container(ng-show = 'share.loaded')
     .row
         .col-sm-4.col-xs-12.left.hidden-xs
             btn.btn.btn-add(ng-click='share.addGenres()', ng-if = "share.user_role =='owner'")
@@ -27,6 +27,9 @@ include ./navbar.jade
                             socialshare-url="{{ share.share_link }}")
                 i.fa.fa-twitter
                 | Share on Twitter
+            btn.btn.instagram()
+                i.fa.fa-instagram
+                | Share on Instagram
 
         .col-sm-4.col-xs-12.social-btn(ng-if = "share.user_role =='viewer' && share.user")
             btn.btn.facebook(socialshare, socialshare-provider="facebook",
@@ -43,6 +46,9 @@ include ./navbar.jade
             socialshare-url="{{ share.share_link }}")
                 i.fa.fa-twitter
                 | Share on Twitter
+            btn.btn.instagram()
+                i.fa.fa-instagram
+                | Share on Instagram
 
         .col-sm-4.col-xs-12.social-btn(ng-if = "!share.user")
             btn.btn.facebook(ng-click = 'share.login()')
@@ -53,9 +59,13 @@ include ./navbar.jade
                 i.fa.fa-twitter
                 | Share on Twitter
 
+            btn.btn.instagram()
+                i.fa.fa-instagram
+                | Share on Instagram
+
     .row
         .col-md-12
-            .artists.row
+            .artists.row(uib-popover-template='share.popover.template', popover-is-open= 'share.popover.show', popover-placement='top', popover-trigger='none')
                 i.icon-heart-red
                 i.icon-heart-red
                 i.icon-heart-red

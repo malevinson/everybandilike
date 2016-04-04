@@ -9,20 +9,29 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
 
     self.user = $auth.provider.user;
     self.$auth = $auth;
-    self.location = $location;
-
+    self.loaded = false;
     if ($auth.provider.isAuthenticated()) {
         self.share_link = $location.$$protocol + '://' + $location.$$host + '/' + self.user._id;
+        if (!self.user.tour) {
+            console.log('tour');
+        }
     }
 
-    self.loaded = false;
+    self.popover = {
+        template: '/share/partials/popover.html',
+        show: ((self.user && self.user.tour) ? false : true)
+    };
+
+    self.finishTour = () => {
+        self.popover.show = false;
+        self.$auth.provider.update({ tour : true });
+    };
+
     self.artists = {
         one : [],
         two : [],
         three : []
     };
-
-    self.viewedUser = user;
 
     self.addGenres = () => {
         $uibModal.open({
