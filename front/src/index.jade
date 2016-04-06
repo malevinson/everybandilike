@@ -13,7 +13,7 @@ html(ng-app="ebil", ng-cloak, ng-strict-di)
     body(ng-class = "$state.current.name|expandState")
         main(ui-view)
 
-        footer
+        footer.hidden-xs
             ul.pull-left
                 li: a.non-link The simplest way to share your favorite bands with a link.
             ul.pull-right

@@ -1,0 +1,56 @@
+.modal-header
+    btn.btn.btn-collapse(ng-click = 'vm.cancel()')
+        i.fa.fa-arrow-left
+
+.modal-body(ng-click = 'vm.cancel()')
+    btn.btn.btn-add.w-icon(ng-click='vm.addGenres()', ng-if = "vm.user_role =='owner'")
+        i.fa.fa-plus
+        | Add Artist by Genre
+
+    hr
+
+    .social-btn(ng-if = "vm.user_role =='owner' && vm.user")
+        btn.btn.btn-danger.w-icon(ng-if = 'vm.user', ng-click = 'vm.share()')
+            i.fa.fa-share-alt-square
+            | Get Shareable Link
+
+        hr
+
+        btn.btn.facebook.w-icon(socialshare, socialshare-provider="facebook",
+        socialshare-via="{{CONFIG.facebook_id}}",
+        socialshare-text="Check out my music collection!",
+        socialshare-redirect-uri="{{ vm.share_link }}",
+        socialshare-url="{{ vm.share_link }}")
+            i.fa.fa-facebook
+            | Share on Facebook
+        btn.btn.twitter.w-icon(socialshare, socialshare-provider="twitter",
+        socialshare-hashtags="everybandilike",
+        socialshare-text="Checkout my music collection! @everybandilike",
+        socialshare-url="{{ vm.share_link }}")
+            i.fa.fa-twitter
+            | Share on Twitter
+
+    .social-btn(ng-if = "!vm.user")
+        btn.btn.facebook.w-icon(ng-click = 'vm.login()')
+            i.fa.fa-facebook
+            | Share on Facebook
+
+        btn.btn.twitter.w-icon(ng-click = 'vm.login()')
+            i.fa.fa-twitter
+            | Share on Twitter
+
+    btn.btn.instagram.w-icon()
+        i.fa.fa-instagram
+        | Share on Instagram
+
+footer.modal-footer.visible-xs
+    ul
+        li: a(href='mailto:everybandilike@gmail.com') Contact Us
+        li: a(href = 'http://streamfeed.fm/', target='_blank') Try STREAMFEED
+
+        li: a(href="https://www.facebook.com/everybandilike/" target="_blank") Like us
+            i.fa.fa-facebook-square
+        li: a(href="https://twitter.com/everybandilike" target="_blank") Follow us
+            i.fa.fa-twitter-square
+
+        li: a.non-link The simplest way to share your favorite bands with a link.

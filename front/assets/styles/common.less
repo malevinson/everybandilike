@@ -107,20 +107,6 @@ p {
   line-height: 18px;
 }
 
-a:hover{ cursor: pointer; }
-
-.rating:focus {
-  outline: none;
-}
-
-.prm-clr {
-  color: @primary-color !important;
-}
-
-.pd-rgh {
-  padding-right: 5px;
-}
-
 /* ==========================================================================
    Loading Bar
    ========================================================================== */
@@ -147,73 +133,17 @@ a:hover{ cursor: pointer; }
 }
 
 /* ==========================================================================
-   Tour
-   ========================================================================== */
-.ng-joyride-title {
-  border-radius: 4px;
-  margin-left: 0;
-  overflow: hidden;
-  width: 70%;
-  left: 15%;
-  top: 15%;
-  .popover-title {
-    display: none;
-  }
-  .popover-content {
-    padding: 15px;
-    h2 {
-      color: @primary-color;
-      margin: 0 15%;
-      line-height: 34px;
-      text-align: center;
-    }
-    img {
-      width: 100%;
-      margin-top: 10px;
-    }
-    hr { display: none; }
-
-    .row {
-      position: absolute;
-      top: 15px;
-      width: 100%;
-      .skipBtn {
-        color: #777;
-        font-size: 13px;
-        text-decoration: none;
-        .glyphicon { display: none; }
-      }
-      .btn {
-        padding: 2px 4px;
-        margin: 6px 1px;
-        font-size: 12px;
-        border: 0;
-        &.nextBtn {
-          background-color: #03a9f4;
-          &:hover {
-            background-color: darken(#03a9f4, 5%);
-          }
-        }
-      }
-    }
-  }
-}
-
-/* ==========================================================================
    Olark form
    ========================================================================== */
-body.login #habla_window_state_div {
-  display: none;
+
+body #habla_window_state_div {
+  @media screen and (max-width: @screen-md) {
+    display: none;
+  }
 }
 
 #habla_window_div {
   bottom: 52px !important;
-  @media screen and (max-width: 999px) {
-    bottom: 104px !important;
-  }
-  @media screen and (max-width: 473px) {
-    visibility: hidden !important;
-  }
   #habla_panel_div {
     border-radius: 0;
 
@@ -229,6 +159,78 @@ body.login #habla_window_state_div {
 }
 
 /* ==========================================================================
+   Common Buttons Styles
+   ========================================================================== */
+.btn {
+  padding: 6px 12px 6px 12px;
+  position: relative;
+  transition: ease .2s;
+  margin: 5px;
+  overflow: hidden;
+  border: 0;
+  &.w-icon {
+    padding: 6px 12px 6px 42px;
+    .fa {
+      position: absolute;
+      left: 0;
+      top: 0;
+      line-height: 32px;
+      width: 30px;
+      border-right: 1px solid rgba(0,0,0,0.2);
+    }
+  }
+
+  &.btn-collapse {
+    padding: 0 13px;
+    width: auto;
+    margin: 0;
+    border: 1px solid #fff;
+
+    &:hover {
+      background-color: @primary-color-darken;
+      color: #fff;
+    }
+
+    .fa {
+      font-size: 20px;
+      line-height: 35px;
+    }
+  }
+
+  &.btn-danger {
+    background-color: @primary-color;
+    &:hover {
+      background-color: @primary-color-darken;
+    }
+  }
+
+  &.twitter {
+    background-color: @twitter-color;
+    color: #fff;
+    &:hover {
+      background-color: darken(@twitter-color, 15%);
+    }
+  }
+
+  &.facebook {
+    background-color: @facebook-color;
+    color: #fff;
+    &:hover {
+      background-color: darken(@facebook-color, 15%);
+    }
+  }
+
+  &.instagram {
+    background-color: @instagram-color;
+    color: #fff;
+    &:hover {
+      background-color: darken(@instagram-color, 15%);
+    }
+  }
+}
+
+
+/* ==========================================================================
    Footer
    ========================================================================== */
 footer {
@@ -237,9 +239,7 @@ footer {
   position: absolute;
   bottom: 0;
   background-color: #fff;
-  border-top: 1px solid #ddd;
   text-align: center;
-  z-index: 999999999;
   ul {
     margin: 0;
     li {
@@ -282,5 +282,4 @@ footer {
       line-height: 25px !important;
     }
   }
-
 }

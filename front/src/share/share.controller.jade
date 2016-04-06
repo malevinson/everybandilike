@@ -2,70 +2,8 @@ include ./navbar.jade
 
 .main.container(ng-show = 'share.loaded')
     .row
-        .col-sm-4.col-xs-12.left.hidden-xs
-            btn.btn.btn-add(ng-click='share.addGenres()', ng-if = "share.user_role =='owner'")
-                i.fa.fa-plus
-                | Add Artist by Genre
-
-        .col-sm-4.col-xs-12
-
-        .col-sm-4.col-xs-12.social-btn(ng-if = "share.user_role =='owner' && share.user")
-            btn.btn.btn-danger(ng-if = 'share.user', ng-click = 'share.share()')
-                i.fa.fa-share-alt-square
-                | Get Shareable Link
-
-            btn.btn.facebook(socialshare, socialshare-provider="facebook",
-                             socialshare-via="{{CONFIG.facebook_id}}",
-                             socialshare-text="Check out my music collection!",
-                             socialshare-redirect-uri="{{ share.share_link }}",
-                             socialshare-url="{{ share.share_link }}")
-                i.fa.fa-facebook
-                | Share on Facebook
-            btn.btn.twitter(socialshare, socialshare-provider="twitter",
-                            socialshare-hashtags="everybandilike",
-                            socialshare-text="Checkout my music collection! @everybandilike",
-                            socialshare-url="{{ share.share_link }}")
-                i.fa.fa-twitter
-                | Share on Twitter
-            btn.btn.instagram()
-                i.fa.fa-instagram
-                | Share on Instagram
-
-        .col-sm-4.col-xs-12.social-btn(ng-if = "share.user_role =='viewer' && share.user")
-            btn.btn.facebook(socialshare, socialshare-provider="facebook",
-            socialshare-via="{{CONFIG.facebook_id}}",
-            socialshare-text="Check out this awesome site!",
-            socialshare-redirect-uri="{{ share.share_link }}",
-            socialshare-url="{{ share.share_link }}")
-                i.fa.fa-facebook
-                | Share on Facebook
-
-            btn.btn.twitter(socialshare, socialshare-provider="twitter",
-            socialshare-hashtags="ebil, everybandilike, streamfeed",
-            socialshare-text="Checkout checkout this awesome site!",
-            socialshare-url="{{ share.share_link }}")
-                i.fa.fa-twitter
-                | Share on Twitter
-            btn.btn.instagram()
-                i.fa.fa-instagram
-                | Share on Instagram
-
-        .col-sm-4.col-xs-12.social-btn(ng-if = "!share.user")
-            btn.btn.facebook(ng-click = 'share.login()')
-                i.fa.fa-facebook
-                | Share on Facebook
-
-            btn.btn.twitter(ng-click = 'share.login()')
-                i.fa.fa-twitter
-                | Share on Twitter
-
-            btn.btn.instagram()
-                i.fa.fa-instagram
-                | Share on Instagram
-
-    .row
         .col-md-12
-            .artists.row(uib-popover-template='share.popover.template', popover-is-open= 'share.popover.show', popover-placement='top', popover-trigger='none')
+            .artists.row
                 i.icon-heart-red
                 i.icon-heart-red
                 i.icon-heart-red
@@ -78,7 +16,8 @@ include ./navbar.jade
                         .hover(ng-if = "share.user_role =='owner'")
                             i.fa.fa-times(ng-click="share.remove(artist, 'three', $index)")
 
-                    li.add(ng-init = 'share.showAddThree = false', ng-click = 'share.showAddThree = !share.showAddThree', ng-if = "share.user_role =='owner'")
+                    li.add(ng-init = 'share.showAddThree = false', ng-click = 'share.showAddThree = !share.showAddThree', ng-if = "share.user_role =='owner'",
+                           uib-popover-template='share.popover.template', popover-is-open= 'share.popover.show', popover-placement='bottom', popover-trigger='none')
                         i.fa.fa-plus
 
                 .add-container.col-md-6.col-md-offset-3(ng-if='share.showAddThree')
