@@ -1,4 +1,4 @@
-var debug = require('debug')('streamfeed:services:rating');
+var debug = require('debug')('ebil:services:rating');
 
 var Q = require('q');
 var Rating = require('./../models/rating');

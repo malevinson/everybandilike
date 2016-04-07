@@ -1,10 +1,9 @@
-var debug = require('debug')('streamfeed:services:artist');
+var debug = require('debug')('ebil:services:artist');
 
 var Q = require('q');
 var User = require('./../models/user');
 var Artist = require('./../models/artist');
 var userService = require('./user');
-var SpotifyService = require('./spotify.js');
 
 exports.getUserArtists = function(id) {
     return User.findOne({ _id: id }, 'artists').execQ()

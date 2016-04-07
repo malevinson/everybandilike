@@ -1,6 +1,5 @@
-var debug = require('debug')('streamfeed:services:user');
+var debug = require('debug')('ebil:services:user');
 
-var Q = require('q');
 var _ = require('lodash');
 var User = require('./../models/user');
 

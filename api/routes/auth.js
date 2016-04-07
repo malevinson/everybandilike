@@ -1,8 +1,9 @@
-var debug = require('debug')('streamfeed:routes:auth');
+var debug = require('debug')('ebil:routes:auth');
 
 var request = require('request');
 var qs = require('querystring');
 var User = require('./../models/user');
+var userService = require('../services/user');
 
 var config = require ('./../config');
 
@@ -35,17 +36,22 @@ module.exports = function(app) {
                         return res.send({ user: existingUser });
                     }
 
-                    var user = new User({
-                        email : profile.email,
-                        facebookId : profile.id,
-                        picture : 'https://graph.facebook.com/' + profile.id + '/picture?type=large',
-                        first_name : profile.first_name,
-                        last_name : profile.last_name
-                    });
+                    hash()
+                        .then(function(hash){
+                            var user = new User({
+                                email : profile.email,
+                                facebookId : profile.id,
+                                picture : 'https://graph.facebook.com/' + profile.id + '/picture?type=large',
+                                first_name : profile.first_name,
+                                last_name : profile.last_name,
+                                hash : hash
+                            });
 
-                    user.save(function () {
-                        res.send({ user: user });
-                    });
+                            user.save(function () {
+                                res.send({ user: user });
+                            });
+
+                        });
                 });
             });
         });
@@ -107,16 +113,23 @@ module.exports = function(app) {
                         if (existingUser) {
                             return res.send({ user: existingUser });
                         }
+                        console.log('getting hash');
+                        hash()
+                            .then(function(hash){
+                                console.log(hash);
+                                var user = new User({
+                                    twitterId : profile.id,
+                                    first_name : profile.name,
+                                    picture : profile.profile_image_url.replace('_normal', ''),
+                                    hash : hash
+                                });
+                                console.log(user);
 
-                        var user = new User({
-                            twitterId : profile.id,
-                            first_name : profile.name,
-                            picture : profile.profile_image_url.replace('_normal', ''),
-                        });
+                                user.save(function () {
+                                    res.send({ user: user });
+                                });
 
-                        user.save(function() {
-                            res.send({ user: user });
-                        });
+                            });
                     });
                 });
             });
@@ -129,19 +142,25 @@ module.exports = function(app) {
             if (existingUser) {
                 return res.status(409).send({ message: 'Email is already taken' });
             }
-            var user = new User({
-                first_name: req.body.firstName,
-                last_name : req.body.lastName,
-                email: req.body.signup_email,
-                password: req.body.password
-            });
-            
-            user.save(function(err, result) {
-                if (err) {
-                    res.status(500).send({ message: err.message });
-                }
-                res.send({ user: user });
-            });
+
+            hash()
+                .then(function(hash){
+                    var user = new User({
+                        first_name: req.body.firstName,
+                        last_name : req.body.lastName,
+                        email: req.body.signup_email,
+                        password: req.body.password,
+                        hash : hash
+                    });
+
+                    user.save(function(err, result) {
+                        if (err) {
+                            res.status(500).send({ message: err.message });
+                        }
+                        res.send({ user: user });
+                    });
+
+                });
         });
     });
 
@@ -160,14 +179,66 @@ module.exports = function(app) {
         });
     });
 
-    app.put('/auth/user/:id', function(req, res) {
-        debug(`[PUT] /auth/user/${req.params.id}`);
-    })
-
     app.get('/auth/user/:id', function(req, res) {
         debug(`[GET] /auth/user/${req.params.id}`);
+
         User.findOne({ _id: req.params.id}, function (err, user) {
             res.send(user);
         });
     });
+
+    app.put('/auth/user/:id', function(req, res) {
+        debug(`[PUT] /auth/user/${req.params.id}`);
+
+        userService
+            .update(req.params.id, req.body.data)
+            .then(function(user) {
+                res.status(200).send(user);
+            })
+            .catch(function(err) {
+                res.status(400).send(err);
+            });
+    });
 };
+
+function hash(){
+    var hash = '';
+    return User.find().sort('-date').limit(10)
+        .then(function(result){
+            console.log(result);
+            if (!result.length) {
+                hash = 'aaa';
+            } else {
+                hash = increment(result[0].hash);
+            }
+            return hash;
+        });
+}
+
+function increment(mostRecentUser) {
+    var array1 = "abcdefghijklmnopqrstuzwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split('');
+    var array2 = array1;
+    var array3 = array1;
+
+    mostRecentUser = mostRecentUser.split('');
+
+
+    if (array1.indexOf(mostRecentUser[2]) != array1.length - 1)
+    {
+        mostRecentUser[2] = array1[array1.indexOf(mostRecentUser[2]) + 1];
+    }
+
+    else if (array1.indexOf(mostRecentUser[1]) != array1.length - 1)
+    {
+        mostRecentUser[1] = array1[array1.indexOf(mostRecentUser[1]) + 1];
+        mostRecentUser[2] = array1[0];
+    }
+
+    else {
+        mostRecentUser[2] = array1[0];
+        mostRecentUser[1] = array1[0];
+        mostRecentUser[0] = array1[array1.indexOf(mostRecentUser[0]) + 1];
+    }
+    
+    return(mostRecentUser.join().replace(/,/g, ''));
+}

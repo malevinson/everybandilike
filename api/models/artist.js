@@ -5,8 +5,7 @@ var ArtistSchema = new Schema({
     name: String,
     spotifyId: String,
     picture : String,
-    genres : [String],
-    releases : String
+    genres : [String]
 });
 
 module.exports = mongoose.model('Artist', ArtistSchema);

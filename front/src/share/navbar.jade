@@ -26,7 +26,7 @@
                 li.dropdown(uib-dropdown)
                     a.dropdown-toggle(uib-dropdown-toggle)
                         img.avatar(ng-src='{{ share.user.picture }}')
-                        span {{ share.user.first_name ? share.user.first_name : share.user.email }} {{ share.user.last_name }}
+                        span {{ share.user.first_name ? share.user.first_name : share.user.email }} {{ share.user.last_name }} {{ share.user.hash }}
                         span.caret
 
                     ul.uib-dropdown-menu(uib-dropdown-menu)

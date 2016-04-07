@@ -1,4 +1,4 @@
-var debug = require('debug')('streamfeed:handlers:rating');
+var debug = require('debug')('ebil:handlers:rating');
 
 var ratingService = require('../services/rating');
 var artistService = require('../services/artist');

@@ -30,7 +30,7 @@ function AuthenticationProvider() {
 
             update(data) {
                 $http
-                    .put(`/user`, { userID : this.user._id, data : data })
+                    .put(`/auth/user/${this.user._id}`, { data : data })
                     .success(function (response) {
                         Storage.set('user', response);
                     })
@@ -43,7 +43,7 @@ function AuthenticationProvider() {
             get(id) {
                 return $q(function (resolve, reject) {
                     $http
-                        .put(`/user`, { userID : id})
+                        .get(`/auth/user/${id}`)
                         .success(function (response) {
                             resolve(response);
                         })

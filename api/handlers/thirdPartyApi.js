@@ -1,4 +1,4 @@
-var debug = require('debug')('streamfeed:handlers:thirdParyApi');
+var debug = require('debug')('ebil:handlers:thirdPartyApi');
 
 var spotifyService = require('../services/spotify');
 var youtubeService = require('../services/youtube');

@@ -17,6 +17,7 @@ var userSchema = new Schema({
             }
         ]
     },
+    hash: String,
     facebookId: String,
     twitterId: String,
 

@@ -1,45 +1,44 @@
 var querystring = require('querystring');
 var https = require('https');
-var Q 	=   require('q');
+var Q = require('q');
 
-exports.performRequest = function(host, endpoint, method, data) {
-  var deferred = Q.defer()
-  var dataString = JSON.stringify(data);
-  var headers = {};
-  
-  if (method == 'GET') {
-    endpoint += '?' + querystring.stringify(data);
-  }
-  else {
-    headers = {
-      'Content-Type': 'application/json',
-      'Content-Length': dataString.length
+exports.performRequest = function (host, endpoint, method, data) {
+    var deferred = Q.defer();
+    var dataString = JSON.stringify(data);
+    var headers = {};
+
+    if (method == 'GET') {
+        endpoint += '?' + querystring.stringify(data);
+    } else {
+        headers = {
+            'Content-Type': 'application/json',
+            'Content-Length': dataString.length
+        };
+    }
+    var options = {
+        host: host,
+        path: endpoint,
+        method: method,
+        headers: headers
     };
-  }
-  var options = {
-    host: host,
-    path: endpoint,
-    method: method,
-    headers: headers
-  };
 
-  var req = https.request(options, function(res) {
-    res.setEncoding('utf-8');
+    var req = https.request(options, function (res) {
+        res.setEncoding('utf-8');
 
-    var responseString = '';
+        var responseString = '';
 
-    res.on('data', function(data) {
-      responseString += data;
+        res.on('data', function (data) {
+            responseString += data;
+        });
+
+        res.on('end', function () {
+            var responseObject = JSON.parse(responseString);
+            deferred.resolve(responseObject);
+        });
     });
 
-    res.on('end', function() {
-      var responseObject = JSON.parse(responseString);
-      deferred.resolve(responseObject)
-      //success(responseObject);
-    });
-  });
+    req.write(dataString);
+    req.end();
 
-  req.write(dataString);
-  req.end();
-  return deferred.promise
-}
+    return deferred.promise
+};
