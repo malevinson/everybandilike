@@ -1,7 +1,7 @@
 .navbar
-    .container
+    .container-fluid
         .navbar-header
-            btn.btn.btn-collapse(ng-click="share.openAside('left', true)")
+            btn.btn.btn-collapse(ng-click="share.openAside('left')")
                 i.fa.fa-bars
             btn.btn.btn-collapse.right.visible-xs(ng-init='navCollapsed = true', ng-click='navCollapsed = !navCollapsed', ng-show = 'share.user')
                 i.fa.fa-bars
@@ -13,7 +13,7 @@
         .nav.nav-center
             btn.btn.btn-danger.w-icon(ng-if = "share.user_role =='owner' && share.user", ng-click = 'share.upgrade()')
                 i.fa.fa-level-up
-                | Get Custom Link
+                | Personalized Your URL
             btn.btn.btn-danger.w-icon(ng-if = "share.user_role =='owner' && !share.user", ng-click = 'share.login()')
                 i.fa.fa-share-alt-square
                 | Join to Share or Save

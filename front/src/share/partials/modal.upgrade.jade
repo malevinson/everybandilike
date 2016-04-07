@@ -5,8 +5,10 @@ div(ng-switch="modal.modalMode")
         .modal-body.clearfix
             .plan
                 p.title Personalized Your Url
-                p.price $0.99
+                p.price $1.00
+                p.example Example: everybandilike.com/Ben's_list
                 br
+                btn.btn.btn-warning(ng-click = "modal.close()") Cancel
                 btn.btn.btn-danger.btn-purchase(ng-click = "modal.modalMode = 'caught'") Purchase
 
     .modal-content(ng-switch-when="caught")

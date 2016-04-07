@@ -199,7 +199,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         });
     };
     
-    self.openAside = function(position, backdrop) {
+    self.openAside = function(position) {
         self.asideState = {
             open: true,
             position: position
@@ -210,9 +210,10 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         }
 
         $aside.open({
+            animation: true,
             templateUrl: `share/partials/aside.controller.html`,
             placement: position,
-            backdrop: backdrop,
+            backdrop: true,
             controller: 'AsideController',
             controllerAs: 'vm',
             resolve: {

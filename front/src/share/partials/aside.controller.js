@@ -15,7 +15,7 @@ function AsideController($scope, $uibModalInstance, $auth, $uibModal, $location,
     }
 
     vm.addGenres = () => {
-        vm.cancel();
+        $uibModalInstance.dismiss();
 
         $uibModal.open({
             animation: true,
@@ -29,7 +29,7 @@ function AsideController($scope, $uibModalInstance, $auth, $uibModal, $location,
     };
     
     vm.login = () => {
-        vm.cancel();
+        $uibModalInstance.dismiss();
         
         $uibModal.open({
             animation: true,
@@ -48,7 +48,7 @@ function AsideController($scope, $uibModalInstance, $auth, $uibModal, $location,
     };
 
     vm.share = () => {
-        vm.cancel();
+        $uibModalInstance.dismiss();
 
         $uibModal.open({
             animation: true,
@@ -66,5 +66,8 @@ function AsideController($scope, $uibModalInstance, $auth, $uibModal, $location,
         });
     };
     
-    vm.cancel = function() { $uibModalInstance.dismiss() }
+    vm.cancel = function(e) {
+        $uibModalInstance.dismiss();
+        e.stopPropagation();
+    }
 }

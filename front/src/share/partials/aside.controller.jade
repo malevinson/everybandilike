@@ -1,9 +1,9 @@
 .modal-header
-    btn.btn.btn-collapse(ng-click = 'vm.cancel()')
-        i.fa.fa-arrow-left
+    btn.btn.btn-collapse(ng-click = 'vm.cancel($event)')
+        i.fa.fa-bars
 
-.modal-body(ng-click = 'vm.cancel()')
-    btn.btn.btn-add.w-icon(ng-click='vm.addGenres()', ng-if = "vm.user_role =='owner'")
+.modal-body(ng-click = 'vm.cancel($event)')
+    btn.btn.btn-add.w-icon.hidden-xs(ng-click='vm.addGenres()', ng-if = "vm.user_role =='owner'")
         i.fa.fa-plus
         | Add Artist by Genre
 
@@ -17,16 +17,16 @@
         hr
 
         btn.btn.facebook.w-icon(socialshare, socialshare-provider="facebook",
-        socialshare-via="{{CONFIG.facebook_id}}",
-        socialshare-text="Check out my music collection!",
-        socialshare-redirect-uri="{{ vm.share_link }}",
-        socialshare-url="{{ vm.share_link }}")
+                                socialshare-via="{{CONFIG.facebook_id}}",
+                                socialshare-text="Check out my music collection!",
+                                socialshare-redirect-uri="{{ vm.share_link }}",
+                                socialshare-url="{{ vm.share_link }}")
             i.fa.fa-facebook
             | Share on Facebook
         btn.btn.twitter.w-icon(socialshare, socialshare-provider="twitter",
-        socialshare-hashtags="everybandilike",
-        socialshare-text="Checkout my music collection! @everybandilike",
-        socialshare-url="{{ vm.share_link }}")
+                               socialshare-hashtags="everybandilike",
+                               socialshare-text="Checkout my music collection! @everybandilike",
+                               socialshare-url="{{ vm.share_link }}")
             i.fa.fa-twitter
             | Share on Twitter
 
@@ -39,7 +39,7 @@
             i.fa.fa-twitter
             | Share on Twitter
 
-    btn.btn.instagram.w-icon()
+    btn.btn.instagram.w-icon
         i.fa.fa-instagram
         | Share on Instagram
 
