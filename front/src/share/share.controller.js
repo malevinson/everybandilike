@@ -2,20 +2,19 @@ angular
     .module('ebil.share')
     .controller('ShareController', ShareController);
 
-ShareController.$inject = ['$rootScope', '$auth', '$uibModal', 'RatingService', 'SpotifyService', 'Storage', 'toastr', '$stateParams', 'user', '$location'];
+ShareController.$inject = ['$rootScope', '$auth', '$uibModal', 'RatingService', 'SpotifyService', 'Storage', 'toastr', '$stateParams', '$aside'];
 
-function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifyService, Storage, toastr, $stateParams, user, $location) {
+function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifyService, Storage, toastr, $stateParams, $aside) {
     var self = this;
-
-    self.user = $auth.provider.user;
     self.$auth = $auth;
+    self.user = $auth.provider.user;
     self.loaded = false;
-    if ($auth.provider.isAuthenticated()) {
-        self.share_link = $location.$$protocol + '://' + $location.$$host + '/' + self.user._id;
-        if (!self.user.tour) {
-            console.log('tour');
-        }
-    }
+
+    self.artists = {
+        one : [],
+        two : [],
+        three : []
+    };
 
     self.popover = {
         template: '/share/partials/popover.html',
@@ -24,26 +23,13 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
 
     self.finishTour = () => {
         self.popover.show = false;
-        self.$auth.provider.update({ tour : true });
+        if (self.$auth.provider.isAuthenticated()) {
+            self.$auth.provider.update({tour: true});
+        }
     };
 
-    self.artists = {
-        one : [],
-        two : [],
-        three : []
-    };
 
-    self.addGenres = () => {
-        $uibModal.open({
-            animation: true,
-            templateUrl: '/share/partials/modal.genres.html',
-            controller: 'ModalGenresController',
-            controllerAs : 'modal',
-            size: 'lg',
-            keyboard: false,
-            windowClass: 'onboarding'
-        });
-    };
+    // Artists
 
     if ($auth.provider.isAuthenticated() && $stateParams.id) {
         if ($stateParams.id == self.user._id) {
@@ -143,7 +129,6 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
                         }
                     });
                 });
-
                 self.artists[arrayName(artist.ratingGiven)].push(result);
             })
     });
@@ -170,7 +155,6 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
                 }
             });
         });
-
         self.artists[arrayName(artist.ratingGiven)].push(artist);
     });
 
@@ -195,6 +179,9 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         }
     };
 
+
+    // Navbar
+
     self.login = () => {
         $uibModal.open({
             animation: true,
@@ -205,28 +192,36 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
             keyboard: false,
             windowClass: 'login',
             resolve: {
-                artists: function () {
+                artists: ['Storage', function (Storage) {
                     return Storage.get('artists');
-                }
+                }]
             }
         });
     };
+    
+    self.openAside = function(position) {
+        self.asideState = {
+            open: true,
+            position: position
+        };
 
-    self.share = $rootScope.share = () => {
-        $uibModal.open({
+        function postClose() {
+            self.asideState.open = false;
+        }
+
+        $aside.open({
             animation: true,
-            templateUrl: '/share/partials/modal.share.html',
-            controller: 'ModalShareController',
-            controllerAs : 'modal',
-            size: 'sm',
-            keyboard: false,
-            windowClass: 'share',
+            templateUrl: `share/partials/aside.controller.html`,
+            placement: position,
+            backdrop: true,
+            controller: 'AsideController',
+            controllerAs: 'vm',
             resolve: {
-                share_link: function () {
-                    return self.share_link;
+                user_role: function () {
+                    return self.user_role;
                 }
             }
-        });
+        }).result.then(postClose, postClose);
     };
 
     self.upgrade = () => {
@@ -241,7 +236,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         });
     };
 
-    this.logout = function () {
+    self.logout = function () {
         $auth.provider.logout()
             .then(function() {
                 $rootScope.$state.go('share', { id : '' }, { reload: true });
@@ -253,18 +248,18 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
                 toastr.error(err, 'Error');
             });
     };
+}
 
-    function arrayName(arrayIndex) {
-        switch (arrayIndex) {
-            case 1:
-                return 'one';
-                break;
-            case 2:
-                return 'two';
-                break;
-            case 3:
-                return 'three';
-                break;
-        }
+function arrayName(arrayIndex) {
+    switch (arrayIndex) {
+        case 1:
+            return 'one';
+            break;
+        case 2:
+            return 'two';
+            break;
+        case 3:
+            return 'three';
+            break;
     }
 }

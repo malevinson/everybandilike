@@ -16,81 +16,10 @@ body.share {
 
     .popover {
       text-align: center;
+      z-index: 1;
       .btn {
         text-transform: uppercase;
         padding: 6px 12px;
-      }
-    }
-
-    .left {
-      text-align: left;
-    }
-    .btn {
-      padding: 6px 12px 6px 42px;
-      position: relative;
-      transition: ease .2s;
-      .fa {
-        position: absolute;
-        left: 0;
-        top: 0;
-        line-height: 32px;
-        width: 30px;
-        border-right: 1px solid rgba(0,0,0,0.2);
-      }
-
-      &.btn-add {
-        float: left;
-        background-color: #777 !important;
-        color: #fff;
-        &:hover {
-          background-color: darken(#777, 15%);
-        }
-      }
-
-      &.btn-danger {
-        background-color: @primary-color;
-        border: none;
-        transition: ease .2s;
-        &:hover {
-          background-color: @primary-color-darken;
-        }
-      }
-    }
-    .social-btn .btn {
-      margin: 0 5px 5px 5px;
-      float: right;
-      color: #fff;
-      overflow: hidden;
-      &.twitter {
-        background-color: @twitter-color;
-        color: #fff;
-        &:hover {
-          background-color: darken(@twitter-color, 15%);
-        }
-      }
-      &.facebook {
-        background-color: @facebook-color;
-        color: #fff;
-        &:hover {
-          background-color: darken(@facebook-color, 15%);
-        }
-      }
-      &.instagram {
-        background-color: @instagram-color;
-        color: #fff;
-        &:hover {
-          background-color: darken(@instagram-color, 15%);
-        }
-      }
-    }
-    @media (max-width: @screen-md) {
-      .btn {
-        width: 100%;
-        margin: 3px 0;
-      }
-      .social-btn .btn {
-        width: 100%;
-        margin: 0 0 5px 0;
       }
     }
 
@@ -212,7 +141,7 @@ body.share {
         }
         .btn-danger {
           float: right;
-          margin-left: 2%;
+          margin: 0 0 0 2%;
           width: 15%;
           padding: 7px 12px;
         }

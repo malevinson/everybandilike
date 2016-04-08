@@ -37,15 +37,8 @@ function configure($locationProvider, $stateProvider, toastrConfig, $urlRouterPr
     $urlRouterProvider.otherwise('/');
 
     angular.extend(toastrConfig, {
-        autoDismiss: false,
-        containerId: 'toast-container',
-        maxOpened: 0,
-        newestOnTop: true,
-        positionClass: 'toast-top-right',
-        preventDuplicates: false,
-        preventOpenDuplicates: false,
-        target: 'main',
-        tapToDismiss: true
+        autoDismiss: true,
+        positionClass: 'toast-top-right'
     });
 
     cfpLoadingBarProvider.includeSpinner = false;

@@ -8,22 +8,20 @@ body.share .navbar {
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
   border-radius: 0;
   margin: 0;
-  .container {
 
-  }
   .navbar-header {
-    .navbar-toggle {
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      border-color: #ddd;
-      margin: 0;
+    .btn-collapse {
+      float: left;
+      margin: 8px;
+      border-color: @primary-color-lighten;
+      color: @primary-color-lighten;
       &:hover {
-        background-color: #ddd;
+        background-color: #fff;
+        color: @primary-color;
+        border-color: @primary-color;
       }
-      .icon-bar {
-        background-color: #888;
-      }
+
+      &.right { float: right }
     }
 
     .brand {
@@ -49,34 +47,12 @@ body.share .navbar {
     }
   }
 
-  .btn-danger {
-    margin: 11px 0;
-    padding: 6px 12px 6px 42px;
-    position: relative;
-    transition: ease .2s;
-    .fa {
-      position: absolute;
-      left: 0;
-      top: 0;
-      line-height: 32px;
-      width: 30px;
-      border-right: 1px solid rgba(0,0,0,0.2);
-    }
-
-    &.btn-add { float: left; }
-
-    &.btn-danger {
-      background-color: @primary-color;
-      border: none;
-      transition: ease .2s;
-      &:hover {
-        background-color: @primary-color-darken;
-      }
-    }
-  }
-
   .nav-center {
     text-align: center;
+
+    .btn-danger {
+      margin: 11px 0;
+    }
 
     @media screen and (min-width: @screen-sm) {
       position: absolute;
