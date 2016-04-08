@@ -1,9 +1,10 @@
-var $http, $q;
+var $http, $q, Authentication;
 
 class RatingService {
-    constructor($$http, $$q) {
+    constructor($$http, $$q, $Authentication) {
         $http = $$http;
         $q = $$q;
+        Authentication = $Authentication;
     }
 
     add(artist, user_id, rating) {
@@ -20,10 +21,10 @@ class RatingService {
         });
     }
 
-    get(user_id) {
+    get(hash) {
         return $q(function (resolve, reject) {
             $http
-                .post('/rating/get', { user : user_id })
+                .get(`/rating/${hash}`)
                 .success(function (data) {
                     resolve(data);
                 })
@@ -47,10 +48,24 @@ class RatingService {
                 });
         });
     }
+    
+    getLatestCollections() {
+        return $q(function (resolve, reject) {
+            $http
+                .get('/collections/latest')
+                .success(function (data) {
+                    resolve(data);
+                })
+                .error(function (err) {
+                    console.error(err);
+                    reject(err)
+                });
+        });
+    }
 }
 
-RatingService.$inject = ['$http', '$q'];
+RatingService.$inject = ['$http', '$q', 'Authentication'];
 
 angular
-    .module('ebil.base')
+    .module('ebil.share')
     .service('RatingService', RatingService);

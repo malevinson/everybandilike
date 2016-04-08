@@ -2,16 +2,16 @@ angular
     .module('ebil.share')
     .controller('AsideController', AsideController);
 
-AsideController.$inject = ['$scope', '$uibModalInstance', '$auth', '$uibModal', '$location', 'user_role'];
+AsideController.$inject = ['$uibModalInstance', '$auth', '$uibModal', '$location', 'user_role'];
 
-function AsideController($scope, $uibModalInstance, $auth, $uibModal, $location, user_role) {
+function AsideController($uibModalInstance, $auth, $uibModal, $location, user_role) {
     var vm = this;
     vm.Authentication = $auth;
     vm.user = $auth.provider.user;
     vm.user_role = user_role;
 
     if ($auth.provider.isAuthenticated()) {
-        vm.share_link = $location.$$protocol + '://' + $location.$$host + '/' + vm.user._id;
+        vm.share_link = $location.$$protocol + '://' + $location.$$host + '/' + vm.user.hash;
     }
 
     vm.addGenres = () => {

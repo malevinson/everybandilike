@@ -8,15 +8,15 @@ configure.$inject = ['$stateProvider'];
 function configure($stateProvider) {
     $stateProvider
         .state('share', {
-            url: '/:id',
+            url: '/:hash',
             controller: 'ShareController',
             controllerAs: 'share',
             templateUrl: 'share/share.controller.html',
             resolve : {
                 user: [ '$stateParams', '$auth', function($stateParams, $auth) {
-                    if ($stateParams.id) {
+                    if ($stateParams.hash) {
                         $auth.provider
-                            .get($stateParams.id)
+                            .getByHash($stateParams.hash)
                             .then(function(user){
                                 return user;
                             });

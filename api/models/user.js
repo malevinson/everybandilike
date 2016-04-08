@@ -20,6 +20,7 @@ var userSchema = new Schema({
     hash: String,
     facebookId: String,
     twitterId: String,
+    created: { type: Date, default: Date.now },
 
     tour : { type: Boolean, default: false }
 },

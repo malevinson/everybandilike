@@ -66,3 +66,10 @@ include ./navbar.jade
                         i.fa.fa-search
                         input.form-control(type="text", ng-model='share.searchOne', placeholder="Taylor Swift, Coldplay, Passion Pit")
                     btn.btn.btn-danger(ng-disabled = "share.searchOne == ''", ng-click = 'share.add(share.searchOne, 1)') Add
+
+    .row(ng-if = 'share.latest_collections.length')
+        .col-md-6.col-md-offset-3
+            h2 Checkout also latest collections created by another users
+            ul
+                li(ng-repeat = 'url in share.latest_collections')
+                    a(href='{{url}}') {{ url }}

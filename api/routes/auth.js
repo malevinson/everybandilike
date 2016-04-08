@@ -187,6 +187,14 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/auth/user/hash/:hash', function(req, res) {
+        debug(`[GET] /auth/user/hash/${req.params.hash}`);
+
+        User.findOne({ hash: req.params.hash}, function (err, user) {
+            res.send(user);
+        });
+    });
+
     app.put('/auth/user/:id', function(req, res) {
         debug(`[PUT] /auth/user/${req.params.id}`);
 
@@ -203,7 +211,7 @@ module.exports = function(app) {
 
 function hash(){
     var hash = '';
-    return User.find().sort('-date').limit(10)
+    return User.find().sort('-created').limit(1)
         .then(function(result){
             if (!result.length) {
                 hash = 'aaa';

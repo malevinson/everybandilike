@@ -2,13 +2,14 @@ angular
     .module('ebil.share')
     .controller('ShareController', ShareController);
 
-ShareController.$inject = ['$rootScope', '$auth', '$uibModal', 'RatingService', 'SpotifyService', 'Storage', 'toastr', '$stateParams', '$aside'];
+ShareController.$inject = ['$rootScope', '$auth', '$uibModal', 'RatingService', 'SpotifyService', 'Storage', 'toastr', '$stateParams', '$aside', '$location'];
 
-function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifyService, Storage, toastr, $stateParams, $aside) {
+function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifyService, Storage, toastr, $stateParams, $aside, $location) {
     var self = this;
     self.$auth = $auth;
     self.user = $auth.provider.user;
     self.loaded = false;
+    self.latest_collections = [];
 
     self.artists = {
         one : [],
@@ -28,11 +29,19 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         }
     };
 
+    RatingService
+        .getLatestCollections()
+        .then(function(result){
+            result.forEach(function(hash){
+                self.latest_collections.push(`${$location.$$protocol}://${$location.$$host}/${hash}`);
+            });
+        });
+
 
     // Artists
 
-    if ($auth.provider.isAuthenticated() && $stateParams.id) {
-        if ($stateParams.id == self.user._id) {
+    if ($auth.provider.isAuthenticated() && $stateParams.hash) {
+        if ($stateParams.hash == self.user.hash) {
             self.user_role = 'owner';
         } else {
             self.user_role = 'viewer';
@@ -40,7 +49,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
 
         // if user is authenticated and we have id in url
         RatingService
-            .get($stateParams.id)
+            .get($stateParams.hash)
             .then(function (result) {
                 result.forEach(function (el) {
                     self.artists[arrayName(el.ratingGiven)].push(el);
@@ -48,7 +57,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
                 self.loaded = true;
             });
 
-    } else if ($auth.provider.isAuthenticated() && !$stateParams.id) {
+    } else if ($auth.provider.isAuthenticated() && !$stateParams.hash) {
         self.user_role = 'owner';
         // if user authenticated we resolving data from db
         RatingService
@@ -63,11 +72,11 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
                 self.loaded = true;
             });
 
-    } else if (!$auth.provider.isAuthenticated() && $stateParams.id) {
+    } else if (!$auth.provider.isAuthenticated() && $stateParams.hash) {
         self.user_role = 'viewer';
         // if user not authenticated and we have id in url we getting data from db for user that is in url
         RatingService
-            .get($stateParams.id)
+            .get($stateParams.hash)
             .then(function (result) {
                 result.forEach(function (el) {
                     self.artists[arrayName(el.ratingGiven)].push(el);
@@ -75,7 +84,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
                 self.loaded = true;
             });
 
-    } else if (!$auth.provider.isAuthenticated() && !$stateParams.id) {
+    } else if (!$auth.provider.isAuthenticated() && !$stateParams.hash) {
         self.user_role = 'owner';
 
         // if user not authenticated and we DON'T have id in url we getting data from localstorage

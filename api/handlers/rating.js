@@ -37,23 +37,22 @@ exports.submitRating = function(req, res) {
     } else validationHandler(res, required_fields);
 };
 
-exports.getRatings = function(req, res, next) { 
-    var user = req.body.user;
-    var artist = req.body.artist; 
+exports.getRatings = function(req, res) {
+    debug(`[GET] /ratings/${req.params.hash}`);
 
-    var required_fields = 'user';
+    if (!req.params.hash || req.params.hash.length != 3) {
+        validationHandler(res, 'hash')
+    }
 
-    // validation
-    if(user && user.length){
-
-        // get ratings
-        ratingService.getRatings(user, artist).then(function(results){
-            res.status(200).send(results);
-        }, function(err){
+    ratingService
+        .getRatings(req.params.hash)
+        .then(function(artists){
+            res.status(200).send(artists);
+        })
+        .catch(function(err){
             console.error(err);
             res.status(500).send(err);
-        });
-    } else validationHandler(res, required_fields);
+        })
 };
 
 exports.deleteRatings = function(req, res, next){

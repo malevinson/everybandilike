@@ -5,7 +5,7 @@
     "start": "DEBUG=ebil:* node server.js",
     "postinstall": "./node_modules/bower/bin/bower install && ./node_modules/gulp/bin/gulp.js install"
   },
-  "private" : true,
+  "private": true,
   "dependencies": {
     "body-parser": "*",
     "bower": "*",

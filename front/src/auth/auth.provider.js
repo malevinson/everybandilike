@@ -40,10 +40,24 @@ function AuthenticationProvider() {
                     });
             }
 
-            get(id) {
+            getById(id) {
                 return $q(function (resolve, reject) {
                     $http
                         .get(`/auth/user/${id}`)
+                        .success(function (response) {
+                            resolve(response);
+                        })
+                        .error(function (err) {
+                            console.error(err);
+                            reject(err)
+                        });
+                });
+            }
+
+            getByHash(hash) {
+                return $q(function (resolve, reject) {
+                    $http
+                        .get(`/auth/user/hash/${hash}`)
                         .success(function (response) {
                             resolve(response);
                         })

@@ -6,7 +6,7 @@
             btn.btn.btn-collapse.right.visible-xs(ng-init='navCollapsed = true', ng-click='navCollapsed = !navCollapsed', ng-show = 'share.user')
                 i.fa.fa-bars
 
-            a.brand(ui-sref = "share({ id : ''})")
+            a.brand(ui-sref = "share({ hash : ''})")
                 img(src='images/logo_ebl.png', height='30')
                 .beta BETA
 
@@ -17,7 +17,7 @@
             btn.btn.btn-danger.w-icon(ng-if = "share.user_role =='owner' && !share.user", ng-click = 'share.login()')
                 i.fa.fa-share-alt-square
                 | Join to Share or Save
-            btn.btn.btn-danger.w-icon(ng-if = "share.user_role =='viewer' && !share.user", ui-sref = "share({ id: ''})")
+            btn.btn.btn-danger.w-icon(ng-if = "share.user_role =='viewer' && !share.user", ui-sref = "share({ hash: ''})")
                 i.fa.fa-share-alt-square
                 | Create your own collection
 
@@ -26,11 +26,11 @@
                 li.dropdown(uib-dropdown)
                     a.dropdown-toggle(uib-dropdown-toggle)
                         img.avatar(ng-src='{{ share.user.picture }}')
-                        span {{ share.user.first_name ? share.user.first_name : share.user.email }} {{ share.user.last_name }} {{ share.user.hash }}
+                        span {{ share.user.first_name ? share.user.first_name : share.user.email }} {{ share.user.last_name }}
                         span.caret
 
                     ul.uib-dropdown-menu(uib-dropdown-menu)
-                        li: a(ui-sref='share({ id : share.user._id })') My Collection
+                        li: a(ui-sref='share({ hash : share.user.hash })') My Collection
 
                         li.divider
 

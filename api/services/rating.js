@@ -2,6 +2,7 @@ var debug = require('debug')('ebil:services:rating');
 
 var Q = require('q');
 var Rating = require('./../models/rating');
+var User = require('./../models/user');
 
 // get ratings
 exports.getRate = function(user, artist){
@@ -26,24 +27,24 @@ exports.getRate = function(user, artist){
     .exec(function(err, result){
         if(err) deferred.reject(err);
         else deferred.resolve(result);
-    })
+    });
 
     return deferred.promise;
 };
 
-exports.getRatings = function(user, artist){
+exports.getRatings = function(hash){
     var deferred = Q.defer();
 
-    var conditions = {user : user};
-
-    // check if artist is present
-    if(typeof artist !== "undefined") conditions["artist"] = artist;
-
-    Rating.find(conditions)
-        .populate('artist')
-        .exec(function(err, result){
-            if (err) deferred.reject(err);
-            else deferred.resolve(result);
+    User
+        .findOne({ hash : hash })
+        .then(function(user){
+            return Rating.find({ user : user._id }).populate('artist')
+        })
+        .then(function(result){
+            deferred.resolve(result)
+        })
+        .catch(function(err){
+            deferred.reject(err)
         });
 
     return deferred.promise;

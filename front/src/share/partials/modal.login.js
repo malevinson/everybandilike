@@ -21,7 +21,7 @@ function ModalLoginController($rootScope, artists, $auth, $uibInstance, toastr, 
                     });
                 }
                 Storage.remove('artists');
-                $rootScope.$state.go('share', { id : user._id }, { reload: true });
+                $rootScope.$state.go('share', { hash : user.hash }, { reload: true });
 
                 // TODO: while it will adding add spinner/animation?
                 self.close();
@@ -41,7 +41,7 @@ function ModalLoginController($rootScope, artists, $auth, $uibInstance, toastr, 
 
                 $rootScope.$broadcast('auth:login');
                 console.log('authentication');
-                $rootScope.$state.go('share', { id : user._id }, { reload: true });
+                $rootScope.$state.go('share', { hash : user.hash }, { reload: true });
 
                 self.close();
             })
@@ -67,7 +67,7 @@ function ModalLoginController($rootScope, artists, $auth, $uibInstance, toastr, 
                 Storage.remove('artists'); 
 
                 $rootScope.$broadcast('auth:login');
-                $rootScope.$state.go('share', { id : user._id });
+                $rootScope.$state.go('share', { hash : user.hash });
 
                 self.close();
             })
