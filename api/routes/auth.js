@@ -205,7 +205,6 @@ function hash(){
     var hash = '';
     return User.find().sort('-date').limit(10)
         .then(function(result){
-            console.log(result);
             if (!result.length) {
                 hash = 'aaa';
             } else {

@@ -50,18 +50,21 @@ exports.getRatings = function(user, artist){
 };
 
 exports.updateOrInsertDB = function(artist, user, rating){
+    debug('updateOrInsertDB');
+
     var deferred = Q.defer();
 
     var conditions = { artist : artist, user : user };
     var update = { ratingGiven : rating };
     var options = { new: true, upsert: true };
 
-    Rating.findOneAndUpdate(conditions, update, options)
-    .populate('artist')
-    .exec(function(err, result){
-        if (err) deferred.reject(err);
-        else deferred.resolve(result);
-    });
+    Rating
+        .findOneAndUpdate(conditions, update, options)
+        .populate('artist')
+        .exec(function(err, result){
+            if (err) deferred.reject(err);
+            else deferred.resolve(result);
+        });
 
     return deferred.promise;
 };
