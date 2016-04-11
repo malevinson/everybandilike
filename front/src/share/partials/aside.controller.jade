@@ -65,7 +65,7 @@
         h4 Recently Created Collections
         ul
             li(ng-repeat = 'url in vm.recent_collections')
-                a {{ url }}
+                a(href='http://{{ url }}') {{ url }}
 
 
 footer.modal-footer.visible-xs
