@@ -2,16 +2,32 @@ angular
     .module('ebil.share')
     .controller('AsideController', AsideController);
 
-AsideController.$inject = ['$uibModalInstance', '$auth', '$uibModal', '$location', 'user_role'];
+AsideController.$inject = ['$uibModalInstance', '$auth', '$uibModal', '$location', 'user_role', 'RatingService'];
 
-function AsideController($uibModalInstance, $auth, $uibModal, $location, user_role) {
+function AsideController($uibModalInstance, $auth, $uibModal, $location, user_role, RatingService) {
     var vm = this;
     vm.Authentication = $auth;
     vm.user = $auth.provider.user;
     vm.user_role = user_role;
+    vm.recent_collections = [];
 
-    if ($auth.provider.isAuthenticated()) {
-        vm.share_link = $location.$$protocol + '://' + $location.$$host + '/' + vm.user.hash;
+    initialize();
+
+    function initialize() {
+        var url = $location.$$host;
+
+        if ($auth.provider.isAuthenticated()) {
+            vm.share_link = `${url}/${vm.user.hash}`;
+        }
+
+        RatingService
+            .getLatestCollections()
+            .then(function(result){
+                result.forEach(function(hash){
+
+                    vm.recent_collections.push(`${url}/${hash}`);
+                });
+            });
     }
 
     vm.addGenres = () => {

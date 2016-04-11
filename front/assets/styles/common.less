@@ -106,6 +106,9 @@ p {
   padding: 0 0 15px 0;
   line-height: 18px;
 }
+.toast-top-right {
+  top: 70px;
+}
 
 /* ==========================================================================
    Loading Bar
@@ -140,6 +143,10 @@ body #habla_window_state_div {
   @media screen and (max-width: @screen-md) {
     display: none;
   }
+}
+
+#habla_window_div.habla_window_div_base {
+  z-index: 999 !important;
 }
 
 #habla_window_div {

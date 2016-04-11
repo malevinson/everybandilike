@@ -37,7 +37,7 @@ function configure($locationProvider, $stateProvider, toastrConfig, $urlRouterPr
     $urlRouterProvider.otherwise('/');
 
     angular.extend(toastrConfig, {
-        autoDismiss: true,
+        autoDismiss: false, 
         positionClass: 'toast-top-right'
     });
 

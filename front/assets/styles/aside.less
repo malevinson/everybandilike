@@ -5,6 +5,16 @@
    ========================================================================== */
 .ng-aside {
   width: 300px;
+  overflow: initial !important;
+  overflow-x: initial !important;
+  .modal-content {
+    position: relative;
+    margin: 0;
+    padding-bottom: 6rem;
+    min-height: 100%;
+    overflow: initial !important;
+    overflow-x: initial !important;
+  }
   .modal-dialog {
     width: 100%;
 
@@ -14,6 +24,42 @@
     }
 
     .modal-body {
+      margin-bottom: 156px;
+      overflow: hidden;
+      overflow-y: auto;
+      height: 100%;
+      padding-bottom: 220px;
+
+      .account {
+        li {
+          cursor: pointer;
+          position: relative;
+          display: block;
+          padding: 0;
+          a {
+            color: #777;
+            padding: 10px;
+            text-decoration: none;
+            &:hover {
+              color: darken(#777, 15%);
+            }
+          }
+          img {
+            height: 29px;
+            border-radius: 15px;
+            margin-right: 6px;
+          }
+          .uib-dropdown-menu {
+            border-radius: 0;
+            border: 0;
+            position: static;
+            float: none;
+            box-shadow: none;
+          }
+        }
+      }
+
+
       .btn {
         width: 100%;
         margin: 5px 0;
@@ -29,8 +75,19 @@
 
     }
 
+    .recent li {
+      list-style: none;
+    }
+
     .modal-footer {
       padding: 10px;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      padding: 1rem;
+      background-color: #efefef;
+      text-align: center;
       li {
         font-size: 14px;
         width: 50%;

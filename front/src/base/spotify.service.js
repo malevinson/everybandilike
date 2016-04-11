@@ -16,7 +16,6 @@ class SpotifyService {
                     }
                 })
                 .success(function (data) {
-                    console.log(data);
                     resolve(data);
                 })
                 .error(function (err) {

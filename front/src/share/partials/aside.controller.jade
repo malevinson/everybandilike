@@ -3,6 +3,22 @@
         i.fa.fa-bars
 
 .modal-body(ng-click = 'vm.cancel($event)')
+    .account.visible-xs(ng-if = 'vm.user')
+        li.dropdown(uib-dropdown, ng-click="$event.stopPropagation()")
+            a.dropdown-toggle(uib-dropdown-toggle)
+                img.avatar(ng-src='{{ vm.user.picture }}')
+                span {{ vm.user.first_name ? vm.user.first_name : vm.user.email }} {{ vm.user.last_name }}
+                span.caret
+
+            ul.uib-dropdown-menu(uib-dropdown-menu)
+                li: a(ui-sref='share({ hash : vm.user.hash })') My Collection
+
+                li.divider
+
+                li: a(ng-click='share.logout()')
+                    span.color-red Logout
+
+
     btn.btn.btn-add.w-icon.hidden-xs(ng-click='vm.addGenres()', ng-if = "vm.user_role =='owner'")
         i.fa.fa-plus
         | Add Artist by Genre
@@ -39,9 +55,18 @@
             i.fa.fa-twitter
             | Share on Twitter
 
-    btn.btn.instagram.w-icon
+    btn.btn.instagram.w-icon(ng-click="$event.stopPropagation()")
         i.fa.fa-instagram
         | Share on Instagram
+
+    .recent
+        hr
+
+        h4 Recently Created Collections
+        ul
+            li(ng-repeat = 'url in vm.recent_collections')
+                a {{ url }}
+
 
 footer.modal-footer.visible-xs
     ul

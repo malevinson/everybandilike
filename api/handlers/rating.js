@@ -38,7 +38,7 @@ exports.submitRating = function(req, res) {
 };
 
 exports.getRatings = function(req, res) {
-    debug(`[GET] /ratings/${req.params.hash}`);
+    debug(`[GET] /rating/${req.params.hash}`);
 
     if (!req.params.hash || req.params.hash.length != 3) {
         validationHandler(res, 'hash')

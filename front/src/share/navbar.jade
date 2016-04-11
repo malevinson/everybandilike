@@ -3,8 +3,6 @@
         .navbar-header
             btn.btn.btn-collapse(ng-click="share.openAside('left')")
                 i.fa.fa-bars
-            btn.btn.btn-collapse.right.visible-xs(ng-init='navCollapsed = true', ng-click='navCollapsed = !navCollapsed', ng-show = 'share.user')
-                i.fa.fa-bars
 
             a.brand(ui-sref = "share({ hash : ''})")
                 img(src='images/logo_ebl.png', height='30')
@@ -21,8 +19,8 @@
                 i.fa.fa-share-alt-square
                 | Create your own collection
 
-        .navbar-collapse.collapse(uib-collapse='navCollapsed')
-            ul.nav.navbar-nav.navbar-right(ng-if = 'share.user')
+        .navbar-collapse.collapse.hidden-xs(ng-if = 'share.user')
+            ul.nav.navbar-nav.navbar-right
                 li.dropdown(uib-dropdown)
                     a.dropdown-toggle(uib-dropdown-toggle)
                         img.avatar(ng-src='{{ share.user.picture }}')

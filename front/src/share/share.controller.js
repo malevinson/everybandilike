@@ -29,15 +29,6 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         }
     };
 
-    RatingService
-        .getLatestCollections()
-        .then(function(result){
-            result.forEach(function(hash){
-                self.latest_collections.push(`${$location.$$protocol}://${$location.$$host}/${hash}`);
-            });
-        });
-
-
     // Artists
 
     if ($auth.provider.isAuthenticated() && $stateParams.hash) {
@@ -61,7 +52,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         self.user_role = 'owner';
         // if user authenticated we resolving data from db
         RatingService
-            .get(self.user._id)
+            .get(self.user.hash)
             .then(function (result) {
                 if (result.length == 0) {
                     //
@@ -248,7 +239,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
     self.logout = function () {
         $auth.provider.logout()
             .then(function() {
-                $rootScope.$state.go('share', { id : '' }, { reload: true });
+                $rootScope.$state.go('share', { hash : '' }, { reload: true });
                 toastr.warning('Logged out!', 'Success');
 
             })
