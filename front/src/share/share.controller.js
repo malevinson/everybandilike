@@ -210,7 +210,6 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         }
 
         $aside.open({
-            animation: true,
             templateUrl: `share/partials/aside.controller.html`,
             placement: position,
             backdrop: true,

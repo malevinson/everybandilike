@@ -43,10 +43,10 @@ function AsideController($uibModalInstance, $auth, $uibModal, $location, user_ro
             windowClass: 'onboarding'
         });
     };
-    
+
     vm.login = () => {
         $uibModalInstance.dismiss();
-        
+
         $uibModal.open({
             animation: true,
             templateUrl: '/share/partials/modal.login.html',
@@ -81,7 +81,7 @@ function AsideController($uibModalInstance, $auth, $uibModal, $location, user_ro
             }
         });
     };
-    
+
     vm.cancel = function(e) {
         $uibModalInstance.dismiss();
         e.stopPropagation();
