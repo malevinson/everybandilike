@@ -15,7 +15,7 @@
 
                 li.divider
 
-                li: a(ng-click='share.logout()')
+                li: a(ng-click='vm.logout()')
                     span.color-red Logout
 
 
@@ -55,7 +55,8 @@
             i.fa.fa-twitter
             | Share on Twitter
 
-    btn.btn.instagram.w-icon(ng-click="$event.stopPropagation()")
+    btn.btn.instagram.w-icon(ng-init = 'self.clicked = false', ng-click="self.clicked = true; $event.stopPropagation()", ng-disabled = 'self.clicked')
+        label.label.label-success(ng-if='self.clicked') Coming Soon!
         i.fa.fa-instagram
         | Share on Instagram
 

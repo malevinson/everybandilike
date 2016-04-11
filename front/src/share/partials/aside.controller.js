@@ -2,9 +2,9 @@ angular
     .module('ebil.share')
     .controller('AsideController', AsideController);
 
-AsideController.$inject = ['$uibModalInstance', '$auth', '$uibModal', '$location', 'user_role', 'RatingService'];
+AsideController.$inject = ['$rootScope', '$uibModalInstance', '$auth', '$uibModal', '$location', 'user_role', 'RatingService', 'toastr'];
 
-function AsideController($uibModalInstance, $auth, $uibModal, $location, user_role, RatingService) {
+function AsideController($rootScope, $uibModalInstance, $auth, $uibModal, $location, user_role, RatingService, toastr) {
     var vm = this;
     vm.Authentication = $auth;
     vm.user = $auth.provider.user;
@@ -61,6 +61,21 @@ function AsideController($uibModalInstance, $auth, $uibModal, $location, user_ro
                 }]
             }
         });
+    };
+
+    vm.logout = () => {
+        $auth.provider.logout()
+            .then(function() {
+                $uibModalInstance.dismiss();
+
+                $rootScope.$state.go('share', { hash : '' }, { reload: true });
+                toastr.warning('Logged out!', 'Success');
+            })
+            .catch(function(err) {
+                $uibModalInstance.dismiss();
+                console.error(err);
+                toastr.error(err, 'Error');
+            });
     };
 
     vm.share = () => {
