@@ -36,13 +36,13 @@
                                 socialshare-via="{{CONFIG.facebook_id}}",
                                 socialshare-text="Check out my music collection!",
                                 socialshare-redirect-uri="{{ vm.share_link }}",
-                                socialshare-url="{{ vm.share_link }}")
+                                socialshare-url="http://{{ vm.share_link }}")
             i.fa.fa-facebook
             | Share on Facebook
         btn.btn.twitter.w-icon(socialshare, socialshare-provider="twitter",
                                socialshare-hashtags="everybandilike",
                                socialshare-text="Checkout my music collection! @everybandilike",
-                               socialshare-url="{{ vm.share_link }}")
+                               socialshare-url="http://{{ vm.share_link }}")
             i.fa.fa-twitter
             | Share on Twitter
 
