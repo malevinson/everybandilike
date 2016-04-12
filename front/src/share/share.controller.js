@@ -6,21 +6,75 @@ ShareController.$inject = ['$rootScope', '$auth', '$uibModal', 'RatingService', 
 
 function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifyService, Storage, toastr, $stateParams, $aside, $location) {
     var self = this;
+    var url = $location.$$host;
+
     self.$auth = $auth;
     self.user = $auth.provider.user;
-    self.loaded = false;
-    self.latest_collections = [];
-
+    self.recent_collections = [];
     self.artists = {
         one : [],
         two : [],
         three : []
     };
-
     self.popover = {
         template: '/share/partials/popover.html',
         show: ((self.user && self.user.tour) ? false : true)
     };
+
+    initialize();
+
+    function initialize(){
+        self.loaded = false;
+
+        RatingService
+            .getLatestCollections()
+            .then(function(result){
+                result.forEach(function(hash){
+                    self.recent_collections.push(`${url}/${hash}`);
+                });
+            });
+
+        if ($auth.provider.isAuthenticated()) {
+            self.share_link = `${url}/${self.user.hash}`;
+
+            RatingService
+                .get($stateParams.hash || self.user.hash)
+                .then(function (result) {
+                    result.forEach(function (el) {
+                        self.artists[arrayName(el.ratingGiven)].push(el);
+                    });
+
+                    self.loaded = true;
+                });
+
+            ($stateParams.hash && ($stateParams.hash == self.user.hash)) ? self.user_role = 'owner' : self.user_role = 'viewer';
+            !$stateParams.hash ? self.user_role = 'owner' : '';
+
+        } else if (!$auth.provider.isAuthenticated() && $stateParams.hash) {
+            self.user_role = 'viewer';
+
+            RatingService
+                .get($stateParams.hash)
+                .then(function (result) {
+                    result.forEach(function (el) {
+                        self.artists[arrayName(el.ratingGiven)].push(el);
+                    });
+                    self.loaded = true;
+                });
+
+        } else if (!$auth.provider.isAuthenticated() && !$stateParams.hash) {
+            self.user_role = 'owner';
+
+            var result = Storage.get('artists');
+            if (result) {
+                result.forEach(function (el) {
+                    self.artists[arrayName(el.ratingGiven)].push(el);
+                });
+            }
+
+            self.loaded = true;
+        }
+    }
 
     self.finishTour = () => {
         self.popover.show = false;
@@ -28,67 +82,6 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
             self.$auth.provider.update({tour: true});
         }
     };
-
-    // Artists
-
-    if ($auth.provider.isAuthenticated() && $stateParams.hash) {
-        if ($stateParams.hash == self.user.hash) {
-            self.user_role = 'owner';
-        } else {
-            self.user_role = 'viewer';
-        }
-
-        // if user is authenticated and we have id in url
-        RatingService
-            .get($stateParams.hash)
-            .then(function (result) {
-                result.forEach(function (el) {
-                    self.artists[arrayName(el.ratingGiven)].push(el);
-                });
-                self.loaded = true;
-            });
-
-    } else if ($auth.provider.isAuthenticated() && !$stateParams.hash) {
-        self.user_role = 'owner';
-        // if user authenticated we resolving data from db
-        RatingService
-            .get(self.user.hash)
-            .then(function (result) {
-                if (result.length == 0) {
-                    //
-                }
-                result.forEach(function (el) {
-                    self.artists[arrayName(el.ratingGiven)].push(el);
-                });
-                self.loaded = true;
-            });
-
-    } else if (!$auth.provider.isAuthenticated() && $stateParams.hash) {
-        self.user_role = 'viewer';
-        // if user not authenticated and we have id in url we getting data from db for user that is in url
-        RatingService
-            .get($stateParams.hash)
-            .then(function (result) {
-                result.forEach(function (el) {
-                    self.artists[arrayName(el.ratingGiven)].push(el);
-                });
-                self.loaded = true;
-            });
-
-    } else if (!$auth.provider.isAuthenticated() && !$stateParams.hash) {
-        self.user_role = 'owner';
-
-        // if user not authenticated and we DON'T have id in url we getting data from localstorage
-        var result = Storage.get('artists');
-        if (result == null) {
-            //
-        } else {
-            result.forEach(function (el) {
-                self.artists[arrayName(el.ratingGiven)].push(el);
-            });
-        }
-        self.loaded = true;
-    }
 
     self.add = (data, rating) => {
         if (data.length == 0) return;
@@ -117,27 +110,16 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
         });
     };
 
-    // Saving artist to db if user authenticated
     $rootScope.$on('rating:add', function(e, artist, user_id){
         RatingService
             .add(artist.artist, user_id, artist.ratingGiven)
             .then(function(result){
-                angular.forEach(self.artists, function(value, key) {
-                    value.forEach(function(el, i){
-                        if (el.artist.spotifyId == result.artist.spotifyId) {
-                            self.artists[key].splice(i, 1);
-                        }
-                    });
-                });
-                self.artists[arrayName(artist.ratingGiven)].push(result);
+                renderArtist(self.artists, result);
             })
     });
 
-    // Saving artist to localstorage if user not authenticated
     $rootScope.$on('artists:add', function(e, artist){
-        var artists = Storage.get('artists');
-
-        if (!artists) artists = [];
+        var artists = Storage.get('artists') || [];
 
         artists.forEach(function(el, i){
             if (el.artist.spotifyId == artist.artist.spotifyId) {
@@ -148,14 +130,7 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
 
         Storage.set('artists', artists);
 
-        angular.forEach(self.artists, function(value, key) {
-            value.forEach(function(el, i){
-                if (el.artist.spotifyId == artist.artist.spotifyId) {
-                    self.artists[key].splice(i, 1);
-                }
-            });
-        });
-        self.artists[arrayName(artist.ratingGiven)].push(artist);
+        renderArtist(self.artists, artist);
     });
 
     self.remove = (artist, array, $index) => {
@@ -218,6 +193,12 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
             resolve: {
                 user_role: function () {
                     return self.user_role;
+                },
+                share_link: function () {
+                    return self.share_link;
+                },
+                recent: function () {
+                    return self.recent_collections;
                 }
             }
         }).result.then(postClose, postClose);
@@ -247,18 +228,33 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
                 toastr.error(err, 'Error');
             });
     };
-}
 
-function arrayName(arrayIndex) {
-    switch (arrayIndex) {
-        case 1:
-            return 'one';
-            break;
-        case 2:
-            return 'two';
-            break;
-        case 3:
-            return 'three';
-            break;
+
+    // Common
+
+    function renderArtist(artists, artist){
+        angular.forEach(artists, function(value, key) {
+            value.forEach(function(el, i){
+                if (el.artist.spotifyId == artist.artist.spotifyId) {
+                    artists[key].splice(i, 1);
+                }
+            });
+        });
+
+        artists[arrayName(artist.ratingGiven)].push(artist);
+    }
+
+    function arrayName(arrayIndex) {
+        switch (arrayIndex) {
+            case 1:
+                return 'one';
+                break;
+            case 2:
+                return 'two';
+                break;
+            case 3:
+                return 'three';
+                break;
+        }
     }
 }
