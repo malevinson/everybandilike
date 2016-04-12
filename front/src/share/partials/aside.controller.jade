@@ -2,6 +2,10 @@
     btn.btn.btn-collapse(ng-click = 'vm.cancel($event)')
         i.fa.fa-bars
 
+    a.brand(ui-sref = "share({ hash : ''})")
+        img(src='images/logo_ebl.png', height='30')
+        .beta BETA
+
 .modal-body(ng-click = 'vm.cancel($event)')
     .account.visible-xs(ng-if = 'vm.user')
         li.dropdown(uib-dropdown, ng-click="$event.stopPropagation()")

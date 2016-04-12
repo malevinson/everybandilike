@@ -20,7 +20,41 @@
 
     .modal-header {
       text-align: left;
-      padding: 10px 10px 10px 25px;
+      padding: 10px;
+      background-color: #fff;
+      .btn-collapse {
+        float: left;
+        margin: 8px;
+        border-color: @primary-color-lighten;
+        color: @primary-color-lighten;
+        &:hover {
+          background-color: #fff;
+          color: @primary-color;
+          border-color: @primary-color;
+        }
+      }
+
+      .brand {
+        padding: 12px;
+        position: relative;
+        float: left;
+
+        .beta {
+          font-family: sans-serif;
+          background-color: #f04d4e;
+          color: #fff;
+          -webkit-transform: rotate(15deg);
+          -moz-transform: rotate(15deg);
+          -o-transform: rotate(15deg);
+          display: inline-block;
+          font-size: 13px;
+          border-radius: 4px;
+          position: absolute;
+          top: 7px;
+          left: 170px;
+          padding: 0 3px;
+        }
+      }
     }
 
     .modal-body {
@@ -104,13 +138,10 @@
       right: 0;
       bottom: 0;
       left: 0;
-      padding: 1rem;
       background-color: #efefef;
-      text-align: center;
+
       li {
-        font-size: 14px;
         width: 50%;
-        display: block;
         float: left;
         margin: 0;
         text-align: center;
