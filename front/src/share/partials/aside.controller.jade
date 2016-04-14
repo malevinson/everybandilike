@@ -12,13 +12,10 @@
             a.dropdown-toggle(uib-dropdown-toggle)
                 img.avatar(ng-src='{{ vm.user.picture }}')
                 span {{ vm.user.first_name ? vm.user.first_name : vm.user.email }} {{ vm.user.last_name }}
-                span.caret
+                i.fa.fa-angle-down
 
             ul.uib-dropdown-menu(uib-dropdown-menu)
                 li: a(ui-sref='share({ hash : vm.user.hash })') My Collection
-
-                li.divider
-
                 li: a(ng-click='vm.logout()')
                     span.color-red Logout
 

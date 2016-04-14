@@ -14,6 +14,11 @@ body.share {
     padding: 30px 7%;
     height: calc(~"100% - 108px");
 
+    @media screen and (max-width: @screen-md) {
+      height: calc(~"100% - 54px");
+      padding: 0;
+    }
+
     .popover {
       text-align: center;
       z-index: 1;
