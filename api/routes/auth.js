@@ -223,12 +223,9 @@ function hash(){
 }
 
 function increment(mostRecentUser) {
-    var array1 = "abcdefghijklmnopqrstuzwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split('');
-    var array2 = array1;
-    var array3 = array1;
+    var array1 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split('');
 
     mostRecentUser = mostRecentUser.split('');
-
 
     if (array1.indexOf(mostRecentUser[2]) != array1.length - 1)
     {
