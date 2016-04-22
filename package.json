@@ -13,6 +13,7 @@
     "debug": "*",
     "dotenv": "*",
     "express": "*",
+    "google-spreadsheet": "^2.0.1",
     "gulp": "*",
     "gulp-babel": "5.3.*",
     "gulp-concat": "*",

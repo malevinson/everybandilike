@@ -50,6 +50,20 @@ exports.getRatings = function(hash){
     return deferred.promise;
 };
 
+exports.getAllRatings = function(){
+    var deferred = Q.defer();
+
+    Rating.find()
+    .populate('artist user')
+    .then(function(result){
+        deferred.resolve(result)
+    }).catch(function(err){
+        deferred.reject(err);
+    });
+
+    return deferred.promise;
+};
+
 exports.updateOrInsertDB = function(artist, user, rating){
     debug('updateOrInsertDB');
 
