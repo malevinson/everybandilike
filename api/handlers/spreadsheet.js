@@ -1,0 +1,119 @@
+var debug = require('debug')('ebil:handlers:spreadsheet');
+var GoogleSpreadsheet = require("google-spreadsheet");
+var doc = new GoogleSpreadsheet('12LKigtLwhplJfLdCDQOv2t6tTqbIyJff4wUCKnoml0E');
+var async = require('async');
+var sheet;
+var ratingService = require('../services/rating');
+var extractedRatings;
+var users = {};
+
+var errorHandler = function(res){ 
+    res.status(500).send('Error generating spreadsheet');
+};
+
+exports.makeSpreadSheet = function(req, res){
+
+    async.series([
+        function getData(step){
+            ratingService.getAllRatings()
+            .then(function(ratings){
+                extractedRatings = ratings;
+                step();
+            }, function(err){
+                errorHandler(res);
+            });
+        },
+      
+        function parseData(step){
+            users = {};
+
+            console.log("started parseData");
+
+            for(var i = 0; i < extractedRatings.length; i++){
+                var rating = extractedRatings[i];
+                if (typeof users[rating.user._id] === "undefined"){
+                    // no user found
+                    var userProperties = {
+                        rating_three_artists : "",
+                        rating_two_artists : "",
+                        rating_one_artists : "",
+                        email : rating.user.email,
+                        hash : rating.user.hash,
+                        created : rating.user.created
+                    }
+
+                    users[rating.user._id] = userProperties;
+                }
+
+                if(rating.ratingGiven == 3){
+                    users[rating.user._id].rating_three_artists = users[rating.user._id].rating_three_artists == "" ? rating.artist.name : users[rating.user._id].rating_three_artists + ', ' + rating.artist.name;
+                } else if(rating.ratingGiven == 2){
+                    users[rating.user._id].rating_two_artists = users[rating.user._id].rating_two_artists == "" ? rating.artist.name : users[rating.user._id].rating_two_artists + ', ' + rating.artist.name;
+                } else if(rating.ratingGiven == 1){
+                    users[rating.user._id].rating_one_artists = users[rating.user._id].rating_one_artists == "" ? rating.artist.name : users[rating.user._id].rating_one_artists + ', ' + rating.artist.name;
+                } 
+            }
+
+            step();
+        },
+        function setAuth(step) {
+            var creds = require('../../creds.json');
+
+            doc.useServiceAccountAuth(creds, step);
+        },
+      
+        function getInfoAndWorksheets(step) {
+            doc.getInfo(function(err, info) {
+                console.log('Loaded doc: '+info.title+' by '+info.author.email);
+                sheet = info.worksheets[0];
+                console.log('sheet 1: '+sheet.title+' '+sheet.rowCount+'x'+sheet.colCount);
+                step();
+            });
+        },
+
+        function clear(step){
+            sheet.clear(function(){
+                step();
+            });
+        },
+
+        function addHeader(step){
+            sheet.setHeaderRow([
+                'user',
+                'created',
+                'hash',
+                'rating_three_artists',
+                'rating_two_artists',
+                'rating_one_artists'
+            ], function(){
+                step();
+            });
+        },
+
+        function addRow(step){
+            var usersArr = [];
+
+            for(var user in users) usersArr.push(users[user]);
+
+            async.eachSeries(usersArr, function(user, callback){
+                sheet.addRow({
+                    user : user.email,
+                    created : user.created,
+                    hash  : user.hash,
+                    rating_three_artists : user.rating_three_artists,
+                    rating_two_artists : user.rating_two_artists,
+                    rating_one_artists : user.rating_one_artists
+                }, function(err){
+                    callback();
+                });
+            }, function(){
+                step();
+            });
+            
+        },
+
+        function workingWithRows(step) {
+           res.send('<h1>Spreadsheet Generated. <a href="https://docs.google.com/spreadsheets/d/12LKigtLwhplJfLdCDQOv2t6tTqbIyJff4wUCKnoml0E/edit?usp=sharing"> Go to spreadsheet</a></h1>');
+        }
+    ]);
+};
