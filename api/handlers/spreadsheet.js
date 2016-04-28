@@ -26,6 +26,8 @@ exports.makeSpreadSheet = function(req, res){
       
         function parseData(step){
             users = {};
+            var ratings_added = 0;
+            var users_added = 0;
 
             console.log("started parseData");
             for(var i = 0; i < extractedRatings.length; i++){
@@ -40,19 +42,25 @@ exports.makeSpreadSheet = function(req, res){
                         hash : rating.user.hash,
                         created : rating.user.created
                     }
-
+                    users_added++;
                     users[rating.user._id] = userProperties;
                 }
 
                 if(rating.user && rating.ratingGiven == 3){
+                    ratings_added++;
                     users[rating.user._id].rating_three_artists = users[rating.user._id].rating_three_artists == "" ? rating.artist.name : users[rating.user._id].rating_three_artists + ', ' + rating.artist.name;
                 } else if(rating.user &&  rating.ratingGiven == 2){
+                    ratings_added++;
                     users[rating.user._id].rating_two_artists = users[rating.user._id].rating_two_artists == "" ? rating.artist.name : users[rating.user._id].rating_two_artists + ', ' + rating.artist.name;
                 } else if(rating.user && rating.ratingGiven == 1){
+                    ratings_added++;
                     users[rating.user._id].rating_one_artists = users[rating.user._id].rating_one_artists == "" ? rating.artist.name : users[rating.user._id].rating_one_artists + ', ' + rating.artist.name;
                 } 
             }
 
+            console.log("users length:", Object.keys(users).length);
+            console.log("ratings added:", ratings_added);
+            console.log("users added:", users_added);
             step();
         },
         function setAuth(step) {
@@ -101,7 +109,7 @@ exports.makeSpreadSheet = function(req, res){
 
             async.eachSeries(usersArr, function(user, callback){
                 sheet.addRow({
-                    user : user.email,
+                    user : user.email || user.first_name + user.last_name,
                     created : user.created,
                     hash  : user.hash,
                     rating_three_artists : user.rating_three_artists,
