@@ -109,7 +109,7 @@ exports.makeSpreadSheet = function(req, res){
 
             async.eachSeries(usersArr, function(user, callback){
                 sheet.addRow({
-                    user : user.email || user.first_name + user.last_name || user.first_name,
+                    user : user.email? user.email : user.first_name && user.last_name? user.first_name + user.last_name : user.first_name,
                     created : user.created,
                     hash  : user.hash,
                     rating_three_artists : user.rating_three_artists,
