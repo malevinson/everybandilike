@@ -117,10 +117,10 @@ exports.makeSpreadSheet = function(req, res){
                     username = user.first_name;
                 else username = user.name;
 
-                if(hash === "aad"){
+                if(user.hash === "aad"){
                     console.log(user);
                 }
-                
+
                 sheet.addRow({
                     user : username,
                     created : user.created,
