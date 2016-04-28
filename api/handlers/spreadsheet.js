@@ -57,12 +57,14 @@ exports.makeSpreadSheet = function(req, res){
             step();
         },
         function setAuth(step) {
+            console.log("started setAuth");
             var creds = require('../../creds.json');
 
             doc.useServiceAccountAuth(creds, step);
         },
       
         function getInfoAndWorksheets(step) {
+            console.log("started getInfoAndWorksheets");
             doc.getInfo(function(err, info) {
                 console.log('Loaded doc: '+info.title+' by '+info.author.email);
                 sheet = info.worksheets[0];
@@ -72,12 +74,14 @@ exports.makeSpreadSheet = function(req, res){
         },
 
         function clear(step){
+            console.log("started clear");
             sheet.clear(function(){
                 step();
             });
         },
 
         function addHeader(step){
+            console.log("started addHeader");
             sheet.setHeaderRow([
                 'user',
                 'created',
@@ -91,6 +95,7 @@ exports.makeSpreadSheet = function(req, res){
         },
 
         function addRow(step){
+            console.log("started addRow");
             var usersArr = [];
 
             for(var user in users) usersArr.push(users[user]);
@@ -113,6 +118,7 @@ exports.makeSpreadSheet = function(req, res){
         },
 
         function workingWithRows(step) {
+            console.log("started workingWithRows");
            res.send('<h1>Spreadsheet Generated. <a href="https://docs.google.com/spreadsheets/d/12LKigtLwhplJfLdCDQOv2t6tTqbIyJff4wUCKnoml0E/edit?usp=sharing"> Go to spreadsheet</a></h1>');
         }
     ]);
