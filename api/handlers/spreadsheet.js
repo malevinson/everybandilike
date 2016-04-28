@@ -33,12 +33,22 @@ exports.makeSpreadSheet = function(req, res){
             for(var i = 0; i < extractedRatings.length; i++){
                 var rating = extractedRatings[i];
                 if (rating.user && typeof users[rating.user._id] === "undefined"){
+                    
+                    var username = "";
+                    if(rating.user.email && rating.user.email !== "")
+                        username = rating.user.email;
+                    else if(rating.user.first_name && rating.user.first_name !== "" && rating.user.last_name && rating.user.last_name !== "")
+                        username = rating.user.first_name + ' ' + rating.user.last_name;
+                    else if(rating.user.first_name && rating.user.first_name !== "") 
+                        username = rating.user.first_name;
+                    else username = rating.user.name;
+
                     // no user found
                     var userProperties = {
                         rating_three_artists : "",
                         rating_two_artists : "",
                         rating_one_artists : "",
-                        email : rating.user.email,
+                        email : username,
                         hash : rating.user.hash,
                         created : rating.user.created
                     }
@@ -108,21 +118,8 @@ exports.makeSpreadSheet = function(req, res){
             for(var user in users) usersArr.push(users[user]);
 
             async.eachSeries(usersArr, function(user, callback){
-                var username = "";
-                if(user.email && user.email !== "")
-                    username = user.email;
-                else if(user.first_name && user.first_name !== "" && user.last_name && user.last_name !== "")
-                    username = user.first_name + ' ' + user.last_name;
-                else if(user.first_name && user.first_name !== "") 
-                    username = user.first_name;
-                else username = user.name;
-
-                if(user.hash === "aad"){
-                    console.log(user);
-                }
-
                 sheet.addRow({
-                    user : username,
+                    user : user.email,
                     created : user.created,
                     hash  : user.hash,
                     rating_three_artists : user.rating_three_artists,
