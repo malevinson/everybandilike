@@ -113,7 +113,9 @@ exports.makeSpreadSheet = function(req, res){
                     username = user.email;
                 else if(user.first_name && user.first_name !== "" && user.last_name && user.last_name !== "")
                     username = user.first_name + ' ' + user.last_name;
-                else username = user.first_name;
+                else if(user.first_name && user.first_name !== "") 
+                    username = user.first_name;
+                else username = user.name;
 
                 sheet.addRow({
                     user : username,
