@@ -28,7 +28,7 @@ exports.makeSpreadSheet = function(req, res){
             users = {};
 
             console.log("started parseData");
-            console.log(JSON.stringify(extractedRatings));
+            res.json(extractedRatings);
             for(var i = 0; i < extractedRatings.length; i++){
                 var rating = extractedRatings[i];
                 if (typeof users[rating.user._id] === "undefined"){
