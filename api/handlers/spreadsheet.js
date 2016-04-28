@@ -28,10 +28,9 @@ exports.makeSpreadSheet = function(req, res){
             users = {};
 
             console.log("started parseData");
-            res.json(extractedRatings);
             for(var i = 0; i < extractedRatings.length; i++){
                 var rating = extractedRatings[i];
-                if (typeof users[rating.user._id] === "undefined"){
+                if (rating.user && typeof users[rating.user._id] === "undefined"){
                     // no user found
                     var userProperties = {
                         rating_three_artists : "",
@@ -45,11 +44,11 @@ exports.makeSpreadSheet = function(req, res){
                     users[rating.user._id] = userProperties;
                 }
 
-                if(rating.ratingGiven == 3){
+                if(rating.user && rating.ratingGiven == 3){
                     users[rating.user._id].rating_three_artists = users[rating.user._id].rating_three_artists == "" ? rating.artist.name : users[rating.user._id].rating_three_artists + ', ' + rating.artist.name;
-                } else if(rating.ratingGiven == 2){
+                } else if(rating.user &&  rating.ratingGiven == 2){
                     users[rating.user._id].rating_two_artists = users[rating.user._id].rating_two_artists == "" ? rating.artist.name : users[rating.user._id].rating_two_artists + ', ' + rating.artist.name;
-                } else if(rating.ratingGiven == 1){
+                } else if(rating.user && rating.ratingGiven == 1){
                     users[rating.user._id].rating_one_artists = users[rating.user._id].rating_one_artists == "" ? rating.artist.name : users[rating.user._id].rating_one_artists + ', ' + rating.artist.name;
                 } 
             }
