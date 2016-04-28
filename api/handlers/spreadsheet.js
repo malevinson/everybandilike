@@ -108,8 +108,15 @@ exports.makeSpreadSheet = function(req, res){
             for(var user in users) usersArr.push(users[user]);
 
             async.eachSeries(usersArr, function(user, callback){
+                var username = "";
+                if(user.email && user.email !== "")
+                    username = user.email;
+                else if(user.first_name && user.first_name !== "" && user.last_name && user.last_name !== "")
+                    username = user.first_name + ' ' + user.last_name;
+                else username = user.first_name;
+
                 sheet.addRow({
-                    user : user.email? user.email : user.first_name && user.last_name? user.first_name + user.last_name : user.first_name,
+                    user : username,
                     created : user.created,
                     hash  : user.hash,
                     rating_three_artists : user.rating_three_artists,
