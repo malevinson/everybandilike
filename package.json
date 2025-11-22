@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "scripts": {
     "start": "DEBUG=ebil:* node server.js",
-    "postinstall": "./node_modules/bower/bin/bower install && ./node_modules/gulp/bin/gulp.js install"
+    "postinstall": "./node_modules/bower/bin/bower install && ./node_modules/gulp/bin/gulp.js install",
+    "seed": "node seed.js"
   },
   "private": true,
   "dependencies": {

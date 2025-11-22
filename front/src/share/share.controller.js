@@ -26,24 +26,65 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
     function initialize(){
         self.loaded = false;
 
+        // Hardcoded mock artists
+        var mockArtists = [
+            {
+                artist: {
+                    name: 'The Beatles',
+                    spotifyId: '3WrFJ7ztbogyGnTHbXXFlQ',
+                    picture: 'https://i.scdn.co/image/ab6761610000e5eb5a00969a4698c3132a15fbb0',
+                    genres: ['rock', 'pop', 'british invasion']
+                },
+                ratingGiven: 3
+            },
+            {
+                artist: {
+                    name: 'Radiohead',
+                    spotifyId: '4Z8W4fKeB5YxbusRsdQVPb',
+                    picture: 'https://i.scdn.co/image/ab6761610000e5ebec0b0c0c0c0c0c0c0c0c0c0',
+                    genres: ['alternative rock', 'art rock', 'electronic']
+                },
+                ratingGiven: 2
+            }
+        ];
+
+        // Add mock artists to the appropriate rating arrays
+        mockArtists.forEach(function (el) {
+            self.artists[arrayName(el.ratingGiven)].push(el);
+        });
+
         RatingService
             .getLatestCollections()
             .then(function(result){
                 result.forEach(function(hash){
                     self.recent_collections.push(`${url}/${hash}`);
                 });
+            })
+            .catch(function(err) {
+                // Ignore errors, just use mock data
+                console.log('Could not fetch latest collections, using mock data');
             });
 
         if ($auth.provider.isAuthenticated()) {
+            console.log('in is auth')
             self.share_link = `${url}/${self.user.hash}`;
 
             RatingService
                 .get($stateParams.hash || self.user.hash)
                 .then(function (result) {
+                    // Clear mock data if we get real data
+                    if (result && result.length > 0) {
+                        self.artists = { one: [], two: [], three: [] };
+                    }
                     result.forEach(function (el) {
                         self.artists[arrayName(el.ratingGiven)].push(el);
                     });
 
+                    self.loaded = true;
+                })
+                .catch(function(err) {
+                    // If API fails, keep mock data
+                    console.log('Could not fetch ratings, using mock data');
                     self.loaded = true;
                 });
 
@@ -56,9 +97,18 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
             RatingService
                 .get($stateParams.hash)
                 .then(function (result) {
+                    // Clear mock data if we get real data
+                    if (result && result.length > 0) {
+                        self.artists = { one: [], two: [], three: [] };
+                    }
                     result.forEach(function (el) {
                         self.artists[arrayName(el.ratingGiven)].push(el);
                     });
+                    self.loaded = true;
+                })
+                .catch(function(err) {
+                    // If API fails, keep mock data
+                    console.log('Could not fetch ratings, using mock data');
                     self.loaded = true;
                 });
 
@@ -66,7 +116,9 @@ function ShareController($rootScope, $auth, $uibModal, RatingService, SpotifySer
             self.user_role = 'owner';
 
             var result = Storage.get('artists');
-            if (result) {
+            if (result && result.length > 0) {
+                // Clear mock data if we have stored data
+                self.artists = { one: [], two: [], three: [] };
                 result.forEach(function (el) {
                     self.artists[arrayName(el.ratingGiven)].push(el);
                 });

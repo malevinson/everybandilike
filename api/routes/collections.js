@@ -5,6 +5,7 @@ var User = require('./../models/user');
 var Ratings = require('./../models/rating');
 
 var config = require ('./../config');
+const { lastIndexOf } = require('lodash');
 
 module.exports = function(app) {
 
