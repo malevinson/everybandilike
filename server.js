@@ -1,4 +1,4 @@
-require('dotenv').load({ silent: true });
+require('dotenv').config({ silent: false });
 
 var debug = require('debug')('ebil:app');
 
@@ -14,36 +14,33 @@ var server = express();
 
 mongoose.connect(config.mongo_uri);
 var db = mongoose.connection;
-db.once('open', function() {
-    debug(`Initialized db connection`.magenta);
+db.once('open', function () {
+  debug(`Initialized db connection`.magenta);
 });
 
-server.set('port', (process.env.PORT || 8000));
+server.set('port', process.env.PORT || 8000);
 server.set('x-powered-by', false);
 
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
-server.use(function(req, res, next){
-    debug(`[${req.method}] ${req.url}`);
-    next();
+server.use(function (req, res, next) {
+  debug(`[${req.method}] ${req.url}`);
+  next();
 });
 
 server.use(express.static(`${__dirname}/front/dist`));
-server.get([
-    '/',
-    '/:id'
-], function(req, res) {
-    res.sendFile(`${__dirname}/front/dist/index.html`);
+server.get(['/', '/:id'], function (req, res) {
+  res.sendFile(`${__dirname}/front/dist/index.html`);
 });
 
 require('./api')(server);
 
-server.use(function(req, res, next) {
-    debug(`UNRESOLVED: [${req.method}] ${req.headers.host}${req.url}`.red);
-    next();
+server.use(function (req, res, next) {
+  debug(`UNRESOLVED: [${req.method}] ${req.headers.host}${req.url}`.red);
+  next();
 });
 
 server.listen(server.get('port'), function () {
-    debug(`Server listening on port ${server.get('port')}`.green);
-    debug('Environment is ' + server.get('env'));
+  debug(`Server listening on port ${server.get('port')}`.green);
+  debug('Environment is ' + server.get('env'));
 });
