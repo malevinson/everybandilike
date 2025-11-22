@@ -14,7 +14,7 @@
     "dotenv": "*",
     "express": "*",
     "google-spreadsheet": "^2.0.1",
-    "gulp": "*",
+    "gulp": "^4.0.2",
     "gulp-babel": "5.3.*",
     "gulp-concat": "*",
     "gulp-cssnano": "*",

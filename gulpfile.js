@@ -30,7 +30,7 @@ var paths = {
     'front/vendor/angular-bootstrap/ui-bootstrap-tpls.js',
     'front/vendor/angular-ui-router/release/angular-ui-router.js',
     'front/vendor/angular-permission/dist/angular-permission.js',
-    'front/vendor/satellizer/satellizer.js',
+    'front/vendor/satellizer/dist/satellizer.js',
     'front/vendor/angular-animate/angular-animate.js',
     'front/vendor/angular-toastr/dist/angular-toastr.tpls.js',
     'front/vendor/angular-loading-bar/build/loading-bar.js',
@@ -39,11 +39,10 @@ var paths = {
     'front/vendor/angular-socialshare/dist/angular-socialshare.min.js',
   ],
   less: [
-    'front/vendor/bootstrap/less/bootstrap.less',
+    'front/vendor/bootstrap/dist/css/bootstrap.css',
     'front/vendor/angular-toastr/dist/angular-toastr.css',
     'front/vendor/angular-loading-bar/build/loading-bar.css',
-    'front/vendor/ng-joyride/ng-joyride.css',
-    'front/vendor/font-awesome/less/font-awesome.less',
+    'front/vendor/font-awesome/css/all.css',
   ],
   fonts: ['front/vendor/bootstrap/fonts/*.*', 'front/vendor/font-awesome/fonts/*.*', 'front/assets/fonts/*.*'],
 };
@@ -96,7 +95,7 @@ gulp.task('less-vendor', function () {
     .pipe(gulp.dest('front/dist/css'));
 });
 
-gulp.task('less', ['less-app', 'less-vendor']);
+gulp.task('less', gulp.parallel('less-app', 'less-vendor'));
 
 //
 //   JS related tasks
@@ -120,7 +119,7 @@ gulp.task('js-libs', function () {
     .pipe(gulp.dest('front/dist/js/'));
 });
 
-gulp.task('js', ['js-app', 'js-libs']);
+gulp.task('js', gulp.parallel('js-app', 'js-libs'));
 
 //
 //   Common tasks
@@ -137,11 +136,11 @@ gulp.task('copy-fonts', function () {
   return gulp.src(paths.fonts).pipe(gulp.dest('front/dist/fonts/'));
 });
 
-gulp.task('install', ['copy-images', 'copy-fonts', 'js', 'less', 'jade', 'copy-css']);
+gulp.task('install', gulp.parallel('copy-images', 'copy-fonts', 'js', 'less', 'jade', 'copy-css'));
 
 gulp.task('watch', function () {
-  gulp.watch(['front/src/**/*.jade'], ['jade']);
-  gulp.watch(['front/src/**/*.js'], ['js-app']);
-  gulp.watch(['front/assets/styles/**/*.less'], ['less-app']);
-  gulp.watch(['front/assets/images/**/*.*'], ['copy-images']);
+  gulp.watch(['front/src/**/*.jade'], gulp.series('jade'));
+  gulp.watch(['front/src/**/*.js'], gulp.series('js-app'));
+  gulp.watch(['front/assets/styles/**/*.less'], gulp.series('less-app'));
+  gulp.watch(['front/assets/images/**/*.*'], gulp.series('copy-images'));
 });

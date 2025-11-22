@@ -1,7 +1,7 @@
 var debug = require('debug')('ebil:config');
 
 var config = {
-    mongo_uri : process.env.MONGOLAB_URI,
+    mongo_uri : process.env.MONGOLAB_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017/everybandilike',
     
     facebook_id : process.env.FACEBOOK_ID,
     facebook_secret : process.env.FACEBOOK_SECRET,

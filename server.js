@@ -12,6 +12,11 @@ var colors = require('colors');
 var config = require('./api/config');
 var server = express();
 
+if (!config.mongo_uri) {
+  console.error('Error: MongoDB URI is not configured. Please set MONGOLAB_URI or MONGODB_URI environment variable.');
+  process.exit(1);
+}
+
 mongoose.connect(config.mongo_uri);
 var db = mongoose.connection;
 db.once('open', function () {
