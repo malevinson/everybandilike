@@ -29,43 +29,40 @@ function AuthenticationProvider() {
             }
 
             update(data) {
-                $http
+                return $http
                     .put(`/auth/user/${this.user._id}`, { data : data })
-                    .success(function (response) {
-                        Storage.set('user', response);
+                    .then(function (response) {
+                        Storage.set('user', response.data);
+                        return response.data;
                     })
-                    .error(function (err) {
+                    .catch(function (err) {
                         console.error(err);
-                        reject(err)
+                        return $q.reject(err);
                     });
             }
 
             getById(id) {
-                return $q(function (resolve, reject) {
-                    $http
-                        .get(`/auth/user/${id}`)
-                        .success(function (response) {
-                            resolve(response);
-                        })
-                        .error(function (err) {
-                            console.error(err);
-                            reject(err)
-                        });
-                });
+                return $http
+                    .get(`/auth/user/${id}`)
+                    .then(function (response) {
+                        return response.data;
+                    })
+                    .catch(function (err) {
+                        console.error(err);
+                        return $q.reject(err);
+                    });
             }
 
             getByHash(hash) {
-                return $q(function (resolve, reject) {
-                    $http
-                        .get(`/auth/user/hash/${hash}`)
-                        .success(function (response) {
-                            resolve(response);
-                        })
-                        .error(function (err) {
-                            console.error(err);
-                            reject(err)
-                        });
-                });
+                return $http
+                    .get(`/auth/user/hash/${hash}`)
+                    .then(function (response) {
+                        return response.data;
+                    })
+                    .catch(function (err) {
+                        console.error(err);
+                        return $q.reject(err);
+                    });
             }
 
             clearUser() {

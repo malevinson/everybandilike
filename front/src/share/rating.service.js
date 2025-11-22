@@ -8,59 +8,51 @@ class RatingService {
     }
 
     add(artist, user_id, rating) {
-        return $q(function (resolve, reject) {
-            $http
-                .post('/rating/submit', { artist : artist, user: user_id, rating : rating})
-                .success(function (data) {
-                    resolve(data);
-                })
-                .error(function (err) {
-                    console.error(err);
-                    reject(err)
-                });
-        });
+        return $http
+            .post('/rating/submit', { artist : artist, user: user_id, rating : rating})
+            .then(function (response) {
+                return response.data;
+            })
+            .catch(function (err) {
+                console.error(err);
+                return $q.reject(err);
+            });
     }
 
     get(hash) {
-        return $q(function (resolve, reject) {
-            $http
-                .get(`/rating/${hash}`)
-                .success(function (data) {
-                    resolve(data);
-                })
-                .error(function (err) {
-                    console.error(err);
-                    reject(err)
-                });
-        });
+        return $http
+            .get(`/rating/${hash}`)
+            .then(function (response) {
+                return response.data;
+            })
+            .catch(function (err) {
+                console.error(err);
+                return $q.reject(err);
+            });
     }
 
     remove(user_id, station) {
-        return $q(function (resolve, reject) {
-            $http
-                .post('/rating/delete', { user : user_id, artist : station.artist._id })
-                .success(function (data) {
-                    resolve(data);
-                })
-                .error(function (err) {
-                    console.error(err);
-                    reject(err)
-                });
-        });
+        return $http
+            .post('/rating/delete', { user : user_id, artist : station.artist._id })
+            .then(function (response) {
+                return response.data;
+            })
+            .catch(function (err) {
+                console.error(err);
+                return $q.reject(err);
+            });
     }
     
     getLatestCollections() {
-        return $q(function (resolve, reject) {
-            $http
-                .get('/collections/latest')
-                .success(function (data) {
-                    resolve(data);
-                })
-                .error(function (err) {
-                    console.error(err);
-                    reject(err)
-                });
-        });
+        return $http
+            .get('/collections/latest')
+            .then(function (response) {
+                return response.data;
+            })
+            .catch(function (err) {
+                console.error(err);
+                return $q.reject(err);
+            });
     }
 }
 
