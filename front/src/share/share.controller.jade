@@ -4,9 +4,10 @@ include ./navbar.jade
     .row
         .col-md-12
             .artists.row
-                i.icon-heart-red
-                i.icon-heart-red
-                i.icon-heart-red
+                .heart-icons
+                    i.icon-heart-red
+                    i.icon-heart-red
+                    i.icon-heart-red
 
                 ul.clearfix
                     li(ng-repeat="artist in share.artists.three track by $index")
@@ -27,8 +28,9 @@ include ./navbar.jade
                     btn.btn.btn-danger(ng-disabled = "share.searchThree == ''", ng-click = 'share.add(share.searchThree, 3)') Add
 
             .artists.row
-                i.icon-heart-red
-                i.icon-heart-red
+                .heart-icons
+                    i.icon-heart-red
+                    i.icon-heart-red
 
                 ul.clearfix
                     li(ng-repeat="artist in share.artists.two track by $index")
@@ -48,7 +50,8 @@ include ./navbar.jade
                     btn.btn.btn-danger(ng-disabled = "share.searchTwo == ''", ng-click = 'share.add(share.searchTwo, 2)') Add
 
             .artists.row
-                i.icon-heart-red
+                .heart-icons
+                    i.icon-heart-red
 
                 ul.clearfix
                     li(ng-repeat="artist in share.artists.one track by $index")

@@ -83,15 +83,15 @@ function createArtists() {
   
   var artists = [
     {
-      name: 'The Beatles',
+                    name: 'Tom Petty',
       spotifyId: '3WrFJ7ztbogyGnTHbXXFlQ',
-      picture: 'https://i.scdn.co/image/ab6761610000e5eb5a00969a4698c3132a15fbb0',
+                    picture: 'https://i.scdn.co/image/ab6761610000f17870f0e4f1fe50b39e622f9ac0',
       genres: ['rock', 'pop', 'british invasion']
     },
     {
       name: 'Radiohead',
       spotifyId: '4Z8W4fKeB5YxbusRsdQVPb',
-      picture: 'https://i.scdn.co/image/ab6761610000e5ebec0b0c0c0c0c0c0c0c0c0c0',
+      picture: 'https://i.scdn.co/image/ab6761610000f1784104fbd80f1f795728abbd59',
       genres: ['alternative rock', 'art rock', 'electronic']
     },
     {
@@ -103,7 +103,7 @@ function createArtists() {
     {
       name: 'Led Zeppelin',
       spotifyId: '36QJpDe2go2KgaRleHCDTp',
-      picture: 'https://i.scdn.co/image/ab6761610000e5eb5a00969a4698c3132a15fbb0',
+                    picture: 'https://i.scdn.co/image/ab6761610000f17870f0e4f1fe50b39e622f9ac0',
       genres: ['hard rock', 'blues rock', 'classic rock']
     },
     {
